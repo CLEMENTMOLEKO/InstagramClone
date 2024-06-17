@@ -7,7 +7,6 @@ final class EmailAddress extends ValueObject {
   EmailAddress._({required this.value});
 
   static Either<Failure, EmailAddress> create({required String email}) {
-    //TODO: validate email before creation
     if (_isValidEmail(email)) {
       return right(EmailAddress._(value: email));
     }
