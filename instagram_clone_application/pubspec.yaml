@@ -1,5 +1,5 @@
 name: instagram_clone_application
-description: "A new Flutter package project."
+description: "The Application Layer For The Instagram Clone"
 version: 0.0.1
 homepage:
 
@@ -7,9 +7,15 @@ environment:
   sdk: '>=3.4.3 <4.0.0'
   flutter: ">=1.17.0"
 
+publish_to: none
+
 dependencies:
   flutter:
     sdk: flutter
+
+  #project dependencies
+  instagram_clone_domain:
+    path: ../instagram_clone_domain #figure out, how can this be imported as package and not relative path.
 
 dev_dependencies:
   flutter_test:

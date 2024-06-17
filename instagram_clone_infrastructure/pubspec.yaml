@@ -1,11 +1,13 @@
 name: instagram_clone_infrastructure
-description: "A new Flutter package project."
+description: "The Infrastructure Layer For Instagram Clone."
 version: 0.0.1
 homepage:
 
 environment:
   sdk: '>=3.4.3 <4.0.0'
   flutter: ">=1.17.0"
+
+publish_to: none
 
 dependencies:
   flutter:

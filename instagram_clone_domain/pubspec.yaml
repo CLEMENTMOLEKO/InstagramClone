@@ -1,5 +1,5 @@
 name: instagram_clone_domain
-description: "A new Flutter package project."
+description: "The Domain Layer For Instagram Clone."
 version: 0.0.1
 homepage:
 
@@ -7,7 +7,11 @@ environment:
   sdk: '>=3.4.3 <4.0.0'
   flutter: ">=1.17.0"
 
+publish_to: none
+
 dependencies:
+  dartz: ^0.10.1
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
 

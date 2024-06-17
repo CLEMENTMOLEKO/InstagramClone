@@ -1,0 +1,88 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "instagram_clone_application",
+            "cwd": "instagram_clone_application",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "instagram_clone_application (profile mode)",
+            "cwd": "instagram_clone_application",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "instagram_clone_application (release mode)",
+            "cwd": "instagram_clone_application",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "instagram_clone_domain",
+            "cwd": "instagram_clone_domain",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "instagram_clone_domain (profile mode)",
+            "cwd": "instagram_clone_domain",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "instagram_clone_domain (release mode)",
+            "cwd": "instagram_clone_domain",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "instagram_clone_infrastructure",
+            "cwd": "instagram_clone_infrastructure",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "instagram_clone_infrastructure (profile mode)",
+            "cwd": "instagram_clone_infrastructure",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "instagram_clone_infrastructure (release mode)",
+            "cwd": "instagram_clone_infrastructure",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "instagram_clone_presentation",
+            "cwd": "instagram_clone_presentation",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "instagram_clone_presentation (profile mode)",
+            "cwd": "instagram_clone_presentation",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "instagram_clone_presentation (release mode)",
+            "cwd": "instagram_clone_presentation",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
