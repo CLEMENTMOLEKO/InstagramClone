@@ -7,7 +7,7 @@ import 'package:instagram_clone_domain/Models/value_object.dart';
 void main() {
   EmailAddress arrangeEmailAddress({email = 'test1@example.com'}) {
     return EmailAddress.create(email: email)
-        .getOrElse(() => throw Exception('Invalid email'));
+        .getOrElse(() => throw Exception('Invalid email $email'));
   }
 
   group('EmailAddress', () {
