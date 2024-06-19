@@ -48,7 +48,7 @@ void main() {
       }
     });
 
-    test('should implement ValueObject', () {
+    test('Should implement ValueObject', () {
       //Arrange
       //Act
       final email = getPassword(password: validPasswords.elementAt(2));
@@ -56,7 +56,7 @@ void main() {
       expect(email, isA<ValueObject>());
     });
 
-    test('should be equal if two EmailAddress instances have the same value',
+    test('Should be equal if two EmailAddress instances have the same value',
         () {
       //Arrange
       //Act
@@ -67,7 +67,7 @@ void main() {
     });
 
     test(
-        'should not be equal if two EmailAddress instances have different values',
+        'Should not be equal if two EmailAddress instances have different values',
         () {
       //Arrange
       //Act

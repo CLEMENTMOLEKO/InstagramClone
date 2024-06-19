@@ -11,28 +11,48 @@ void main() {
   }
 
   group('EmailAddress', () {
-    const testExample1Email = 'test1@example.com';
-    const testExample2Email = 'test2@example.com';
-    const invalidEmail = 'testeamil.com@com';
+    const validEmails = {
+      'test1@example.com',
+      "user+mailbox/department=shipping@example.com",
+      "customer/department=shipping@example.com",
+      "user.name+tag+sorting@example.com",
+      "x@example.com",
+    };
+
+    const invalidEmails = {
+      "testeamil.com@com",
+      "@missinglocalpart.com",
+      "username@.com",
+      "username@domain..com",
+      "username@domain.com."
+    };
 
     group("Create", () {
-      test("Should return an email address when provided a valid email address",
-          () {
-        //Arrange
-        //Act
-        final result = EmailAddress.create(email: testExample2Email);
-        //Assert
-        expect(result, Right(arrangeEmailAddress(email: testExample2Email)));
-      });
-      test("Should return failure when provided an invalid email address", () {
-        //Arrange
-        //Act
-        final result = EmailAddress.create(email: invalidEmail);
-        //Assert
-        expect(result, const Left(Failure.invalidEmail));
-      });
+      for (var validEmail in validEmails) {
+        test(
+            "Should return an email address when provided a valid email address",
+            () {
+          //Arrange
+          final email = arrangeEmailAddress(email: validEmail);
+          //Act
+          final result = EmailAddress.create(email: validEmail);
+          //Assert
+          expect(result, Right(email));
+        });
+      }
+
+      for (var invalidEmail in invalidEmails) {
+        test("Should return failure when provided an invalid email address",
+            () {
+          //Arrange
+          //Act
+          final result = EmailAddress.create(email: invalidEmail);
+          //Assert
+          expect(result, const Left(Failure.invalidEmail));
+        });
+      }
     });
-    test('should implement ValueObject', () {
+    test('Should implement ValueObject', () {
       //Arrange
       //Act
       final email = arrangeEmailAddress();
@@ -40,23 +60,23 @@ void main() {
       expect(email, isA<ValueObject>());
     });
 
-    test('should be equal if two EmailAddress instances have the same value',
+    test('Should be equal if two EmailAddress instances have the same value',
         () {
       //Arrange
       //Act
-      final email1 = arrangeEmailAddress();
-      final email2 = arrangeEmailAddress();
+      final email1 = arrangeEmailAddress(email: validEmails.last);
+      final email2 = arrangeEmailAddress(email: validEmails.last);
       //Assert
       expect(email1, equals(email2));
     });
 
     test(
-        'should not be equal if two EmailAddress instances have different values',
+        'Should not be equal if two EmailAddress instances have different values',
         () {
       //Arrange
       //Act
-      final email1 = arrangeEmailAddress(email: testExample1Email);
-      final email2 = arrangeEmailAddress(email: testExample2Email);
+      final email1 = arrangeEmailAddress(email: validEmails.first);
+      final email2 = arrangeEmailAddress(email: validEmails.elementAt(3));
       //Assert
       expect(email1, isNot(equals(email2)));
     });
