@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:instagram_clone_domain/Authentication/Errors/failure.dart';
-import 'package:instagram_clone_domain/Models/value_object.dart';
+import 'package:instagram_clone_domain/common/common.dart';
 
 final class EmailAddress extends ValueObject {
   final String value;
