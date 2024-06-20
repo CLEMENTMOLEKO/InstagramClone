@@ -19,5 +19,25 @@ void main() {
     test("Should extend equatable", () {
       expect(sut, isA<Equatable>());
     });
+
+    test("Should be equal when two users with same value are compared", () {
+      //Arrange
+      final userModel = UserConstants.arrangeUserModelWith();
+      final userModel2 = UserConstants.arrangeUserModelWith();
+      //Act
+      //Assert
+      expect(userModel, equals(userModel2));
+    });
+
+    test(
+        "Should not be equal when two users with different values are compared",
+        () {
+      //Arrange
+      final userModel = UserConstants.arrangeUserModelWith();
+      final userModel2 = UserConstants.arrangeUserModelWith(userName: "Sarah");
+      //Act
+      //Assert
+      expect(userModel, isNot(equals(userModel2)));
+    });
   });
 }

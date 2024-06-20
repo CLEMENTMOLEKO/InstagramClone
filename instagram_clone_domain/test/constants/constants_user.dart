@@ -16,12 +16,14 @@ extension UserConstants on Constants {
     "username@domain..com",
     "username@domain.com."
   };
+
   static const validPasswords = {
     "P@ssword123",
     "12#%*hsjwweP",
     "Pass()09-+=",
     "_%^Pass123f-23a"
   };
+
   static const invalidPasswords = {
     "Password1234",
     "testpassword*()",
@@ -29,6 +31,14 @@ extension UserConstants on Constants {
     "testNoNumberInPassword*&(@)",
     "TESTNOLOWERCASE*(*&908)"
   };
+
+  static arrangeUserModelWith({userName = "Bafana"}) => UserModel(
+        id: "user-guid-id",
+        userName: userName,
+        bio: "I'm a developer",
+        imageUrl: "www.firebase.images/oweifjwf8weflwe89235j",
+        emailAddress: arrangeEmailAddress(),
+      );
 
   static EmailAddress arrangeEmailAddress({email = 'test1@example.com'}) {
     return EmailAddress.create(email: email)
