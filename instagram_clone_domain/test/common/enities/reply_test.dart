@@ -6,7 +6,6 @@ import '../../constants/constants.dart';
 
 void main() {
   late Reply sut;
-  const description = "Test comment";
 
   setUp(() {
     sut = Reply(id: Constants.validUuids.first, userId: UserConstants.userId);
