@@ -36,90 +36,90 @@
 */build/
 
 # Android related
-*/**/android/**/gradle-wrapper.jar
-*/**/android/.gradle
-*/**/android/captures/
-*/**/android/gradlew
-*/**/android/gradlew.bat
-*/**/android/local.properties
-*/**/android/**/GeneratedPluginRegistrant.java
+./**/android/**/gradle-wrapper.jar
+./**/android/.gradle
+./**/android/captures/
+./**/android/gradlew
+./**/android/gradlew.bat
+./**/android/local.properties
+./**/android/**/GeneratedPluginRegistrant.java
 
 # iOS related
-*/**/ios/**/*.mode1v3
-*/**/ios/**/*.mode2v3
-*/**/ios/**/*.moved-aside
-*/**/ios/**/*.pbxuser
-*/**/ios/**/*.perspectivev3
-*/**/ios/**/*sync/
-*/**/ios/**/.sconsign.dblite
-*/**/ios/**/.tags*
-*/**/ios/**/.vagrant/
-*/**/ios/**/DerivedData/
-*/**/ios/**/Icon?
-*/**/ios/**/Pods/
-*/**/ios/**/.symlinks/
-*/**/ios/**/profile
-*/**/ios/**/xcuserdata
-*/**/ios/.generated/
-*/**/ios/Flutter/App.framework
-*/**/ios/Flutter/Flutter.framework
-*/**/ios/Flutter/Generated.xcconfig
-*/**/ios/Flutter/app.flx
-*/**/ios/Flutter/app.zip
-*/**/ios/Flutter/flutter_assets/
-*/**/ios/Flutter/flutter_export_environment.sh
-*/**/ios/ServiceDefinitions.json
-*/**/ios/Runner/GeneratedPluginRegistrant.*
+./**/ios/**/*.mode1v3
+./**/ios/**/*.mode2v3
+./**/ios/**/*.moved-aside
+./**/ios/**/*.pbxuser
+./**/ios/**/*.perspectivev3
+./**/ios/**/*sync/
+./**/ios/**/.sconsign.dblite
+./**/ios/**/.tags*
+./**/ios/**/.vagrant/
+./**/ios/**/DerivedData/
+./**/ios/**/Icon?
+./**/ios/**/Pods/
+./**/ios/**/.symlinks/
+./**/ios/**/profile
+./**/ios/**/xcuserdata
+./**/ios/.generated/
+./**/ios/Flutter/App.framework
+./**/ios/Flutter/Flutter.framework
+./**/ios/Flutter/Generated.xcconfig
+./**/ios/Flutter/app.flx
+./**/ios/Flutter/app.zip
+./**/ios/Flutter/flutter_assets/
+./**/ios/Flutter/flutter_export_environment.sh
+./**/ios/ServiceDefinitions.json
+./**/ios/Runner/GeneratedPluginRegistrant.*
 
 # MacOS related
-*/**/macos/Pods/
-*/**/macos/.symlinks/
-*/**/macos/Flutter/ephemeral/
-*/**/macos/Flutter/.plugin_symlinks/
-*/**/macos/Flutter/Flutter.framwork
-*/**/macos/Flutter/App.framework
-*/**/macos/Flutter/Flutter.podspec
-*/**/macos/Flutter/Generated.xcconfig
-*/**/macos/Flutter/app.flx
-*/**/macos/Flutter/app.zip
-*/**/macos/Flutter/flutter_assets/
-*/**/macos/Flutter/flutter_export_environment.sh
+./**/macos/Pods/
+./**/macos/.symlinks/
+./**/macos/Flutter/ephemeral/
+./**/macos/Flutter/.plugin_symlinks/
+./**/macos/Flutter/Flutter.framwork
+./**/macos/Flutter/App.framework
+./**/macos/Flutter/Flutter.podspec
+./**/macos/Flutter/Generated.xcconfig
+./**/macos/Flutter/app.flx
+./**/macos/Flutter/app.zip
+./**/macos/Flutter/flutter_assets/
+./**/macos/Flutter/flutter_export_environment.sh
 
 # Exception: Push service worker related files for PWA support
-*/!web/icons/**
-*/!web/manifest.json
-*/!web/**/sw.dart
-*/!web/**/offline.html
+./!web/icons/**
+./!web/manifest.json
+./!web/**/sw.dart
+./!web/**/offline.html
 
 # Comment the following line if you want to checkin your web build
 # but it is recommended to keep the build files out of source control
-*/web/**/build/**
+./web/**/build/**
 
 # Windows image file caches
-*/Thumbs.db
-*/ehthumbs.db
+./Thumbs.db
+./ehthumbs.db
 
 # Folder config file
-*/Desktop.ini
-*/RecycleBin used on file shares
+./Desktop.ini
+./RecycleBin used on file shares
 
 # Windows image file caches
-*/Thumbs.db
-*/ehthumbs.db
+./Thumbs.db
+./ehthumbs.db
 
 # Recycle Bin used on file shares
-*/$RECYCLE.BIN/
+./$RECYCLE.BIN/
 
 # Symbolication related
-*/app.*.symbols
+./app.*.symbols
 
 # Obfuscation related
-*/app.*.map.json
+./app.*.map.json
 
 # Android Studio will place build artifacts here
-*/android/app/debug
-*/android/app/profile
-*/android/app/release
+./android/app/debug
+./android/app/profile
+./android/app/release
 
 # Node modules
-/node_modules
+./node_modules
