@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:instagram_clone_domain/post/post.dart';
+import 'package:instagram_clone_domain/post/post_model.dart';
 
 import '../constants/constants.dart';
 
@@ -8,11 +8,7 @@ void main() {
   late Post sut;
 
   setUp(() {
-    sut = const Post(
-      id: "post-guid-id",
-      description: "test post id",
-      imageUrls: ["https://www.firebase.storage/wiowfghaohiwofweo"],
-    );
+    sut = PostConstants.arrangePostWith();
   });
 
   group("Post", () {

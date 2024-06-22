@@ -32,8 +32,11 @@ extension UserConstants on Constants {
     "TESTNOLOWERCASE*(*&908)"
   };
 
+  static final userId =
+      arrangeUserId(userId: '6c84fB90-12c4-11e1-840d-7b25c5ee775a');
+
   static arrangeUserModelWith({userName = "Bafana"}) => UserModel(
-        id: "user-guid-id",
+        id: userId,
         userName: userName,
         bio: "I'm a developer",
         imageUrl: "www.firebase.images/oweifjwf8weflwe89235j",
@@ -49,5 +52,11 @@ extension UserConstants on Constants {
     final passwordResult = Password.create(password: password);
     return passwordResult
         .getOrElse(() => throw Exception("Invalid Password $password"));
+  }
+
+  static UserId arrangeUserId({required String userId}) {
+    final userIdResults = UserId.create(value: userId);
+    return userIdResults
+        .getOrElse(() => throw Exception("Invalid User Id $userId"));
   }
 }

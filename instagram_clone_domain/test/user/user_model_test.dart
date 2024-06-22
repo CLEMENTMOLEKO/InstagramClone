@@ -7,13 +7,7 @@ import '../constants/constants.dart';
 void main() {
   late UserModel sut;
   setUp(() {
-    sut = UserModel(
-      id: "user-guid-id",
-      userName: "test-user",
-      bio: "test bio",
-      imageUrl: "https://www.test.com",
-      emailAddress: UserConstants.arrangeEmailAddress(),
-    );
+    sut = UserConstants.arrangeUserModelWith();
   });
   group("UserModel", () {
     test("Should extend equatable", () {
