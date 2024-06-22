@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:instagram_clone_domain/common/entities/reply.dart';
+import 'package:instagram_clone_domain/common/common.dart';
 
 import '../../constants/constants.dart';
 

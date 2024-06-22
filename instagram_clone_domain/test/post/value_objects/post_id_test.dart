@@ -1,8 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:instagram_clone_domain/common/errors/errors.dart';
-import 'package:instagram_clone_domain/common/value_object.dart';
-import 'package:instagram_clone_domain/post/value_objects/post_id.dart';
+import 'package:instagram_clone_domain/common/common.dart';
+import 'package:instagram_clone_domain/post/post.dart';
 
 import '../../constants/constants.dart';
 

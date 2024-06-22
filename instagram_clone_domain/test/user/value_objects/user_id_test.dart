@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_domain/common/common.dart';
-import 'package:instagram_clone_domain/instagram_clone_domain.dart';
+import 'package:instagram_clone_domain/user/user.dart';
 
 import '../../constants/constants.dart';
 
