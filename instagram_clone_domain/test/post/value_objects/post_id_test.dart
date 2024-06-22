@@ -8,29 +8,29 @@ import '../../constants/constants.dart';
 void main() {
   group("PostId", () {
     group("Create", () {
-      for (var validUserId in Constants.validUuids) {
+      for (var validPostId in Constants.validUuids) {
         test(
-          "Should return a valid user id when given a valid user id string",
+          "Should return a valid post id when given a valid user id string",
           () {
             //Arrange
-            final postId = PostConstants.arrangePostId(userId: validUserId);
+            final postId = PostConstants.arrangePostId(postId: validPostId);
             //Act
-            final userIdResult = PostId.create(value: validUserId);
+            final postIdResult = PostId.create(value: validPostId);
             //Assert
-            expect(userIdResult, Right(postId));
+            expect(postIdResult, Right(postId));
           },
         );
       }
 
-      for (var invalidUserId in Constants.invalidUuids) {
+      for (var invalidPostId in Constants.invalidUuids) {
         test(
           "Should return Failure when given a invalid user id string",
           () {
             //Arrange
             //Act
-            final userIdResult = PostId.create(value: invalidUserId);
+            final postIdResult = PostId.create(value: invalidPostId);
             //Assert
-            expect(userIdResult, const Left(Failure.invalidPostId));
+            expect(postIdResult, const Left(Failure.invalidPostId));
           },
         );
       }
@@ -39,32 +39,32 @@ void main() {
     test('Should implement ValueObject', () {
       //Arrange
       //Act
-      final userId = PostConstants.postId;
+      final postId = PostConstants.postId;
       //Assert
-      expect(userId, isA<ValueObject>());
+      expect(postId, isA<ValueObject>());
     });
 
     test('Should be equal if two PostId instances have the same value', () {
       //Arrange
       //Act
-      final userId = PostConstants.arrangePostId(
-          userId: Constants.validUuids.elementAt(3));
-      final userId2 = PostConstants.arrangePostId(
-          userId: Constants.validUuids.elementAt(3));
+      final postId = PostConstants.arrangePostId(
+          postId: Constants.validUuids.elementAt(3));
+      final postId2 = PostConstants.arrangePostId(
+          postId: Constants.validUuids.elementAt(3));
       //Assert
-      expect(userId, equals(userId2));
+      expect(postId, equals(postId2));
     });
 
     test('Should not be equal if two PostId instances have different values',
         () {
       //Arrange
       //Act
-      final userId = PostConstants.arrangePostId(
-          userId: Constants.validUuids.elementAt(1));
-      final userId2 = PostConstants.arrangePostId(
-          userId: Constants.validUuids.elementAt(3));
+      final postId = PostConstants.arrangePostId(
+          postId: Constants.validUuids.elementAt(1));
+      final postId2 = PostConstants.arrangePostId(
+          postId: Constants.validUuids.elementAt(3));
       //Assert
-      expect(userId, isNot(equals(userId2)));
+      expect(postId, isNot(equals(postId2)));
     });
   });
 }

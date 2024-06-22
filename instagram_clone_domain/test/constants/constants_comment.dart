@@ -8,14 +8,33 @@ extension CommentConstants on Constants {
     );
   }).toList();
 
-  static Comment arrangeCommentWith({required String description}) {
-    return Comment(
-      id: "random-uid-string",
+  static final commentId =
+      arrangeCommentId(commentId: '6c84fB90-12c4-11e1-840d-7b25c5ee775a');
+  static Comment arrangePostCommentWith({required String description}) {
+    return Comment.post(
+      id: arrangeCommentId(commentId: Constants.validUuids.first),
       postId: PostConstants.postId,
       userId: UserConstants.userId,
       replies: CommentConstants.replies,
       likes: Constants.likes,
       description: description,
     );
+  }
+
+  static Comment arrangeReelCommentWith({required String description}) {
+    return Comment.reel(
+      id: arrangeCommentId(commentId: Constants.validUuids.first),
+      reelId: ReelConstants.reelId,
+      userId: UserConstants.userId,
+      replies: CommentConstants.replies,
+      likes: Constants.likes,
+      description: description,
+    );
+  }
+
+  static CommentId arrangeCommentId({required String commentId}) {
+    final commentIdResults = CommentId.create(value: commentId);
+    return commentIdResults
+        .getOrElse(() => throw Exception("Invalid User Id $commentId"));
   }
 }

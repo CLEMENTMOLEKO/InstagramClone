@@ -5,7 +5,7 @@ extension PostConstants on Constants {
     description = "This is my first social media post",
   }) =>
       Post(
-        id: "post-guid-id",
+        id: arrangePostId(postId: Constants.validUuids.first),
         userId: UserConstants.userId,
         description: description,
         imageUrls: const [
@@ -16,11 +16,11 @@ extension PostConstants on Constants {
       );
 
   static final postId =
-      arrangePostId(userId: '6c84fB90-12c4-11e1-840d-7b25c5ee775a');
+      arrangePostId(postId: '6c84fB90-12c4-11e1-840d-7b25c5ee775a');
 
-  static PostId arrangePostId({required String userId}) {
-    final postIdResults = PostId.create(value: userId);
+  static PostId arrangePostId({required String postId}) {
+    final postIdResults = PostId.create(value: postId);
     return postIdResults
-        .getOrElse(() => throw Exception("Invalid User Id $userId"));
+        .getOrElse(() => throw Exception("Invalid User Id $postId"));
   }
 }

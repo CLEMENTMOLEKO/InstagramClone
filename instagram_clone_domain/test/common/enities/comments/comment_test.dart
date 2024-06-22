@@ -2,14 +2,14 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_domain/common/common.dart';
 
-import '../../constants/constants.dart';
+import '../../../constants/constants.dart';
 
 void main() {
   late Comment sut;
   const description = "Test comment";
 
   setUp(() {
-    sut = CommentConstants.arrangeCommentWith(description: description);
+    sut = CommentConstants.arrangePostCommentWith(description: description);
   });
 
   test("Should implement equatable", () {
@@ -22,7 +22,7 @@ void main() {
   test("Should be equal when two comments with same value are compared", () {
     //Arrange
     final comment =
-        CommentConstants.arrangeCommentWith(description: description);
+        CommentConstants.arrangePostCommentWith(description: description);
     //Act
     //Assert
     expect(sut, equals(comment));
@@ -32,7 +32,7 @@ void main() {
       "Should not be equal when two comments with different values are compared",
       () {
     //Arrange
-    final comment = CommentConstants.arrangeCommentWith(
+    final comment = CommentConstants.arrangePostCommentWith(
         description: "different value desctiption");
     //Act
     //Assert

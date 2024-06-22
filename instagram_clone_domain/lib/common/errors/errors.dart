@@ -3,6 +3,8 @@ enum Failure {
   invalidPassword,
   invalidUserId,
   invalidPostId,
+  invalidReelId,
+  invalidCommentId
 }
 
 extension FailureDescription on Failure {
@@ -16,6 +18,10 @@ extension FailureDescription on Failure {
         return "Invalid user id";
       case Failure.invalidPostId:
         return "Invalid post id";
+      case Failure.invalidReelId:
+        return "Invalid reel id";
+      case Failure.invalidCommentId:
+        return "Invalid comment id";
     }
   }
 }

@@ -1,10 +1,13 @@
 import 'package:instagram_clone_domain/common/common.dart';
+import 'package:instagram_clone_domain/common/entities/comment/value_objects/comment_id.dart';
+import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:instagram_clone_domain/post/post.dart';
 import 'package:instagram_clone_domain/user/user.dart';
 
 part 'constants_user.dart';
 part 'constants_post.dart';
 part 'constants_comment.dart';
+part 'constants_reel.dart';
 
 final class Constants {
   static const validUuids = {
