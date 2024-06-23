@@ -5,6 +5,7 @@ extension CommentConstants on Constants {
     return Reply(
       id: validUuid,
       userId: UserConstants.arrangeUserId(userId: validUuid),
+      description: '$validUuid description',
     );
   }).toList();
 

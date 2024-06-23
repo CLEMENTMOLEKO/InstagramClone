@@ -10,12 +10,14 @@ environment:
 publish_to: none
 
 dependencies:
+  dartz: ^0.10.1
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
 
   #project dependencies
   instagram_clone_domain:
-    path: ../instagram_clone_domain #figure out, how can this be imported as package and not relative path.
+    path: ../instagram_clone_domain
 
 dev_dependencies:
   flutter_test:
