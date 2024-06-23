@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 
+import '../../../reel/reel.dart';
 import '../../../post/post.dart';
 import '../../../user/user.dart';
 import '../../common.dart';
-import 'value_objects/comment_id.dart';
 
 final class Comment extends Equatable {
   final CommentId id;
@@ -36,5 +35,6 @@ final class Comment extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, postId, userId, replies, likes, description];
+  List<Object?> get props =>
+      [id, postId, userId, replies, likes, description, reelId];
 }
