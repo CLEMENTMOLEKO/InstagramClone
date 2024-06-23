@@ -4,8 +4,6 @@ import 'package:instagram_clone_application/common/errors/failure.dart';
 
 import '../../common/dtos/comment_dto/comment_dto.dart';
 
-import 'package:equatable/equatable.dart';
-
 final class ReelDto extends Equatable {
   final String id;
   final String userId;
