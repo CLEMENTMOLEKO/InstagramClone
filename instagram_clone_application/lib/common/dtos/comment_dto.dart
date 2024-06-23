@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../errors/failure.dart';
-import '../reply_dto.dart';
+import '../errors/failure.dart';
+import 'reply_dto.dart';
 
 final class CommentDto extends Equatable {
   final String id;
