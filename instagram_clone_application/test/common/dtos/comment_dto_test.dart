@@ -10,7 +10,7 @@ void main() {
   late CommentDto postCommentDto;
   late CommentDto reelCommentDto;
   const description = "This is the first comment in the app";
-  const baseFileUrl = "./test/test_utils/json/comment/";
+  const baseFileUrl = "comment/";
 
   setUp(() {
     postCommentDto = CommentDtoConstants.arrangePostCommentDtowith(
@@ -97,6 +97,24 @@ void main() {
               .getOrElse(() => throw Exception("Conversion error $result"));
           //Assert
           expect(commentDto, isA<CommentDto>());
+        });
+      });
+
+      group("toJson", () {
+        test("Should return correct map", () {
+          //Arrange
+          final commentDataAsString = JsonReader.readAsStringFrom(
+              path: "${baseFileUrl}comment_post.json");
+          final commentDataMap = json.decode(commentDataAsString);
+          final commentData = CommentDto.fromJson(commentDataMap).getOrElse(
+            () => throw Exception(
+              "Invalid Comment data conversion on $commentDataMap",
+            ),
+          );
+          //Act
+          final result = commentData.toJson();
+          //Assert
+          expect(result, commentDataMap);
         });
       });
     });

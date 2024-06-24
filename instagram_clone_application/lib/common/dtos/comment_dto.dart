@@ -64,7 +64,7 @@ final class CommentDto extends Equatable {
         replies: _parseReplies(json['replies']),
         likes: _parseLikes(json['likes']),
         description: json['description'] as String,
-        date: DateFormat.yMd().parse(json['date'])));
+        date: DateFormat("yyyy/MM/dd").parse(json['date'])));
   }
 
   static Either<Failure, CommentDto> _fromReelJson(Map<String, dynamic> json) {
@@ -75,7 +75,7 @@ final class CommentDto extends Equatable {
       likes: _parseLikes(json['likes']),
       description: json['description'] as String,
       reelId: json['reelId'] as String,
-      date: DateFormat.yMd().parse(json['date']),
+      date: DateFormat("yyyy/MM/dd").parse(json['date']),
     ));
   }
 
@@ -93,14 +93,18 @@ final class CommentDto extends Equatable {
   Map<String, dynamic> toJson() {
     final json = {
       'id': id,
-      'postId': postId,
-      'reelId': reelId,
       'userId': userId,
       'replies': replies?.map((reply) => reply.toJson()).toList(),
       'likes': likes,
       'description': description,
-      'date': date,
+      'date': DateFormat("yyyy/MM/dd").format(date),
     };
+
+    if (reelId != null) {
+      json.addAll({"reelId": reelId});
+    } else if (postId != null) {
+      json.addAll({"postId": postId});
+    }
 
     return json;
   }

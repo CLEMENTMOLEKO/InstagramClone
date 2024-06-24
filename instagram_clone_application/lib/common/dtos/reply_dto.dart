@@ -26,7 +26,7 @@ final class ReplyDto extends Equatable {
         id: json['id'] as String,
         userId: json['userId'] as String,
         description: json['description'] as String,
-        date: DateFormat.yMd().parse(json['date']),
+        date: DateFormat("yyyy/MM/dd").parse(json['date']),
       ));
     } catch (e) {
       return left(Failure.invalidReplyData);
@@ -38,7 +38,7 @@ final class ReplyDto extends Equatable {
       'id': id,
       'userId': userId,
       'description': description,
-      'date': date.toIso8601String(),
+      'date': DateFormat("yyyy/MM/dd").format(date),
     };
   }
 

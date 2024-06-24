@@ -53,4 +53,16 @@ extension CommentDtoConstants on Constants {
       date: date ?? DateTime.now(),
     );
   }
+
+  static ReplyDto arrangeReplyDto({
+    required String description,
+    DateTime? date,
+  }) {
+    return ReplyDto(
+      id: Constants.validUuids.first,
+      userId: Constants.validUuids.first,
+      description: "You lying, this is not production, it's test environment.",
+      date: date ?? DateTime.now(),
+    );
+  }
 }
