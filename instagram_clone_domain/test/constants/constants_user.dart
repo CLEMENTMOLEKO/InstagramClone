@@ -41,6 +41,7 @@ extension UserConstants on Constants {
         bio: "I'm a developer",
         imageUrl: "www.firebase.images/oweifjwf8weflwe89235j",
         emailAddress: arrangeEmailAddress(),
+        joined: DateTime(2024, 12, 12),
       );
 
   static EmailAddress arrangeEmailAddress({email = 'test1@example.com'}) {

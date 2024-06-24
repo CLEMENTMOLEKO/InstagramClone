@@ -13,6 +13,7 @@ extension PostConstants on Constants {
           "www.firebase.images/2oweifjwf8weflwe89235j",
         ],
         likes: Constants.likes,
+        date: DateTime(2024, 12, 12),
       );
 
   static final postId =

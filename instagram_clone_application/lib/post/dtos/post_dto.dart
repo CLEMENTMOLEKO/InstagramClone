@@ -11,6 +11,7 @@ final class PostDto extends Equatable {
   final List<String> imageUrls;
   final List<String> likes;
   final List<CommentDto> comments;
+  final DateTime date;
 
   const PostDto({
     required this.id,
@@ -18,12 +19,13 @@ final class PostDto extends Equatable {
     required this.description,
     required this.imageUrls,
     required this.likes,
+    required this.date,
     this.comments = const [],
   });
 
   @override
   List<Object?> get props =>
-      [id, userId, description, imageUrls, likes, comments];
+      [id, userId, description, imageUrls, likes, comments, date];
 
   static Either<Failure, PostDto> fromJson(Map<String, dynamic> json) {
     try {
@@ -38,6 +40,7 @@ final class PostDto extends Equatable {
                 CommentDto.fromJson(comment as Map<String, dynamic>)
                     .getOrElse(() => throw Exception("Invalid comment data.")))
             .toList(),
+        date: json['date'],
       ));
     } catch (e) {
       return left(Failure.invalidPostData);
@@ -52,6 +55,7 @@ final class PostDto extends Equatable {
       'imageUrls': imageUrls,
       'likes': likes,
       'comments': comments.map((comment) => comment.toJson()).toList(),
+      'date': date,
     };
   }
 
@@ -62,6 +66,7 @@ final class PostDto extends Equatable {
     List<String>? imageUrls,
     List<String>? likes,
     List<CommentDto>? comments,
+    DateTime? date,
   }) {
     return PostDto(
       id: id ?? this.id,
@@ -70,6 +75,7 @@ final class PostDto extends Equatable {
       imageUrls: imageUrls ?? this.imageUrls,
       likes: likes ?? this.likes,
       comments: comments ?? this.comments,
+      date: date ?? this.date,
     );
   }
 }

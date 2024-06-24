@@ -11,6 +11,7 @@ final class Post extends Equatable {
   final List<String> imageUrls;
   final List<UserId> likes;
   final List<Comment> comments;
+  final DateTime date;
 
   const Post({
     required this.id,
@@ -18,9 +19,10 @@ final class Post extends Equatable {
     required this.description,
     required this.imageUrls,
     required this.likes,
+    required this.date,
     this.comments = const [],
   });
 
   @override
-  List<Object?> get props => [id, userId, description, imageUrls, likes];
+  List<Object?> get props => [id, userId, description, imageUrls, likes, date];
 }

@@ -12,6 +12,7 @@ final class Reel extends Equatable {
   final String description;
   final List<UserId> likes;
   final List<Comment> comments;
+  final DateTime date;
 
   const Reel({
     required this.id,
@@ -20,10 +21,11 @@ final class Reel extends Equatable {
     required this.thumbnailUrl,
     required this.likes,
     required this.description,
+    required this.date,
     this.comments = const [],
   });
 
   @override
   List<Object?> get props =>
-      [id, userId, videoUrl, thumbnailUrl, likes, description];
+      [id, userId, videoUrl, thumbnailUrl, likes, description, date];
 }

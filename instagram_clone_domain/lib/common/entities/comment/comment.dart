@@ -13,6 +13,7 @@ final class Comment extends Equatable {
   final List<Reply> replies;
   final List<UserId> likes;
   final String description;
+  final DateTime date;
 
   const Comment.post({
     required this.id,
@@ -21,20 +22,22 @@ final class Comment extends Equatable {
     required this.replies,
     required this.likes,
     required this.description,
+    required this.date,
     this.reelId,
   });
 
   const Comment.reel({
     required this.id,
-    this.postId,
     required this.userId,
     required this.replies,
     required this.likes,
     required this.description,
     required this.reelId,
+    required this.date,
+    this.postId,
   });
 
   @override
   List<Object?> get props =>
-      [id, postId, userId, replies, likes, description, reelId];
+      [id, postId, userId, replies, likes, description, reelId, date];
 }

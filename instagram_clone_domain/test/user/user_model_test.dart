@@ -16,7 +16,7 @@ void main() {
 
     test("Should be equal when two users with same value are compared", () {
       //Arrange
-      final userModel = UserConstants.arrangeUserModelWith();
+      final userModel = sut;
       final userModel2 = UserConstants.arrangeUserModelWith();
       //Act
       //Assert
@@ -27,7 +27,7 @@ void main() {
         "Should not be equal when two users with different values are compared",
         () {
       //Arrange
-      final userModel = UserConstants.arrangeUserModelWith();
+      final userModel = sut;
       final userModel2 = UserConstants.arrangeUserModelWith(userName: "Sarah");
       //Act
       //Assert

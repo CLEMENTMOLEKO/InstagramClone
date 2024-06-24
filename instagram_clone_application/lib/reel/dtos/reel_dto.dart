@@ -12,6 +12,7 @@ final class ReelDto extends Equatable {
   final String description;
   final List<String> likes;
   final List<CommentDto> comments;
+  final DateTime date;
 
   const ReelDto({
     required this.id,
@@ -20,12 +21,13 @@ final class ReelDto extends Equatable {
     required this.thumbnailUrl,
     required this.likes,
     required this.description,
+    required this.date,
     this.comments = const [],
   });
 
   @override
   List<Object?> get props =>
-      [id, userId, videoUrl, thumbnailUrl, likes, description, comments];
+      [id, userId, videoUrl, thumbnailUrl, likes, description, comments, date];
 
   static Either<Failure, ReelDto> fromJson(Map<String, dynamic> json) {
     try {
@@ -42,6 +44,7 @@ final class ReelDto extends Equatable {
                   () => throw Exception("Invalid Reel Data"),
                 ))
             .toList(),
+        date: json['date'],
       ));
     } catch (e) {
       return left(Failure.invalidReelData);
@@ -57,6 +60,7 @@ final class ReelDto extends Equatable {
       'description': description,
       'likes': likes,
       'comments': comments.map((comment) => comment.toJson()).toList(),
+      'date': date,
     };
   }
 
@@ -68,6 +72,7 @@ final class ReelDto extends Equatable {
     String? description,
     List<String>? likes,
     List<CommentDto>? comments,
+    DateTime? date,
   }) {
     return ReelDto(
       id: id ?? this.id,
@@ -77,6 +82,7 @@ final class ReelDto extends Equatable {
       description: description ?? this.description,
       likes: likes ?? this.likes,
       comments: comments ?? this.comments,
+      date: date ?? this.date,
     );
   }
 }

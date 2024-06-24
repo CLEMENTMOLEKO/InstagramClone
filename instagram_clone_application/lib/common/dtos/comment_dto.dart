@@ -12,30 +12,33 @@ final class CommentDto extends Equatable {
   final List<ReplyDto>? replies;
   final List<String> likes;
   final String description;
+  final DateTime date;
 
   const CommentDto.post({
     required this.id,
     required this.postId,
     required this.userId,
-    this.replies,
     required this.likes,
     required this.description,
+    required this.date,
+    this.replies,
     this.reelId,
   });
 
   const CommentDto.reel({
     required this.id,
-    this.postId,
     required this.userId,
-    this.replies,
     required this.likes,
     required this.description,
     required this.reelId,
+    required this.date,
+    this.postId,
+    this.replies,
   });
 
   @override
   List<Object?> get props =>
-      [id, postId, userId, replies, likes, description, reelId];
+      [id, postId, userId, replies, likes, description, reelId, date];
 
   static Either<Failure, CommentDto> fromJson(Map<String, dynamic> json) {
     try {
@@ -59,6 +62,7 @@ final class CommentDto extends Equatable {
       replies: _parseReplies(json['replies']),
       likes: _parseLikes(json['likes']),
       description: json['description'] as String,
+      date: json['date'],
     ));
   }
 
@@ -70,6 +74,7 @@ final class CommentDto extends Equatable {
       likes: _parseLikes(json['likes']),
       description: json['description'] as String,
       reelId: json['reelId'] as String?,
+      date: json['date'],
     ));
   }
 
@@ -93,6 +98,7 @@ final class CommentDto extends Equatable {
       'replies': replies?.map((reply) => reply.toJson()).toList(),
       'likes': likes,
       'description': description,
+      'date': date,
     };
 
     return json;
@@ -106,6 +112,7 @@ final class CommentDto extends Equatable {
     List<ReplyDto>? replies,
     List<String>? likes,
     String? description,
+    DateTime? date,
   }) {
     if (this.postId != null) {
       return CommentDto.post(
@@ -116,6 +123,7 @@ final class CommentDto extends Equatable {
         likes: likes ?? this.likes,
         description: description ?? this.description,
         reelId: reelId ?? this.reelId,
+        date: date ?? this.date,
       );
     } else if (this.reelId != null) {
       return CommentDto.reel(
@@ -126,6 +134,7 @@ final class CommentDto extends Equatable {
         likes: likes ?? this.likes,
         description: description ?? this.description,
         reelId: reelId ?? this.reelId,
+        date: date ?? this.date,
       );
     } else {
       throw Exception('Unknown type');

@@ -11,6 +11,7 @@ final class UserDto extends Equatable {
   final String emailAddress;
   final List<String> posts;
   final List<String> reels;
+  final DateTime joined;
 
   const UserDto({
     required this.id,
@@ -18,13 +19,14 @@ final class UserDto extends Equatable {
     required this.bio,
     required this.imageUrl,
     required this.emailAddress,
+    required this.joined,
     this.posts = const [],
     this.reels = const [],
   });
 
   @override
   List<Object?> get props =>
-      [id, userName, bio, imageUrl, emailAddress, posts, reels];
+      [id, userName, bio, imageUrl, emailAddress, posts, reels, joined];
 
   static Either<Failure, UserDto> fromJson(Map<String, dynamic> json) {
     try {
@@ -36,6 +38,7 @@ final class UserDto extends Equatable {
         emailAddress: json['emailAddress'] as String,
         posts: List<String>.from(json['posts'] as List),
         reels: List<String>.from(json['reels'] as List),
+        joined: json['joined'],
       ));
     } catch (e) {
       return const Left(Failure.invalidUserData);
@@ -51,6 +54,7 @@ final class UserDto extends Equatable {
       'emailAddress': emailAddress,
       'posts': posts,
       'reels': reels,
+      'joined': joined,
     };
   }
 
@@ -62,6 +66,7 @@ final class UserDto extends Equatable {
     String? emailAddress,
     List<String>? posts,
     List<String>? reels,
+    DateTime? joined,
   }) {
     return UserDto(
       id: id ?? this.id,
@@ -71,6 +76,7 @@ final class UserDto extends Equatable {
       emailAddress: emailAddress ?? this.emailAddress,
       posts: posts ?? this.posts,
       reels: reels ?? this.reels,
+      joined: joined ?? this.joined,
     );
   }
 }

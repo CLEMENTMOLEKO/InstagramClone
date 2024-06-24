@@ -7,15 +7,17 @@ final class ReplyDto extends Equatable {
   final String id;
   final String userId;
   final String description;
+  final DateTime date;
 
   const ReplyDto({
     required this.id,
     required this.userId,
     required this.description,
+    required this.date,
   });
 
   @override
-  List<Object?> get props => [id, userId, description];
+  List<Object?> get props => [id, userId, description, date];
 
   static Either<Failure, ReplyDto> fromJson(Map<String, dynamic> json) {
     try {
@@ -23,6 +25,7 @@ final class ReplyDto extends Equatable {
         id: json['id'] as String,
         userId: json['userId'] as String,
         description: json['description'],
+        date: json['date'],
       ));
     } catch (e) {
       return left(Failure.invalidReplyData);
@@ -33,6 +36,8 @@ final class ReplyDto extends Equatable {
     return {
       'id': id,
       'userId': userId,
+      'description': description,
+      'date': date,
     };
   }
 
@@ -40,11 +45,12 @@ final class ReplyDto extends Equatable {
     String? id,
     String? userId,
     String? description,
+    DateTime? date,
   }) {
     return ReplyDto(
-      id: id ?? this.id,
-      userId: userId ?? this.userId,
-      description: description ?? this.description,
-    );
+        id: id ?? this.id,
+        userId: userId ?? this.userId,
+        description: description ?? this.description,
+        date: date ?? this.date);
   }
 }

@@ -11,6 +11,7 @@ extension ReelConstants on Constants {
         thumbnailUrl: "https://www.firebase.com/videos/93fghwefg8h",
         likes: Constants.likes,
         description: description,
+        date: DateTime(2024, 12, 12),
       );
 
   static final reelId =

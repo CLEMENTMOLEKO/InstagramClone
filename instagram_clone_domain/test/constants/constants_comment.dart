@@ -6,6 +6,7 @@ extension CommentConstants on Constants {
       id: validUuid,
       userId: UserConstants.arrangeUserId(userId: validUuid),
       description: '$validUuid description',
+      date: DateTime(2024),
     );
   }).toList();
 
@@ -19,6 +20,7 @@ extension CommentConstants on Constants {
       replies: CommentConstants.replies,
       likes: Constants.likes,
       description: description,
+      date: DateTime(2024, 12, 12),
     );
   }
 
@@ -30,6 +32,7 @@ extension CommentConstants on Constants {
       replies: CommentConstants.replies,
       likes: Constants.likes,
       description: description,
+      date: DateTime(2024, 12, 12),
     );
   }
 

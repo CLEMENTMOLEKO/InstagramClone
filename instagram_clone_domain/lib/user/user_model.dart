@@ -13,6 +13,7 @@ final class UserModel extends Equatable {
   final EmailAddress emailAddress;
   final List<PostId> posts;
   final List<ReelId> reels;
+  final DateTime joined;
 
   const UserModel({
     required this.id,
@@ -20,6 +21,7 @@ final class UserModel extends Equatable {
     required this.bio,
     required this.imageUrl,
     required this.emailAddress,
+    required this.joined,
     this.posts = const [],
     this.reels = const [],
   });
