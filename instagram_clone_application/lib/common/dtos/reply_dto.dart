@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 import '../errors/failure.dart';
 
@@ -24,8 +25,8 @@ final class ReplyDto extends Equatable {
       return right(ReplyDto(
         id: json['id'] as String,
         userId: json['userId'] as String,
-        description: json['description'],
-        date: json['date'],
+        description: json['description'] as String,
+        date: DateFormat.yMd().parse(json['date']),
       ));
     } catch (e) {
       return left(Failure.invalidReplyData);
@@ -37,7 +38,7 @@ final class ReplyDto extends Equatable {
       'id': id,
       'userId': userId,
       'description': description,
-      'date': date,
+      'date': date.toIso8601String(),
     };
   }
 

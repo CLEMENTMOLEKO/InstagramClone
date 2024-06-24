@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 import '../errors/failure.dart';
 import 'reply_dto.dart';
@@ -50,20 +51,20 @@ final class CommentDto extends Equatable {
         return left(Failure.invalidCommentData);
       }
     } catch (e) {
+      print("Exception thrown $e");
       return left(Failure.invalidCommentData);
     }
   }
 
   static Either<Failure, CommentDto> _fromPostJson(Map<String, dynamic> json) {
     return right(CommentDto.post(
-      id: json['id'] as String,
-      postId: json['postId'] as String?,
-      userId: json['userId'] as String,
-      replies: _parseReplies(json['replies']),
-      likes: _parseLikes(json['likes']),
-      description: json['description'] as String,
-      date: json['date'],
-    ));
+        id: json['id'] as String,
+        postId: json['postId'] as String,
+        userId: json['userId'] as String,
+        replies: _parseReplies(json['replies']),
+        likes: _parseLikes(json['likes']),
+        description: json['description'] as String,
+        date: DateFormat.yMd().parse(json['date'])));
   }
 
   static Either<Failure, CommentDto> _fromReelJson(Map<String, dynamic> json) {
@@ -73,8 +74,8 @@ final class CommentDto extends Equatable {
       replies: _parseReplies(json['replies']),
       likes: _parseLikes(json['likes']),
       description: json['description'] as String,
-      reelId: json['reelId'] as String?,
-      date: json['date'],
+      reelId: json['reelId'] as String,
+      date: DateFormat.yMd().parse(json['date']),
     ));
   }
 

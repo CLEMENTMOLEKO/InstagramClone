@@ -1,8 +1,7 @@
 import 'package:instagram_clone_domain/common/common.dart';
-import 'package:instagram_clone_domain/common/entities/comment/value_objects/comment_id.dart';
-import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:instagram_clone_domain/post/post.dart';
 import 'package:instagram_clone_domain/user/user.dart';
+import 'package:instagram_clone_domain/reel/reel.dart';
 
 part 'constants_user.dart';
 part 'constants_post.dart';
