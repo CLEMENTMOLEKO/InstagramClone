@@ -1,4 +1,4 @@
-enum Failure {
+enum ApplicationFailure {
   invalidPostData,
   invalidReplyData,
   invalidReelData,

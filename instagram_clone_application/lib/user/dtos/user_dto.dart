@@ -29,7 +29,8 @@ final class UserDto extends Equatable {
   List<Object?> get props =>
       [id, userName, bio, avatarUrl, emailAddress, posts, reels, joined];
 
-  static Either<Failure, UserDto> fromJson(Map<String, dynamic> json) {
+  static Either<ApplicationFailure, UserDto> fromJson(
+      Map<String, dynamic> json) {
     try {
       return Right(UserDto(
         id: json['id'] as String,
@@ -42,7 +43,7 @@ final class UserDto extends Equatable {
         joined: DateFormat("yyyy/MM/dd").parse(json['joined']),
       ));
     } catch (e) {
-      return const Left(Failure.invalidUserData);
+      return const Left(ApplicationFailure.invalidUserData);
     }
   }
 

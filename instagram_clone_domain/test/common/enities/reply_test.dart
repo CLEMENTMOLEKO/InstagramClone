@@ -14,6 +14,7 @@ void main() {
       userId: UserConstants.userId,
       description: description,
       date: date,
+      commentId: CommentConstants.commentId,
     );
   });
 
@@ -27,10 +28,12 @@ void main() {
   test("Should be equal when two replies with same values are compared", () {
     //Arrange
     final reply = Reply(
-        id: Constants.validUuids.first,
-        userId: UserConstants.userId,
-        description: description,
-        date: date);
+      id: Constants.validUuids.first,
+      userId: UserConstants.userId,
+      description: description,
+      date: date,
+      commentId: CommentConstants.commentId,
+    );
     //Act
     //Assert
     expect(sut, equals(reply));
@@ -45,6 +48,7 @@ void main() {
       userId: UserConstants.arrangeUserId(userId: Constants.validUuids.last),
       description: "Different description",
       date: DateTime.now(),
+      commentId: CommentId.createUnique(),
     );
     //Act
     //Assert

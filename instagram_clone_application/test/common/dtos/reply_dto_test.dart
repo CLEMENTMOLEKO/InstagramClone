@@ -74,7 +74,7 @@ void main() {
             //Act
             final result = ReplyDto.fromJson(replyDtoMap);
             //Assert
-            expect(result, left(Failure.invalidReplyData));
+            expect(result, left(ApplicationFailure.invalidReplyData));
           },
         );
       },

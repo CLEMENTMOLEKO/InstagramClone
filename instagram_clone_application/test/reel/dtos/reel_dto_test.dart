@@ -72,7 +72,7 @@ void main() {
           //Act
           final result = ReelDto.fromJson(reelData);
           //Assert
-          expect(result, left(Failure.invalidReelData));
+          expect(result, left(ApplicationFailure.invalidReelData));
         });
 
         test(

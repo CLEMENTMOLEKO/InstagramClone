@@ -5,11 +5,11 @@ final class Password extends ValueObject {
   final String value;
   Password._({required this.value});
 
-  static Either<Failure, Password> create({required String password}) {
+  static Either<DomainFailure, Password> create({required String password}) {
     if (_isValidPassword(password)) {
       return right(Password._(value: password));
     }
-    return left(Failure.invalidPassword);
+    return left(DomainFailure.invalidPassword);
   }
 
   @override

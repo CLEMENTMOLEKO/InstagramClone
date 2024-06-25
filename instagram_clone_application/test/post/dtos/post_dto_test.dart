@@ -72,7 +72,7 @@ void main() {
           //Act
           final result = PostDto.fromJson(postData);
           //Assert
-          expect(result, left(Failure.invalidPostData));
+          expect(result, left(ApplicationFailure.invalidPostData));
         });
 
         test(

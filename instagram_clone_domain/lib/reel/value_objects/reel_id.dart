@@ -13,11 +13,11 @@ final class ReelId extends ValueObject {
     return ReelId._(value: const UuidV8().toString());
   }
 
-  static Either<Failure, ReelId> create({required String value}) {
+  static Either<DomainFailure, ReelId> create({required String value}) {
     if (UuidValidation.isValidUUID(fromString: value)) {
       return right(ReelId._(value: value));
     }
-    return left(Failure.invalidReelId);
+    return left(DomainFailure.invalidReelId);
   }
 
   @override

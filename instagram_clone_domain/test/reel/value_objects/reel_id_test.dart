@@ -30,7 +30,7 @@ void main() {
             //Act
             final reelIdResult = ReelId.create(value: invalidReelId);
             //Assert
-            expect(reelIdResult, const Left(Failure.invalidReelId));
+            expect(reelIdResult, const Left(DomainFailure.invalidReelId));
           },
         );
       }

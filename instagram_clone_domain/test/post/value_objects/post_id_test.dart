@@ -30,7 +30,7 @@ void main() {
             //Act
             final postIdResult = PostId.create(value: invalidPostId);
             //Assert
-            expect(postIdResult, const Left(Failure.invalidPostId));
+            expect(postIdResult, const Left(DomainFailure.invalidPostId));
           },
         );
       }

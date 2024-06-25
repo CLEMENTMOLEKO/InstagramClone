@@ -5,11 +5,11 @@ final class EmailAddress extends ValueObject {
   final String value;
   EmailAddress._({required this.value});
 
-  static Either<Failure, EmailAddress> create({required String email}) {
+  static Either<DomainFailure, EmailAddress> create({required String email}) {
     if (_isValidEmail(email)) {
       return right(EmailAddress._(value: email));
     }
-    return left(Failure.invalidEmail);
+    return left(DomainFailure.invalidEmail);
   }
 
   static bool _isValidEmail(String email) {

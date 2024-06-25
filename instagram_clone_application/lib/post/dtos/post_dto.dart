@@ -28,7 +28,8 @@ final class PostDto extends Equatable {
   List<Object?> get props =>
       [id, userId, description, imageUrls, likes, comments, date];
 
-  static Either<Failure, PostDto> fromJson(Map<String, dynamic> json) {
+  static Either<ApplicationFailure, PostDto> fromJson(
+      Map<String, dynamic> json) {
     try {
       return right(
         PostDto(
@@ -46,7 +47,7 @@ final class PostDto extends Equatable {
         ),
       );
     } catch (e) {
-      return left(Failure.invalidPostData);
+      return left(ApplicationFailure.invalidPostData);
     }
   }
 

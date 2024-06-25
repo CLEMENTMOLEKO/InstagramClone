@@ -26,7 +26,7 @@ void main() {
           //Act
           final result = Password.create(password: invalidPassword);
           //Assert
-          expect(result, left(Failure.invalidPassword));
+          expect(result, left(DomainFailure.invalidPassword));
         });
       }
     });

@@ -28,7 +28,7 @@ void main() {
           //Act
           final result = EmailAddress.create(email: invalidEmail);
           //Assert
-          expect(result, const Left(Failure.invalidEmail));
+          expect(result, const Left(DomainFailure.invalidEmail));
         });
       }
     });

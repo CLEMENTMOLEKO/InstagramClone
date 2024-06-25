@@ -7,6 +7,7 @@ extension CommentConstants on Constants {
       userId: UserConstants.arrangeUserId(userId: validUuid),
       description: '$validUuid description',
       date: DateTime(2024),
+      commentId: CommentConstants.commentId,
     );
   }).toList();
 

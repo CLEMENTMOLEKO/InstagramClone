@@ -30,7 +30,8 @@ final class ReelDto extends Equatable {
   List<Object?> get props =>
       [id, userId, videoUrl, thumbnailUrl, likes, description, comments, date];
 
-  static Either<Failure, ReelDto> fromJson(Map<String, dynamic> json) {
+  static Either<ApplicationFailure, ReelDto> fromJson(
+      Map<String, dynamic> json) {
     try {
       return right(
         ReelDto(
@@ -51,7 +52,7 @@ final class ReelDto extends Equatable {
         ),
       );
     } catch (e) {
-      return left(Failure.invalidReelData);
+      return left(ApplicationFailure.invalidReelData);
     }
   }
 

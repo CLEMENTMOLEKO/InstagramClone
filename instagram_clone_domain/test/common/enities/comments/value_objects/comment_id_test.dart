@@ -31,7 +31,7 @@ void main() {
             //Act
             final commentIdResult = CommentId.create(value: invalidCommentId);
             //Assert
-            expect(commentIdResult, const Left(Failure.invalidCommentId));
+            expect(commentIdResult, const Left(DomainFailure.invalidCommentId));
           },
         );
       }

@@ -83,7 +83,7 @@ void main() {
           //Act
           final result = CommentDto.fromJson(reelData);
           //Assert
-          expect(result, left(Failure.invalidCommentData));
+          expect(result, left(ApplicationFailure.invalidCommentData));
         });
 
         test(

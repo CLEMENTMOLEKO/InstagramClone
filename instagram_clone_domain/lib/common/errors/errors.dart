@@ -1,27 +1,33 @@
-enum Failure {
+enum DomainFailure {
   invalidEmail,
   invalidPassword,
   invalidUserId,
   invalidPostId,
   invalidReelId,
-  invalidCommentId
+  invalidReplyId,
+  invalidCommentId,
+  invalidCommentData,
 }
 
-extension FailureDescription on Failure {
+extension FailureDescription on DomainFailure {
   String get description {
     switch (this) {
-      case Failure.invalidEmail:
+      case DomainFailure.invalidEmail:
         return "Invalid Email Address";
-      case Failure.invalidPassword:
+      case DomainFailure.invalidPassword:
         return "Invalid Password";
-      case Failure.invalidUserId:
+      case DomainFailure.invalidUserId:
         return "Invalid user id";
-      case Failure.invalidPostId:
+      case DomainFailure.invalidPostId:
         return "Invalid post id";
-      case Failure.invalidReelId:
+      case DomainFailure.invalidReelId:
         return "Invalid reel id";
-      case Failure.invalidCommentId:
+      case DomainFailure.invalidCommentId:
         return "Invalid comment id";
+      case DomainFailure.invalidCommentData:
+        return "Invalid Comment Data";
+      case DomainFailure.invalidReplyId:
+        return "Invalid Reply Id";
     }
   }
 }

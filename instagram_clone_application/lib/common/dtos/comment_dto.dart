@@ -1,16 +1,19 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
+import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 
 import '../errors/failure.dart';
 import 'reply_dto.dart';
+
+part 'domain_converter/comment_domain_converter.dart';
 
 final class CommentDto extends Equatable {
   final String id;
   final String? postId;
   final String? reelId;
   final String userId;
-  final List<ReplyDto>? replies;
+  final List<ReplyDto> replies;
   final List<String> likes;
   final String description;
   final DateTime date;
@@ -22,7 +25,7 @@ final class CommentDto extends Equatable {
     required this.likes,
     required this.description,
     required this.date,
-    this.replies,
+    this.replies = const [],
     this.reelId,
   });
 
@@ -34,29 +37,30 @@ final class CommentDto extends Equatable {
     required this.reelId,
     required this.date,
     this.postId,
-    this.replies,
+    this.replies = const [],
   });
 
   @override
   List<Object?> get props =>
       [id, postId, userId, replies, likes, description, reelId, date];
 
-  static Either<Failure, CommentDto> fromJson(Map<String, dynamic> json) {
+  static Either<ApplicationFailure, CommentDto> fromJson(
+      Map<String, dynamic> json) {
     try {
       if (json['postId'] != null) {
         return _fromPostJson(json);
       } else if (json['reelId'] != null) {
         return _fromReelJson(json);
       } else {
-        return left(Failure.invalidCommentData);
+        return left(ApplicationFailure.invalidCommentData);
       }
     } catch (e) {
-      print("Exception thrown $e");
-      return left(Failure.invalidCommentData);
+      return left(ApplicationFailure.invalidCommentData);
     }
   }
 
-  static Either<Failure, CommentDto> _fromPostJson(Map<String, dynamic> json) {
+  static Either<ApplicationFailure, CommentDto> _fromPostJson(
+      Map<String, dynamic> json) {
     return right(
       CommentDto.post(
         id: json['id'] as String,
@@ -70,7 +74,8 @@ final class CommentDto extends Equatable {
     );
   }
 
-  static Either<Failure, CommentDto> _fromReelJson(Map<String, dynamic> json) {
+  static Either<ApplicationFailure, CommentDto> _fromReelJson(
+      Map<String, dynamic> json) {
     return right(
       CommentDto.reel(
         id: json['id'] as String,
@@ -84,7 +89,7 @@ final class CommentDto extends Equatable {
     );
   }
 
-  static List<ReplyDto>? _parseReplies(List<dynamic> repliesJson) {
+  static List<ReplyDto> _parseReplies(List<dynamic> repliesJson) {
     return repliesJson
         .map((reply) => ReplyDto.fromJson(reply as Map<String, dynamic>)
             .getOrElse(() => throw Exception("Invalid reply data")))
@@ -99,16 +104,16 @@ final class CommentDto extends Equatable {
     final json = {
       'id': id,
       'userId': userId,
-      'replies': replies?.map((reply) => reply.toJson()).toList(),
+      'replies': replies.map((reply) => reply.toJson()).toList(),
       'likes': likes,
       'description': description,
       'date': DateFormat("yyyy/MM/dd").format(date),
     };
 
     if (reelId != null) {
-      json.addAll({"reelId": reelId});
+      json.addAll({"reelId": reelId!});
     } else if (postId != null) {
-      json.addAll({"postId": postId});
+      json.addAll({"postId": postId!});
     }
 
     return json;

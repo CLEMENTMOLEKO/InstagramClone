@@ -30,7 +30,7 @@ void main() {
             //Act
             final userIdResult = UserId.create(value: invalidUserId);
             //Assert
-            expect(userIdResult, const Left(Failure.invalidUserId));
+            expect(userIdResult, const Left(DomainFailure.invalidUserId));
           },
         );
       }

@@ -73,7 +73,7 @@ void main() {
           //Act
           final result = UserDto.fromJson(userData);
           //Assert
-          expect(result, left(Failure.invalidUserData));
+          expect(result, left(ApplicationFailure.invalidUserData));
         });
 
         test("Should valid user when lists are empty, no posts and no reels.",
