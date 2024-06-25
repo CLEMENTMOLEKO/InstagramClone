@@ -57,26 +57,31 @@ final class CommentDto extends Equatable {
   }
 
   static Either<Failure, CommentDto> _fromPostJson(Map<String, dynamic> json) {
-    return right(CommentDto.post(
+    return right(
+      CommentDto.post(
         id: json['id'] as String,
         postId: json['postId'] as String,
         userId: json['userId'] as String,
         replies: _parseReplies(json['replies']),
         likes: _parseLikes(json['likes']),
         description: json['description'] as String,
-        date: DateFormat("yyyy/MM/dd").parse(json['date'])));
+        date: DateFormat("yyyy/MM/dd").parse(json['date']),
+      ),
+    );
   }
 
   static Either<Failure, CommentDto> _fromReelJson(Map<String, dynamic> json) {
-    return right(CommentDto.reel(
-      id: json['id'] as String,
-      userId: json['userId'] as String,
-      replies: _parseReplies(json['replies']),
-      likes: _parseLikes(json['likes']),
-      description: json['description'] as String,
-      reelId: json['reelId'] as String,
-      date: DateFormat("yyyy/MM/dd").parse(json['date']),
-    ));
+    return right(
+      CommentDto.reel(
+        id: json['id'] as String,
+        userId: json['userId'] as String,
+        replies: _parseReplies(json['replies']),
+        likes: _parseLikes(json['likes']),
+        description: json['description'] as String,
+        reelId: json['reelId'] as String,
+        date: DateFormat("yyyy/MM/dd").parse(json['date']),
+      ),
+    );
   }
 
   static List<ReplyDto>? _parseReplies(List<dynamic> repliesJson) {

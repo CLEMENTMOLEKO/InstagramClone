@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:instagram_clone_application/common/errors/failure.dart';
+import 'package:intl/intl.dart';
 
 import '../../common/dtos/comment_dto.dart';
 
@@ -31,21 +32,24 @@ final class ReelDto extends Equatable {
 
   static Either<Failure, ReelDto> fromJson(Map<String, dynamic> json) {
     try {
-      return right(ReelDto(
-        id: json['id'] as String,
-        userId: json['userId'] as String,
-        videoUrl: json['videoUrl'] as String,
-        thumbnailUrl: json['thumbnailUrl'] as String,
-        description: json['description'] as String,
-        likes: List<String>.from(json['likes'] as List),
-        comments: (json['comments'] as List)
-            .map((comment) =>
-                CommentDto.fromJson(comment as Map<String, dynamic>).getOrElse(
-                  () => throw Exception("Invalid Reel Data"),
-                ))
-            .toList(),
-        date: json['date'],
-      ));
+      return right(
+        ReelDto(
+          id: json['id'] as String,
+          userId: json['userId'] as String,
+          videoUrl: json['videoUrl'] as String,
+          thumbnailUrl: json['thumbnailUrl'] as String,
+          description: json['description'] as String,
+          likes: List<String>.from(json['likes'] as List),
+          comments: (json['comments'] as List)
+              .map((comment) =>
+                  CommentDto.fromJson(comment as Map<String, dynamic>)
+                      .getOrElse(
+                    () => throw Exception("Invalid Reel Data"),
+                  ))
+              .toList(),
+          date: DateFormat("yyyy/MM/dd").parse(json['date']),
+        ),
+      );
     } catch (e) {
       return left(Failure.invalidReelData);
     }
@@ -60,7 +64,7 @@ final class ReelDto extends Equatable {
       'description': description,
       'likes': likes,
       'comments': comments.map((comment) => comment.toJson()).toList(),
-      'date': date,
+      'date': DateFormat("yyyy/MM/dd").format(date),
     };
   }
 

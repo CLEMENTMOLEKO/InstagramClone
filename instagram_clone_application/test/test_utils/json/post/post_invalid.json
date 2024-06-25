@@ -1,0 +1,74 @@
+{
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "description": "T8is is the first post on the platform period",
+    "imageUrls": [
+        "https://www.firebase.com/images/hwoeifhr8342efn2348ruyfn023",
+        "https://www.firebase.com/images/hwoeifhr8342efn2348ruyfn024",
+        "https://www.firebase.com/images/hwoeifhr8342efn2348ruyfn025",
+        "https://www.firebase.com/images/hwoeifhr8342efn2348ruyfn026",
+        "https://www.firebase.com/images/hwoeifhr8342efn2348ruyfn027",
+        "https://www.firebase.com/images/hwoeifhr8342efn2348ruyfn028"
+    ],
+    "likes": [
+        "123e4567-e89b-12d3-a456-426614198090",
+        "123e4567-e89b-12d3-a456-426614198092",
+        "123e4567-e89b-12d3-a456-426614198093"
+    ],
+    "comments": [
+        {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "userId": "123e4567-e89b-12d3-a456-426614174060",
+            "replies": [
+                {
+                    "id": "123e4567-e89b-12d3-a456-426614174000",
+                    "description": "123e4567-e89b-12d3-a456-426614174002",
+                    "date": "2023/11/24"
+                },
+                {
+                    "id": "123e4867-e89b-12d3-a456-426614174000",
+                    "description": "623e4567-e89b-12d3-a456-426614174002",
+                    "date": "2023/11/25"
+                }
+            ],
+            "likes": [
+               "143e4567-e89b-12d3-a456-426614174100",
+               "143e4567-e89b-12d3-a456-426614174101",
+               "143e4567-e89b-12d3-a456-426614174102",
+               "143e4567-e89b-12d3-a456-426614174103",
+               "143e4567-e89b-12d3-a456-426614174104",
+               "143e4567-e89b-12d3-a456-426614174105"
+            ],
+            "description": "This is the first post on the platform like it or not",
+            "date": "2023/11/23"
+        },
+        {
+            "id": "123e4567-e89b-12d3-a456-426614174001",
+            "postId": "123e4567-e89b-12d3-a456-426614174052",
+            "userId": "123e4567-e89b-12d3-a456-426614174060",
+            "replies": [
+                {
+                    "id": "123e4567-e89b-12d3-a456-426614174000",
+                    "userId": "123e4567-e89b-12d3-a456-426614174102",
+                    "description": "123e4567-e89b-12d3-a456-426614174002",
+                    "date": "2023/11/26"
+                },
+                {
+                    "id": "123e4867-e89b-12d3-a456-426614174000",
+                    "userId": "143e4567-e89b-12d3-a456-426614174100",
+                    "description": "623e4567-e89b-12d3-a456-426614174002",
+                    "date": "2023/11/27"
+                }
+            ],
+            "likes": [
+               "143e4567-e89b-12d3-a456-426614174100",
+               "143e4567-e89b-12d3-a456-426614174101",
+               "143e4567-e89b-12d3-a456-426614174102",
+               "143e4567-e89b-12d3-a456-426614174103",
+               "143e4567-e89b-12d3-a456-426614174104",
+               "143e4567-e89b-12d3-a456-426614174105"
+            ],
+            "date": "2023/11/24"
+        }
+    ],
+    "date": "2023/11/23"
+}

@@ -1,7 +1,12 @@
-import 'package:instagram_clone_application/common/dtos/comment_dto.dart';
-import 'package:instagram_clone_application/common/dtos/reply_dto.dart';
+import 'package:instagram_clone_application/common/common.dart';
+import 'package:instagram_clone_application/post/post.dart';
+import 'package:instagram_clone_application/reel/reel.dart';
+import 'package:instagram_clone_application/user/user.dart';
 
 part 'constants_comment_dto.dart';
+part 'constants_post_dto.dart';
+part 'constants_reel_dto.dart';
+part 'constants_user_dto.dart';
 
 final class Constants {
   static const validUuids = {

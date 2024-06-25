@@ -46,7 +46,8 @@ void main() {
       });
 
       group("fromJson", () {
-        test("Should read post data correctly when data is a post", () {
+        test("Should read comment data correctly when data is a post comment",
+            () {
           //Arrange
           final postDataAsString = JsonReader.readAsStringFrom(
               path: "${baseFileUrl}comment_post.json");
@@ -59,7 +60,8 @@ void main() {
           expect(commentDto, isA<CommentDto>());
         });
 
-        test("Should read reel data correctly when data is a reel", () {
+        test("Should read commnet data correctly when data is a reel comment",
+            () {
           //Arrange
           final reelDataAsString = JsonReader.readAsStringFrom(
               path: "${baseFileUrl}comment_reel.json");
