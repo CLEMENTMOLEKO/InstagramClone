@@ -21,8 +21,7 @@ void main() {
       group(
         "toDomainComment",
         () {
-          test(
-              "Should return valid domain comment dto when it has valid values",
+          test("Should return valid domain comment when it has valid values",
               () {
             //Arrange
             //Act
@@ -57,8 +56,7 @@ void main() {
       group(
         "toDomainComment",
         () {
-          test(
-              "Should return valid domain comment dto when it has valid values",
+          test("Should return valid domain comment when it has valid values",
               () {
             //Arrange
             //Act

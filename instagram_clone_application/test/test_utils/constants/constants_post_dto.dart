@@ -17,10 +17,12 @@ extension PostDtoConstants on Constants {
     required String description,
     DateTime? date,
     int length = 3,
+    String? id,
+    String? userId,
   }) {
     return PostDto(
-      id: Constants.validUuids.first,
-      userId: Constants.validUuids.first,
+      id: id ?? Constants.validUuids.first,
+      userId: userId ?? Constants.validUuids.first,
       imageUrls: List.generate(
         3,
         (index) => "https://www.firebase.com/images/293847$index",

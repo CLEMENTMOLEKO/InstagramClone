@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 import '../common/common.dart';
@@ -13,7 +14,7 @@ final class Post extends Equatable {
   final List<Comment> comments;
   final DateTime date;
 
-  const Post({
+  const Post._({
     required this.id,
     required this.userId,
     required this.description,
@@ -22,6 +23,26 @@ final class Post extends Equatable {
     required this.date,
     this.comments = const [],
   });
+
+  static Either<DomainFailure, Post> createPost({
+    required PostId id,
+    required UserId userId,
+    required String description,
+    required DateTime date,
+    List<String> imageUrls = const [],
+    List<UserId> likes = const [],
+    List<Comment> comments = const [],
+  }) {
+    return right(Post._(
+      id: id,
+      userId: userId,
+      description: description,
+      imageUrls: imageUrls,
+      likes: likes,
+      date: date,
+      comments: comments,
+    ));
+  }
 
   @override
   List<Object?> get props => [id, userId, description, imageUrls, likes, date];

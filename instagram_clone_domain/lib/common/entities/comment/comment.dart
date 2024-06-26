@@ -49,7 +49,8 @@ final class Comment extends Equatable {
     required DateTime date,
   }) {
     //Check if atleast a post or reel id exists
-    if (reelId == null && postId == null) {
+    if (reelId == null && postId == null ||
+        (postId != null && reelId != null)) {
       return left(DomainFailure.invalidCommentData);
     }
 

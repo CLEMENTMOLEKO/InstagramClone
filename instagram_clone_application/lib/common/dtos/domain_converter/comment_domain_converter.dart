@@ -2,9 +2,6 @@ part of '../comment_dto.dart';
 
 extension CommentDomainConverter on CommentDto {
   Either<ApplicationFailure, Comment> toDomainComment() {
-    if (_createDomainValues().isLeft()) {
-      return left(ApplicationFailure.invalidCommentData);
-    }
     return _createDomainValues();
   }
 
