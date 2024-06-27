@@ -1,7 +1,7 @@
 part of 'constants.dart';
 
 extension ReelDtoConstants on Constants {
-  static final postDto = ReelDto(
+  static final reelDto = ReelDto(
     id: Constants.validUuids.first,
     userId: Constants.validUuids.first,
     videoUrl: "https://www.firebase.com/2304434",
@@ -15,10 +15,12 @@ extension ReelDtoConstants on Constants {
     required String description,
     DateTime? date,
     int length = 3,
+    String? reelId,
+    String? userId,
   }) {
     return ReelDto(
-      id: Constants.validUuids.first,
-      userId: Constants.validUuids.first,
+      id: reelId ?? Constants.validUuids.first,
+      userId: userId ?? Constants.validUuids.first,
       videoUrl: "https://www.firebase.com/images/2938472390",
       likes: Constants.validUuids.toList(),
       description: description,

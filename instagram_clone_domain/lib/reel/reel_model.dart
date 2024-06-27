@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 import '../common/common.dart';
@@ -14,7 +15,7 @@ final class Reel extends Equatable {
   final List<Comment> comments;
   final DateTime date;
 
-  const Reel({
+  const Reel._({
     required this.id,
     required this.userId,
     required this.videoUrl,
@@ -24,6 +25,28 @@ final class Reel extends Equatable {
     required this.date,
     this.comments = const [],
   });
+
+  static Either<DomainFailure, Reel> createReel({
+    required ReelId id,
+    required UserId userId,
+    required String description,
+    required DateTime date,
+    required String videoUrl,
+    required String thumbnailUrl,
+    List<UserId> likes = const [],
+    List<Comment> comments = const [],
+  }) {
+    return right(Reel._(
+      id: id,
+      userId: userId,
+      description: description,
+      videoUrl: videoUrl,
+      thumbnailUrl: thumbnailUrl,
+      likes: likes,
+      date: date,
+      comments: comments,
+    ));
+  }
 
   @override
   List<Object?> get props =>

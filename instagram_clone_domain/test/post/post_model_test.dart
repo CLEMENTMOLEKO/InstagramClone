@@ -39,5 +39,28 @@ void main() {
       //Assert
       expect(postModel, isNot(equals(postModel2)));
     });
+
+    group("CreatePost", () {
+      test("Should return Post when given valid post values", () {
+        //Arrange
+        //Act
+        final createPostResult = Post.createPost(
+          id: PostConstants.postId,
+          userId: UserConstants.userId,
+          description: "Test post is returning correct values",
+          date: DateTime(2024, 12, 12),
+          likes: Constants.likes,
+          comments: List.generate(
+            4,
+            (index) => CommentConstants.arrangePostCommentWith(
+                description: "This is a test comment $index"),
+          ),
+        );
+        final result = createPostResult
+            .getOrElse(() => throw Exception("Error creating post"));
+        //Assert
+        expect(result, isA<Post>());
+      });
+    });
   });
 }
