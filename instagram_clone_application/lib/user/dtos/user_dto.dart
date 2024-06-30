@@ -1,8 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:dartz/dartz.dart';
+import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:intl/intl.dart';
 
 import '../../common/errors/failure.dart';
+
+part 'domain_converter/user_dto_domain_converter.dart';
 
 final class UserDto extends Equatable {
   final String id;

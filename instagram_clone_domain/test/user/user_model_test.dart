@@ -11,6 +11,9 @@ void main() {
   });
   group("UserModel", () {
     test("Should extend equatable", () {
+      //Arrange
+      //Act
+      //Assert
       expect(sut, isA<Equatable>());
     });
 

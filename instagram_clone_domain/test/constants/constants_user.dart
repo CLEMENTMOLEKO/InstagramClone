@@ -35,14 +35,19 @@ extension UserConstants on Constants {
   static final userId =
       arrangeUserId(userId: '6c84fB90-12c4-11e1-840d-7b25c5ee775a');
 
-  static arrangeUserModelWith({userName = "Bafana"}) => UserModel(
-        id: userId,
-        userName: userName,
-        bio: "I'm a developer",
-        imageUrl: "www.firebase.images/oweifjwf8weflwe89235j",
-        emailAddress: arrangeEmailAddress(),
-        joined: DateTime(2024, 12, 12),
-      );
+  static UserModel arrangeUserModelWith({userName = "Bafana"}) {
+    final createUserResult = UserModel.createUser(
+      userId: userId,
+      userName: userName,
+      bio: "I'm a developer",
+      avatarUrl: "www.firebase.images/oweifjwf8weflwe89235j",
+      emailAddress: arrangeEmailAddress(),
+      joined: DateTime(2024, 12, 12),
+    );
+    return createUserResult.getOrElse(
+      () => throw Exception("Error Arranging User Model With $userName"),
+    );
+  }
 
   static EmailAddress arrangeEmailAddress({email = 'test1@example.com'}) {
     return EmailAddress.create(email: email)
