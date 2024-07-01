@@ -10,8 +10,12 @@ environment:
 publish_to: none
 
 dependencies:
+  dartz: ^0.10.1
   flutter:
     sdk: flutter
+
+  instagram_clone_application:
+    path: ../instagram_clone_application
 
 dev_dependencies:
   flutter_test:

@@ -10,6 +10,7 @@ environment:
 publish_to: none
 
 dependencies:
+  bloc: ^8.1.4
   dartz: ^0.10.1
   equatable: ^2.0.5
   flutter:

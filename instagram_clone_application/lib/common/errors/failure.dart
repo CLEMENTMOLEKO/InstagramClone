@@ -5,3 +5,7 @@ enum ApplicationFailure {
   invalidCommentData,
   invalidUserData,
 }
+
+enum AuthFailure {
+  invalidPasswordAndEmailCombination,
+}
