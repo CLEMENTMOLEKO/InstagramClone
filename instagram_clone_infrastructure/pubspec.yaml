@@ -11,6 +11,7 @@ publish_to: none
 
 dependencies:
   dartz: ^0.10.1
+  firebase_auth: ^5.1.1
   flutter:
     sdk: flutter
 

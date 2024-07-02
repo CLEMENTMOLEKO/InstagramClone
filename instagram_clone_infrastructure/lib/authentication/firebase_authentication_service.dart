@@ -1,9 +1,13 @@
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
-import 'package:instagram_clone_domain/user/value_objects/email_address.dart';
-import 'package:instagram_clone_domain/user/value_objects/password.dart';
+import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 
 final class FirebaseAuthenticationService extends AuthenticationService {
+  @override
+  // TODO: implement user
+  Stream<User?> get user => throw UnimplementedError();
+
   @override
   Future<Either<AuthFailure, Unit>> loginWithEmailAndPassword(
       EmailAddress emailAddress, Password password) {
