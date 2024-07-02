@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:intl/intl.dart';
 

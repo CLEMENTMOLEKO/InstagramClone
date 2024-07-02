@@ -13,8 +13,16 @@ final class UnkownAuthentication extends AuthenticationState {
   List<Object?> get props => [];
 }
 
+final class AuthenticationFailed extends AuthenticationState {
+  final ApplicationFailure failure;
+
+  AuthenticationFailed({required this.failure});
+  @override
+  List<Object?> get props => [];
+}
+
 final class Authenticated extends AuthenticationState {
-  final User user;
+  final UserDto user;
 
   Authenticated({required this.user});
 

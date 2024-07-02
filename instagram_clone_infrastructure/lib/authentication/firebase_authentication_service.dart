@@ -27,4 +27,10 @@ final class FirebaseAuthenticationService extends AuthenticationService {
     // TODO: implement signInWithGoogle
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> signOut() {
+    // TODO: implement signOut
+    throw UnimplementedError();
+  }
 }
