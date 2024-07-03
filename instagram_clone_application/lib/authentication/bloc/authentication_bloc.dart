@@ -16,9 +16,10 @@ class AuthenticationBloc
   final UserRepository userRepository;
   late StreamSubscription<User?> _userStreamSubscription;
 
-  AuthenticationBloc(
-      {required this.authenticationService, required this.userRepository})
-      : super(AuthenticationInitial()) {
+  AuthenticationBloc({
+    required this.authenticationService,
+    required this.userRepository,
+  }) : super(AuthenticationInitial()) {
     _userStreamSubscription = authenticationService.user.listen((user) {
       add(AuthenticationStatusChanged(user: user));
     });
