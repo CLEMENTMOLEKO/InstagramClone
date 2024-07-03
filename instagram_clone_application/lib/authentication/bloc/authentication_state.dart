@@ -22,7 +22,7 @@ final class AuthenticationFailed extends AuthenticationState {
 }
 
 final class Authenticated extends AuthenticationState {
-  final UserDto user;
+  final UserModel user;
 
   Authenticated({required this.user});
 
