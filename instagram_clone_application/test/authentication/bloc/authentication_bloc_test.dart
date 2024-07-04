@@ -47,6 +47,7 @@ void main() {
       //Act
       //Assert
       expect(sut.state, AuthenticationInitial());
+      sut.close();
     });
 
     blocTest<AuthenticationBloc, AuthenticationState>(
