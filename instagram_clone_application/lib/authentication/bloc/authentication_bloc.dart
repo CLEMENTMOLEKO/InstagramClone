@@ -42,7 +42,7 @@ class AuthenticationBloc
       final getUserResult = await userRepository.getUser(event.user!.uid);
       getUserResult.fold(
           (failure) => emit(AuthenticationFailed(failure: failure)),
-          (userDto) => emit(Authenticated(user: userDto)));
+          (userModel) => emit(Authenticated(user: userModel)));
     }
   }
 

@@ -4,6 +4,7 @@ enum ApplicationFailure {
   invalidReelData,
   invalidCommentData,
   invalidUserData,
+  errorGettingUser
 }
 
 enum AuthFailure {
