@@ -101,7 +101,7 @@ void main() {
 
     group('SignOutRequested', () {
       blocTest<AuthenticationBloc, AuthenticationState>(
-        'calls signout on authenticationService'
+        'Should call signout on authenticationService'
         'when SignOutRequested is added',
         setUp: () => when(() => mockAuthenticationService.signOut())
             .thenAnswer((_) async => Unit),
