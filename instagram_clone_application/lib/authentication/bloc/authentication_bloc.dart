@@ -2,10 +2,12 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_application/user/user_repository.dart';
 import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:meta/meta.dart';
+
+import '../../common/common.dart';
+import '../authentication.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
