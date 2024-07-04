@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
-import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 
-final class FirebaseAuthenticationService extends AuthenticationService {
+final class FirebaseAuthenticationService implements AuthenticationService {
   @override
   // TODO: implement user
   Stream<User?> get user => throw UnimplementedError();
