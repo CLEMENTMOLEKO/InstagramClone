@@ -16,7 +16,7 @@ final class FirebaseAuthenticationService implements AuthenticationService {
 
   @override
   Future<Either<AuthFailure, Unit>> loginWithEmailAndPassword(
-      EmailAddress emailAddress, Password password) async {
+      {required EmailAddress emailAddress, required Password password}) async {
     try {
       await firebaseAuth.signInWithEmailAndPassword(
           email: emailAddress.value, password: password.value);
@@ -27,8 +27,10 @@ final class FirebaseAuthenticationService implements AuthenticationService {
   }
 
   @override
-  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword(
-      EmailAddress emailAddress, Password password) async {
+  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
+    required EmailAddress emailAddress,
+    required Password password,
+  }) async {
     try {
       await firebaseAuth.createUserWithEmailAndPassword(
           email: emailAddress.value, password: password.value);
@@ -74,8 +76,8 @@ final class FirebaseAuthenticationService implements AuthenticationService {
         return AuthFailure.emailAlreadyInUse;
       case "weak-password":
         return AuthFailure.weakPassword;
-      case "invalid-credentia":
-        return AuthFailure.invalidPasswordAndEmailCombination;
+      case "invalid-credential":
+        return AuthFailure.invalidCredentials;
       default:
         return AuthFailure.unexpectedError;
     }

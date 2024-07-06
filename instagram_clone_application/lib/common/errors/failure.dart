@@ -9,6 +9,7 @@ enum ApplicationFailure {
 
 enum AuthFailure {
   invalidPasswordAndEmailCombination,
+  invalidCredentials,
   userCancelledLogin,
   accountLocked,
   unexpectedError,

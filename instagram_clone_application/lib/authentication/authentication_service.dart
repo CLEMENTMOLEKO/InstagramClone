@@ -6,14 +6,14 @@ import '../common/common.dart';
 
 abstract class AuthenticationService {
   Stream<User?> get user;
-  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword(
-    EmailAddress emailAddress,
-    Password password,
-  );
-  Future<Either<AuthFailure, Unit>> loginWithEmailAndPassword(
-    EmailAddress emailAddress,
-    Password password,
-  );
+  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
+    required EmailAddress emailAddress,
+    required Password password,
+  });
+  Future<Either<AuthFailure, Unit>> loginWithEmailAndPassword({
+    required EmailAddress emailAddress,
+    required Password password,
+  });
   Future<Either<AuthFailure, Unit>> signInWithGoogle();
   Future<void> signOut();
 }
