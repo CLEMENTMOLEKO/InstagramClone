@@ -9,4 +9,10 @@ enum ApplicationFailure {
 
 enum AuthFailure {
   invalidPasswordAndEmailCombination,
+  userCancelledLogin,
+  accountLocked,
+  unexpectedError,
+  invalidEmail,
+  emailAlreadyInUse,
+  weakPassword
 }

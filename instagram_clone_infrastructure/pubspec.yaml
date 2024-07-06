@@ -15,6 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  google_sign_in: ^6.2.1
   instagram_clone_application:
     path: ../instagram_clone_application
 

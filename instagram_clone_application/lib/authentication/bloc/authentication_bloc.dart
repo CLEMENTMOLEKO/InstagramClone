@@ -29,14 +29,13 @@ class AuthenticationBloc
     on<SignOutRequested>(_signOutRequested);
   }
 
-  FutureOr<void> _signOutRequested(
-      SignOutRequested event, Emitter<AuthenticationState> emit) {
-    authenticationService.signOut();
+  Future<void> _signOutRequested(
+      SignOutRequested event, Emitter<AuthenticationState> emit) async {
+    await authenticationService.signOut();
     emit(UnAuthenticated());
   }
 
-  FutureOr<void> _onAuthenticationStatusChanged(
-      AuthenticationStatusChanged event,
+  Future<void> _onAuthenticationStatusChanged(AuthenticationStatusChanged event,
       Emitter<AuthenticationState> emit) async {
     if (event.user == null) {
       emit(UnAuthenticated());
