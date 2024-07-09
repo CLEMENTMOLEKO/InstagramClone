@@ -4,13 +4,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../../test_utils/constants/constants.dart';
+
 class MockAuthenticationService extends Mock implements AuthenticationService {}
 
 extension on LoginBloc {
-  void addLoginBlocWith({LoginType loginType = LoginType.emailAndAddress}) {
+  void addLoginBlocWith({
+    LoginType loginType = LoginType.emailAndAddress,
+    String? emailAddress,
+    String? password,
+  }) {
     add(LoginRequested(
-      email: "example@email.com",
-      password: "P@ssword123",
+      email: emailAddress ?? UserDtoConstants.validEmails.first,
+      password: password ?? UserDtoConstants.validPasswords.first,
       type: loginType,
     ));
   }
@@ -19,12 +25,15 @@ extension on LoginBloc {
 void main() {
   late LoginBloc sut;
   late MockAuthenticationService mockAuthenticationService;
-  const testEmail = "example@email.com";
-  const testPassword = "P@ssword123";
 
   setUp(() {
     mockAuthenticationService = MockAuthenticationService();
     sut = LoginBloc(authenticationService: mockAuthenticationService);
+  });
+
+  setUpAll(() {
+    registerFallbackValue(UserDtoConstants.arrangeEmailAddress());
+    registerFallbackValue(UserDtoConstants.arrangePassword());
   });
 
   test(
@@ -44,10 +53,7 @@ void main() {
     blocTest(
       "Should not emit new state when login is requested with current state as LoginStatus.validationFailure",
       seed: () => const LoginState(status: LoginStatus.validationFailure),
-      act: (bloc) => bloc.add(LoginRequested(
-        email: testEmail,
-        password: testPassword,
-      )),
+      act: (bloc) => bloc.addLoginBlocWith(),
       build: () => LoginBloc(
         authenticationService: mockAuthenticationService,
       ),
@@ -79,6 +85,66 @@ void main() {
           ).thenAnswer((_) async => left(AuthFailure.userCancelledLogin));
         },
         act: (bloc) => bloc.addLoginBlocWith(loginType: LoginType.googleSignIn),
+        build: () =>
+            LoginBloc(authenticationService: mockAuthenticationService),
+        expect: () => const <LoginState>[
+          LoginState(status: LoginStatus.inProgress),
+          LoginState(status: LoginStatus.failure),
+        ],
+      );
+    });
+
+    group("LoginWithEmailAddress", () {
+      blocTest(
+        "Should emit [LoginStatus.success] when login type is [LoginType.emailAndAddress] "
+        "and password and email are valid with [loginWithEmailAndPassword] returning [Unit]",
+        setUp: () {
+          when(
+            () => mockAuthenticationService.loginWithEmailAndPassword(
+              emailAddress: any(named: "emailAddress"),
+              password: any(named: "password"),
+            ),
+          ).thenAnswer((_) async => right(unit));
+        },
+        act: (bloc) =>
+            bloc.addLoginBlocWith(loginType: LoginType.emailAndAddress),
+        build: () =>
+            LoginBloc(authenticationService: mockAuthenticationService),
+        expect: () => const <LoginState>[
+          LoginState(status: LoginStatus.inProgress),
+          LoginState(status: LoginStatus.success),
+        ],
+      );
+
+      blocTest(
+        "Should emit [LoginStatus.failure] when login type is [LoginType.emailAndAddress] "
+        "and password and email are valid with [loginWithEmailAndPassword] returning [AuthFailure]",
+        setUp: () {
+          when(
+            () => mockAuthenticationService.loginWithEmailAndPassword(
+              emailAddress: any(named: "emailAddress"),
+              password: any(named: "password"),
+            ),
+          ).thenAnswer((_) async => left(AuthFailure.emailAlreadyInUse));
+        },
+        act: (bloc) =>
+            bloc.addLoginBlocWith(loginType: LoginType.emailAndAddress),
+        build: () =>
+            LoginBloc(authenticationService: mockAuthenticationService),
+        expect: () => const <LoginState>[
+          LoginState(status: LoginStatus.inProgress),
+          LoginState(status: LoginStatus.failure),
+        ],
+      );
+
+      blocTest(
+        "Should emit [LoginStatus.failure] when login type is [LoginType.emailAndAddress] "
+        "and password or email is invalid with [loginWithEmailAndPassword] returning [AuthFailure]",
+        act: (bloc) => bloc.addLoginBlocWith(
+          loginType: LoginType.emailAndAddress,
+          emailAddress: UserDtoConstants.invalidEmails.first,
+          password: UserDtoConstants.invalidPasswords.first,
+        ),
         build: () =>
             LoginBloc(authenticationService: mockAuthenticationService),
         expect: () => const <LoginState>[

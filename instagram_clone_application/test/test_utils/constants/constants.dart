@@ -1,4 +1,5 @@
 import 'package:instagram_clone_application/common/common.dart';
+import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_application/post/post.dart';
 import 'package:instagram_clone_application/reel/reel.dart';
 import 'package:instagram_clone_application/user/user.dart';

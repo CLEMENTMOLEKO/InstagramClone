@@ -92,6 +92,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         (_) => emit(state.copyWith(status: LoginStatus.failure)),
         (_) => emit(state.copyWith(status: LoginStatus.success)),
       );
+    } else {
+      emit(state.copyWith(status: LoginStatus.failure));
     }
   }
 

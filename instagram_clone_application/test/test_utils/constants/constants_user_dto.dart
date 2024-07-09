@@ -17,6 +17,32 @@ extension UserDtoConstants on Constants {
     "username@domain.com."
   };
 
+  static const validPasswords = {
+    "P@ssword123",
+    "12#%*hsjwweP",
+    "Pass()09-+=",
+    "_%^Pass123f-23a"
+  };
+
+  static const invalidPasswords = {
+    "Password1234",
+    "testpassword*()",
+    "testeloawercaseonly890%()",
+    "testNoNumberInPassword*&(@)",
+    "TESTNOLOWERCASE*(*&908)"
+  };
+
+  static EmailAddress arrangeEmailAddress({email = 'test1@example.com'}) {
+    return EmailAddress.create(email: email)
+        .getOrElse(() => throw Exception('Invalid email $email'));
+  }
+
+  static Password arrangePassword({String password = "P@ssword123"}) {
+    final passwordResult = Password.create(password: password);
+    return passwordResult
+        .getOrElse(() => throw Exception("Invalid Password $password"));
+  }
+
   static final userDto = UserDto(
     id: Constants.validUuids.first,
     userName: "Clement Moleko",
