@@ -38,7 +38,9 @@ void main() {
     mockGoogleSignIn = MockGoogleSignIn();
     mockFirebaseAuth = MockFirebaseAuth();
     sut = FirebaseAuthenticationService(
-        firebaseAuth: mockFirebaseAuth, googleSignIn: mockGoogleSignIn);
+      firebaseAuth: mockFirebaseAuth,
+      googleSignIn: mockGoogleSignIn,
+    );
   });
 
   group("LogInWithEmailAndPassword", () {
