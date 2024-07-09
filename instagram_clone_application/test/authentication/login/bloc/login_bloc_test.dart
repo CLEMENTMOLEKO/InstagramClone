@@ -139,7 +139,7 @@ void main() {
 
       blocTest(
         "Should emit [LoginStatus.failure] when login type is [LoginType.emailAndAddress] "
-        "and password or email is invalid with [loginWithEmailAndPassword] returning [AuthFailure]",
+        "and password or email is invalid",
         act: (bloc) => bloc.addLoginBlocWith(
           loginType: LoginType.emailAndAddress,
           emailAddress: UserDtoConstants.invalidEmails.first,
@@ -151,6 +151,12 @@ void main() {
           LoginState(status: LoginStatus.inProgress),
           LoginState(status: LoginStatus.failure),
         ],
+        verify: (_) => verifyNever(
+          () => mockAuthenticationService.loginWithEmailAndPassword(
+            emailAddress: any(named: "emailAddress"),
+            password: any(named: "password"),
+          ),
+        ),
       );
     });
   });
