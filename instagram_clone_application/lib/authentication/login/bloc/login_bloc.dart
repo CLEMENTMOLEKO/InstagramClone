@@ -47,11 +47,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         status: LoginStatus.validationFailure,
         isEmailValid: false,
       ));
-    } else {
+    } else if (state.isPasswordValid) {
       emit(state.copyWith(
         status: LoginStatus.unknown,
         isEmailValid: true,
       ));
+    } else {
+      emit(state.copyWith(isEmailValid: true));
     }
   }
 
@@ -65,11 +67,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         status: LoginStatus.validationFailure,
         isPasswordValid: false,
       ));
-    } else {
+    } else if (state.isEmailValid) {
       emit(state.copyWith(
         status: LoginStatus.unknown,
         isPasswordValid: true,
       ));
+    } else {
+      emit(state.copyWith(isPasswordValid: true));
     }
   }
 

@@ -9,7 +9,7 @@ import '../../../test_utils/constants/constants.dart';
 class MockAuthenticationService extends Mock implements AuthenticationService {}
 
 extension on LoginBloc {
-  void addLoginBlocWith({
+  void addLoginRequestedEventWith({
     LoginType loginType = LoginType.emailAndAddress,
     String? emailAddress,
     String? password,
@@ -53,7 +53,7 @@ void main() {
     blocTest(
       "Should not emit new state when login is requested with current state as LoginStatus.validationFailure",
       seed: () => const LoginState(status: LoginStatus.validationFailure),
-      act: (bloc) => bloc.addLoginBlocWith(),
+      act: (bloc) => bloc.addLoginRequestedEventWith(),
       build: () => LoginBloc(
         authenticationService: mockAuthenticationService,
       ),
@@ -67,7 +67,8 @@ void main() {
           when(() => mockAuthenticationService.signInWithGoogle())
               .thenAnswer((_) async => right(unit));
         },
-        act: (bloc) => bloc.addLoginBlocWith(loginType: LoginType.googleSignIn),
+        act: (bloc) =>
+            bloc.addLoginRequestedEventWith(loginType: LoginType.googleSignIn),
         build: () => LoginBloc(
           authenticationService: mockAuthenticationService,
         ),
@@ -84,7 +85,8 @@ void main() {
             () => mockAuthenticationService.signInWithGoogle(),
           ).thenAnswer((_) async => left(AuthFailure.userCancelledLogin));
         },
-        act: (bloc) => bloc.addLoginBlocWith(loginType: LoginType.googleSignIn),
+        act: (bloc) =>
+            bloc.addLoginRequestedEventWith(loginType: LoginType.googleSignIn),
         build: () =>
             LoginBloc(authenticationService: mockAuthenticationService),
         expect: () => const <LoginState>[
@@ -106,8 +108,8 @@ void main() {
             ),
           ).thenAnswer((_) async => right(unit));
         },
-        act: (bloc) =>
-            bloc.addLoginBlocWith(loginType: LoginType.emailAndAddress),
+        act: (bloc) => bloc.addLoginRequestedEventWith(
+            loginType: LoginType.emailAndAddress),
         build: () =>
             LoginBloc(authenticationService: mockAuthenticationService),
         expect: () => const <LoginState>[
@@ -127,8 +129,8 @@ void main() {
             ),
           ).thenAnswer((_) async => left(AuthFailure.emailAlreadyInUse));
         },
-        act: (bloc) =>
-            bloc.addLoginBlocWith(loginType: LoginType.emailAndAddress),
+        act: (bloc) => bloc.addLoginRequestedEventWith(
+            loginType: LoginType.emailAndAddress),
         build: () =>
             LoginBloc(authenticationService: mockAuthenticationService),
         expect: () => const <LoginState>[
@@ -140,7 +142,7 @@ void main() {
       blocTest(
         "Should emit [LoginStatus.failure] when login type is [LoginType.emailAndAddress] "
         "and password or email is invalid",
-        act: (bloc) => bloc.addLoginBlocWith(
+        act: (bloc) => bloc.addLoginRequestedEventWith(
           loginType: LoginType.emailAndAddress,
           emailAddress: UserDtoConstants.invalidEmails.first,
           password: UserDtoConstants.invalidPasswords.first,
@@ -157,6 +159,99 @@ void main() {
             password: any(named: "password"),
           ),
         ),
+      );
+    });
+
+    group("EmailChanged", () {
+      blocTest(
+        "Should emit state with [LoginStatus.validationFailure] and isEmailValid false "
+        "when email is invalid",
+        act: (bloc) =>
+            bloc.add(EmailChanged(email: UserDtoConstants.invalidEmails.first)),
+        build: () =>
+            LoginBloc(authenticationService: mockAuthenticationService),
+        expect: () => const <LoginState>[
+          LoginState(status: LoginStatus.validationFailure)
+        ],
+      );
+
+      blocTest(
+        "Should emit state with [LoginStatus.unknown] and isEmailValid true"
+        "when email is valid and current state has password as valid.",
+        seed: () => const LoginState(isPasswordValid: true),
+        act: (bloc) =>
+            bloc.add(EmailChanged(email: UserDtoConstants.validEmails.first)),
+        build: () =>
+            LoginBloc(authenticationService: mockAuthenticationService),
+        expect: () => const <LoginState>[
+          LoginState(
+            status: LoginStatus.unknown,
+            isEmailValid: true,
+            isPasswordValid: true,
+          )
+        ],
+      );
+
+      blocTest(
+        "Should emit current state with isEmailValid true"
+        "when email is valid but password is invalid",
+        seed: () => const LoginState(status: LoginStatus.validationFailure),
+        act: (bloc) =>
+            bloc.add(EmailChanged(email: UserDtoConstants.validEmails.first)),
+        build: () =>
+            LoginBloc(authenticationService: mockAuthenticationService),
+        expect: () => const <LoginState>[
+          LoginState(
+            status: LoginStatus.validationFailure,
+            isEmailValid: true,
+          )
+        ],
+      );
+    });
+    group("PasswordChanged", () {
+      blocTest(
+        "Should emit state with [LoginStatus.validationFailure] and isPasswordValid false "
+        "when password is invalid",
+        act: (bloc) => bloc.add(
+            PasswordChanged(password: UserDtoConstants.invalidPasswords.first)),
+        build: () =>
+            LoginBloc(authenticationService: mockAuthenticationService),
+        expect: () => const <LoginState>[
+          LoginState(status: LoginStatus.validationFailure)
+        ],
+      );
+
+      blocTest(
+        "Should emit state with [LoginStatus.unknown] and isPasswordValid true"
+        "when password is valid and current state has email as valid.",
+        seed: () => const LoginState(isEmailValid: true),
+        act: (bloc) => bloc.add(
+            PasswordChanged(password: UserDtoConstants.validPasswords.first)),
+        build: () =>
+            LoginBloc(authenticationService: mockAuthenticationService),
+        expect: () => const <LoginState>[
+          LoginState(
+            status: LoginStatus.unknown,
+            isEmailValid: true,
+            isPasswordValid: true,
+          )
+        ],
+      );
+
+      blocTest(
+        "Should emit current state with isEmailValid true"
+        "when email is valid but password is invalid",
+        seed: () => const LoginState(status: LoginStatus.validationFailure),
+        act: (bloc) => bloc.add(
+            PasswordChanged(password: UserDtoConstants.validPasswords.first)),
+        build: () =>
+            LoginBloc(authenticationService: mockAuthenticationService),
+        expect: () => const <LoginState>[
+          LoginState(
+            status: LoginStatus.validationFailure,
+            isPasswordValid: true,
+          )
+        ],
       );
     });
   });
