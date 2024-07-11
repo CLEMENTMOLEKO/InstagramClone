@@ -65,7 +65,7 @@ void main() {
     );
 
     blocTest<AuthenticationBloc, AuthenticationState>(
-      'emits [authenticated] when user is user',
+      'emits [authenticated] when user is user[not null]',
       setUp: () {
         when(() => mockAuthenticationService.user).thenAnswer(
           (_) => Stream.value(mockUser),

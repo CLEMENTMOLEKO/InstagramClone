@@ -3,9 +3,9 @@ part of 'authentication_bloc.dart';
 @immutable
 sealed class AuthenticationEvent extends Equatable {}
 
-final class AuthenticationStatusChanged extends AuthenticationEvent {
+final class _AuthenticationStatusChanged extends AuthenticationEvent {
   final User? user;
-  AuthenticationStatusChanged({required this.user});
+  _AuthenticationStatusChanged({required this.user});
   @override
   List<Object?> get props => [user];
 }

@@ -23,9 +23,9 @@ class AuthenticationBloc
     required this.userRepository,
   }) : super(AuthenticationInitial()) {
     _userStreamSubscription = authenticationService.user.listen((user) {
-      add(AuthenticationStatusChanged(user: user));
+      add(_AuthenticationStatusChanged(user: user));
     });
-    on<AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
+    on<_AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
     on<SignOutRequested>(_signOutRequested);
   }
 
@@ -35,7 +35,8 @@ class AuthenticationBloc
     emit(UnAuthenticated());
   }
 
-  Future<void> _onAuthenticationStatusChanged(AuthenticationStatusChanged event,
+  Future<void> _onAuthenticationStatusChanged(
+      _AuthenticationStatusChanged event,
       Emitter<AuthenticationState> emit) async {
     if (event.user == null) {
       emit(UnAuthenticated());
