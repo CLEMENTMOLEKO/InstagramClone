@@ -19,6 +19,7 @@ dependencies:
     sdk: flutter
 
   #project dependencies
+  formz: ^0.7.0
   instagram_clone_domain:
     path: ../instagram_clone_domain
   intl: ^0.19.0
