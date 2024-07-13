@@ -1,31 +1,35 @@
 part of 'login_bloc.dart';
 
-enum LoginStatus { inProgress, failure, validationFailure, success, unknown }
-
 @immutable
 final class LoginState extends Equatable {
-  final LoginStatus status;
-  final bool isEmailValid;
-  final bool isPasswordValid;
+  final FormzSubmissionStatus formzSubmissionStatus;
+  final PasswordInput passwordInput;
+  final EmailInput emailInput;
+  final bool isValid;
 
   const LoginState({
-    this.status = LoginStatus.unknown,
-    this.isEmailValid = false,
-    this.isPasswordValid = false,
+    this.formzSubmissionStatus = FormzSubmissionStatus.initial,
+    this.passwordInput = const PasswordInput.pure(),
+    this.emailInput = const EmailInput.pure(),
+    this.isValid = false,
   });
 
   LoginState copyWith({
-    LoginStatus? status,
-    bool? isEmailValid,
-    bool? isPasswordValid,
+    FormzSubmissionStatus? formzSubmissionStatus,
+    PasswordInput? passwordInput,
+    EmailInput? emailInput,
+    bool? isValid,
   }) {
     return LoginState(
-      status: status ?? this.status,
-      isEmailValid: isEmailValid ?? this.isEmailValid,
-      isPasswordValid: isPasswordValid ?? this.isPasswordValid,
+      formzSubmissionStatus:
+          formzSubmissionStatus ?? this.formzSubmissionStatus,
+      passwordInput: passwordInput ?? this.passwordInput,
+      emailInput: emailInput ?? this.emailInput,
+      isValid: isValid ?? this.isValid,
     );
   }
 
   @override
-  List<Object?> get props => [status, isEmailValid, isPasswordValid];
+  List<Object?> get props =>
+      [formzSubmissionStatus, passwordInput, emailInput, isValid];
 }

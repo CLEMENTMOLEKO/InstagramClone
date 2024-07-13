@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:formz/formz.dart';
 import 'package:instagram_clone_application/authentication/authentication.dart';
+import 'package:instagram_clone_application/authentication/validators/email_input_validator.dart';
+import 'package:instagram_clone_application/authentication/validators/password_input_validator.dart';
 import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:instagram_clone_domain/user/user.dart';
 import 'package:meta/meta.dart';
@@ -24,8 +27,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginRequested event,
     Emitter<LoginState> emit,
   ) async {
-    if (state.status == LoginStatus.validationFailure) return;
-    emit(state.copyWith(status: LoginStatus.inProgress));
+    if (!state.isValid) return;
+
+    emit(state.copyWith(
+        formzSubmissionStatus: FormzSubmissionStatus.inProgress));
     if (event.type == LoginType.googleSignIn) {
       await _signInWithGoogle(emit);
     } else {
@@ -41,40 +46,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     EmailChanged event,
     Emitter<LoginState> emit,
   ) {
-    final createEmailResult = EmailAddress.create(email: event.email);
-    if (createEmailResult.isLeft()) {
-      emit(state.copyWith(
-        status: LoginStatus.validationFailure,
-        isEmailValid: false,
-      ));
-    } else if (state.isPasswordValid) {
-      emit(state.copyWith(
-        status: LoginStatus.unknown,
-        isEmailValid: true,
-      ));
-    } else {
-      emit(state.copyWith(isEmailValid: true));
-    }
+    final emailInput = EmailInput.dirty(value: event.email);
+    emit(state.copyWith(
+      emailInput: emailInput,
+      isValid: Formz.validate([emailInput, state.passwordInput]),
+    ));
   }
 
   void _passwordChanged(
     PasswordChanged event,
     Emitter<LoginState> emit,
   ) {
-    final createPasswordResult = Password.create(password: event.password);
-    if (createPasswordResult.isLeft()) {
-      emit(state.copyWith(
-        status: LoginStatus.validationFailure,
-        isPasswordValid: false,
-      ));
-    } else if (state.isEmailValid) {
-      emit(state.copyWith(
-        status: LoginStatus.unknown,
-        isPasswordValid: true,
-      ));
-    } else {
-      emit(state.copyWith(isPasswordValid: true));
-    }
+    final passwordInput = PasswordInput.dirty(value: event.password);
+    emit(state.copyWith(
+      passwordInput: passwordInput,
+      isValid: Formz.validate([passwordInput, state.emailInput]),
+    ));
   }
 
   Future<void> _loginWithEmailAndPassword({
@@ -86,26 +73,36 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final createPasswordResult = Password.create(password: password);
     if (createEmailResult.isRight() && createPasswordResult.isRight()) {
       final loginResult = await authenticationService.loginWithEmailAndPassword(
-        emailAddress: createEmailResult.getOrElse(
-            () => throw Exception("Erro occured using email address to login")),
+        emailAddress: createEmailResult.getOrElse(() =>
+            throw Exception("Error occured using email address to login")),
         password: createPasswordResult.getOrElse(
             () => throw Exception("Error occured using password to login")),
       );
 
       loginResult.fold(
-        (_) => emit(state.copyWith(status: LoginStatus.failure)),
-        (_) => emit(state.copyWith(status: LoginStatus.success)),
+        (_) => emit(state.copyWith(
+          formzSubmissionStatus: FormzSubmissionStatus.failure,
+        )),
+        (_) => emit(state.copyWith(
+          formzSubmissionStatus: FormzSubmissionStatus.success,
+        )),
       );
     } else {
-      emit(state.copyWith(status: LoginStatus.failure));
+      emit(state.copyWith(
+        formzSubmissionStatus: FormzSubmissionStatus.failure,
+      ));
     }
   }
 
   Future<void> _signInWithGoogle(Emitter<LoginState> emit) async {
     final loginResult = await authenticationService.signInWithGoogle();
     loginResult.fold(
-      (_) => emit(state.copyWith(status: LoginStatus.failure)),
-      (_) => emit(state.copyWith(status: LoginStatus.success)),
+      (_) => emit(state.copyWith(
+        formzSubmissionStatus: FormzSubmissionStatus.failure,
+      )),
+      (_) => emit(state.copyWith(
+        formzSubmissionStatus: FormzSubmissionStatus.success,
+      )),
     );
   }
 }
