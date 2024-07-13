@@ -175,8 +175,7 @@ void main() {
         "when email is valid. and password is valid",
         seed: () => LoginState(
           formzSubmissionStatus: FormzSubmissionStatus.canceled,
-          passwordInput:
-              PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
+          passwordInput: ValidatorsConstants.validPasswordInput,
         ),
         act: (bloc) =>
             bloc.add(EmailChanged(email: UserDtoConstants.validEmails.first)),
@@ -185,10 +184,8 @@ void main() {
         expect: () => <LoginState>[
           LoginState(
             formzSubmissionStatus: FormzSubmissionStatus.canceled,
-            passwordInput: PasswordInput.dirty(
-                value: UserDtoConstants.validPasswords.first),
-            emailInput:
-                EmailInput.dirty(value: UserDtoConstants.validEmails.first),
+            passwordInput: ValidatorsConstants.validPasswordInput,
+            emailInput: ValidatorsConstants.validEmailInput,
             isValid: true,
           )
         ],
@@ -197,19 +194,16 @@ void main() {
       blocTest(
         "Should emit current state with isValid false"
         "when email is valid but password is invalid",
-        seed: () => LoginState(
-            passwordInput: PasswordInput.dirty(
-                value: UserDtoConstants.invalidPasswords.first)),
+        seed: () =>
+            LoginState(passwordInput: ValidatorsConstants.invalidPasswordInput),
         act: (bloc) =>
             bloc.add(EmailChanged(email: UserDtoConstants.validEmails.first)),
         build: () =>
             LoginBloc(authenticationService: mockAuthenticationService),
         expect: () => <LoginState>[
           LoginState(
-            passwordInput: PasswordInput.dirty(
-                value: UserDtoConstants.invalidPasswords.first),
-            emailInput:
-                EmailInput.dirty(value: UserDtoConstants.validEmails.first),
+            passwordInput: ValidatorsConstants.invalidPasswordInput,
+            emailInput: ValidatorsConstants.validEmailInput,
           )
         ],
       );
@@ -227,8 +221,7 @@ void main() {
         expect: () => <LoginState>[
           LoginState(
             formzSubmissionStatus: FormzSubmissionStatus.canceled,
-            passwordInput: PasswordInput.dirty(
-                value: UserDtoConstants.invalidPasswords.first),
+            passwordInput: ValidatorsConstants.invalidPasswordInput,
           )
         ],
       );
@@ -237,8 +230,7 @@ void main() {
         "Should emit state with current state and isValid true"
         "when password is valid and current state has email as valid.",
         seed: () => LoginState(
-          emailInput:
-              EmailInput.dirty(value: UserDtoConstants.validEmails.first),
+          emailInput: ValidatorsConstants.validEmailInput,
         ),
         act: (bloc) => bloc.add(
             PasswordChanged(password: UserDtoConstants.validPasswords.first)),
@@ -247,10 +239,8 @@ void main() {
         expect: () => <LoginState>[
           LoginState(
             isValid: true,
-            passwordInput: PasswordInput.dirty(
-                value: UserDtoConstants.validPasswords.first),
-            emailInput:
-                EmailInput.dirty(value: UserDtoConstants.validEmails.first),
+            passwordInput: ValidatorsConstants.validPasswordInput,
+            emailInput: ValidatorsConstants.validEmailInput,
           )
         ],
       );

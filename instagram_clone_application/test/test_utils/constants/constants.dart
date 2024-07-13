@@ -1,3 +1,5 @@
+import 'package:instagram_clone_application/authentication/validators/email_input_validator.dart';
+import 'package:instagram_clone_application/authentication/validators/password_input_validator.dart';
 import 'package:instagram_clone_application/common/common.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_application/post/post.dart';
@@ -8,6 +10,7 @@ part 'constants_comment_dto.dart';
 part 'constants_post_dto.dart';
 part 'constants_reel_dto.dart';
 part 'constants_user_dto.dart';
+part 'constants_validators.dart';
 
 final class Constants {
   static const validUuids = {
