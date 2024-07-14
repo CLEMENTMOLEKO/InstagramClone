@@ -19,14 +19,14 @@ class SignUpRequested extends SignUpEvent {
   });
 }
 
-class EmailChanged extends SignUpEvent {
+class SignUpEmailChanged extends SignUpEvent {
   final String email;
 
-  EmailChanged({required this.email});
+  SignUpEmailChanged({required this.email});
 }
 
-class PasswordChanged extends SignUpEvent {
+class SignUpPasswordChanged extends SignUpEvent {
   final String password;
 
-  PasswordChanged({required this.password});
+  SignUpPasswordChanged({required this.password});
 }

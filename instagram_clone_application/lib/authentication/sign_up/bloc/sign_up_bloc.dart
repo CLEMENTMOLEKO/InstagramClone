@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:instagram_clone_application/authentication/validators/email_input_validator.dart';
-import 'package:instagram_clone_application/authentication/validators/password_input_validator.dart';
 import 'package:meta/meta.dart';
+
+import '../../authentication.dart';
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';

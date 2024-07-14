@@ -2,8 +2,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
-import 'package:instagram_clone_application/authentication/validators/email_input_validator.dart';
-import 'package:instagram_clone_application/authentication/validators/password_input_validator.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:mocktail/mocktail.dart';
 
