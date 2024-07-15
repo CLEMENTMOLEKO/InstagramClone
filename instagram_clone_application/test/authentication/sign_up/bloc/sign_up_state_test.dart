@@ -47,4 +47,36 @@ void main() {
     //Assert
     expect(sut, isNot(equals(signUpSate1)));
   });
+
+  group("CopyWith", () {
+    test("Should return current state when called without any different values",
+        () {
+      //Arrange
+      const signUpState = SignUpState();
+      //Act
+      //Assert
+      expect(signUpState, signUpState.copyWith());
+    });
+
+    test(
+        "Should not return current state when called with any different values",
+        () {
+      //Arrange
+      const signUpState = SignUpState();
+      //Act
+      //Assert
+      expect(
+        signUpState,
+        isNot(equals(signUpState.copyWith(
+          formzSubmissionStatus: FormzSubmissionStatus.canceled,
+          passwordInput:
+              PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
+          emailInput:
+              EmailInput.dirty(value: UserDtoConstants.validEmails.first),
+          userName: "Clement",
+          isValid: true,
+        ))),
+      );
+    });
+  });
 }
