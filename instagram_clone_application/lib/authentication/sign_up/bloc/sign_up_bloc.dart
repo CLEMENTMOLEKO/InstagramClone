@@ -34,8 +34,11 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     await _registerWithEmailAndPassword(event.email, event.password, emit);
   }
 
-  _registerWithEmailAndPassword(
-      String email, String password, Emitter<SignUpState> emit) async {
+  Future<void> _registerWithEmailAndPassword(
+    String email,
+    String password,
+    Emitter<SignUpState> emit,
+  ) async {
     final createEmailResult = EmailAddress.create(email: email);
     final createPasswordResult = Password.create(password: password);
     if (createEmailResult.isRight() && createPasswordResult.isRight()) {
