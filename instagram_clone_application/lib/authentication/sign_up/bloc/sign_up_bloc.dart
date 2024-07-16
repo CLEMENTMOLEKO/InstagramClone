@@ -13,15 +13,13 @@ part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final AuthenticationService authenticationService;
-  final UserRepository userRepository;
   SignUpBloc({
     required this.authenticationService,
-    required this.userRepository,
   }) : super(const SignUpState()) {
     on<SignUpRequested>(_signUpRequested);
-    on<SignUpEmailChanged>((event, emit) {});
-    on<SignUpPasswordChanged>((event, emit) {});
-    on<UserNameChanged>((event, emit) {});
+    on<SignUpEmailChanged>(_signUpEmailChanged);
+    on<SignUpPasswordChanged>(_signUpPasswordChanged);
+    on<UserNameChanged>(_userNameChanged);
   }
 
   Future<void> _signUpRequested(
@@ -32,6 +30,35 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     emit(state.copyWith(
         formzSubmissionStatus: FormzSubmissionStatus.inProgress));
     await _registerWithEmailAndPassword(event.email, event.password, emit);
+  }
+
+  void _signUpEmailChanged(
+    SignUpEmailChanged event,
+    Emitter<SignUpState> emit,
+  ) {
+    final emailInput = EmailInput.dirty(value: event.email);
+    emit(state.copyWith(
+      emailInput: emailInput,
+      isValid: Formz.validate([emailInput, state.passwordInput]),
+    ));
+  }
+
+  void _signUpPasswordChanged(
+    SignUpPasswordChanged event,
+    Emitter<SignUpState> emit,
+  ) {
+    final passwordInput = PasswordInput.dirty(value: event.password);
+    emit(state.copyWith(
+      passwordInput: passwordInput,
+      isValid: Formz.validate([passwordInput, state.passwordInput]),
+    ));
+  }
+
+  void _userNameChanged(
+    UserNameChanged event,
+    Emitter<SignUpState> emit,
+  ) {
+    emit(state.copyWith(userName: event.userName));
   }
 
   Future<void> _registerWithEmailAndPassword(
