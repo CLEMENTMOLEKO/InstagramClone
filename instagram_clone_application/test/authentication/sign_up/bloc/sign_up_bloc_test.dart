@@ -162,4 +162,131 @@ void main() {
       ],
     );
   });
+
+  group("SignUpPasswordChanged", () {
+    blocTest(
+      "Should emit current state with isValid false if password is invalid and email was invalid",
+      seed: () => SignUpState(
+        emailInput:
+            EmailInput.dirty(value: UserDtoConstants.invalidEmails.first),
+      ),
+      act: (bloc) => bloc.add(SignUpPasswordChanged(
+          password: UserDtoConstants.invalidPasswords.first)),
+      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      expect: () => <SignUpState>[
+        SignUpState(
+          passwordInput: PasswordInput.dirty(
+              value: UserDtoConstants.invalidPasswords.first),
+          emailInput:
+              EmailInput.dirty(value: UserDtoConstants.invalidEmails.first),
+        )
+      ],
+    );
+
+    blocTest(
+      "Should emit current state with isValid false if password is invalid and email was valid",
+      seed: () => SignUpState(
+        emailInput: EmailInput.dirty(value: UserDtoConstants.validEmails.first),
+      ),
+      act: (bloc) => bloc.add(SignUpPasswordChanged(
+          password: UserDtoConstants.invalidPasswords.first)),
+      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      expect: () => <SignUpState>[
+        SignUpState(
+          passwordInput: PasswordInput.dirty(
+              value: UserDtoConstants.invalidPasswords.first),
+          emailInput:
+              EmailInput.dirty(value: UserDtoConstants.validEmails.first),
+        )
+      ],
+    );
+
+    blocTest(
+      "Should emit current state with isValid true if password is valid and email was valid",
+      seed: () => SignUpState(
+        emailInput: EmailInput.dirty(value: UserDtoConstants.validEmails.first),
+      ),
+      act: (bloc) => bloc.add(SignUpPasswordChanged(
+          password: UserDtoConstants.validPasswords.first)),
+      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      expect: () => <SignUpState>[
+        SignUpState(
+          passwordInput:
+              PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
+          emailInput:
+              EmailInput.dirty(value: UserDtoConstants.validEmails.first),
+          isValid: true,
+        )
+      ],
+    );
+  });
+  group("SignUpEmailChanged", () {
+    blocTest(
+      "Should emit current state with isValid false if email is invalid and password was invalid",
+      seed: () => SignUpState(
+        passwordInput:
+            PasswordInput.dirty(value: UserDtoConstants.invalidPasswords.first),
+      ),
+      act: (bloc) => bloc
+          .add(SignUpEmailChanged(email: UserDtoConstants.invalidEmails.first)),
+      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      expect: () => <SignUpState>[
+        SignUpState(
+          passwordInput: PasswordInput.dirty(
+              value: UserDtoConstants.invalidPasswords.first),
+          emailInput:
+              EmailInput.dirty(value: UserDtoConstants.invalidEmails.first),
+        )
+      ],
+    );
+
+    blocTest(
+      "Should emit current state with isValid false if email is invalid and password was valid",
+      seed: () => SignUpState(
+        passwordInput:
+            PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
+      ),
+      act: (bloc) => bloc
+          .add(SignUpEmailChanged(email: UserDtoConstants.invalidEmails.first)),
+      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      expect: () => <SignUpState>[
+        SignUpState(
+          passwordInput:
+              PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
+          emailInput:
+              EmailInput.dirty(value: UserDtoConstants.invalidEmails.first),
+        )
+      ],
+    );
+
+    blocTest(
+      "Should emit current state with isValid true if email is valid and password was valid",
+      seed: () => SignUpState(
+        passwordInput:
+            PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
+      ),
+      act: (bloc) => bloc
+          .add(SignUpEmailChanged(email: UserDtoConstants.validEmails.first)),
+      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      expect: () => <SignUpState>[
+        SignUpState(
+          passwordInput:
+              PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
+          emailInput:
+              EmailInput.dirty(value: UserDtoConstants.validEmails.first),
+          isValid: true,
+        )
+      ],
+    );
+  });
+
+  group("UserNameChanged", () {
+    const userName = "Clement";
+    blocTest(
+      "Should emit current state with changed userName",
+      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      act: (bloc) => bloc.add(UserNameChanged(userName: userName)),
+      expect: () => const <SignUpState>[SignUpState(userName: userName)],
+    );
+  });
 }

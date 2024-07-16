@@ -5,7 +5,6 @@ import 'package:formz/formz.dart';
 import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:meta/meta.dart';
 
-import '../../../user/user_repository.dart';
 import '../../authentication.dart';
 
 part 'sign_up_event.dart';
@@ -50,7 +49,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     final passwordInput = PasswordInput.dirty(value: event.password);
     emit(state.copyWith(
       passwordInput: passwordInput,
-      isValid: Formz.validate([passwordInput, state.passwordInput]),
+      isValid: Formz.validate([passwordInput, state.emailInput]),
     ));
   }
 
