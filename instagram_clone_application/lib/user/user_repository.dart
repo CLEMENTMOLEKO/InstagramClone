@@ -10,5 +10,5 @@ abstract class UserRepository {
   /// [addUser] returns Either an [ApplicationFailure] or [Unit],
   /// returns [ApplicationFailure] if add user was unsuccessful and
   /// returns [Unit] after adding user to database.
-  Future<Either<ApplicationFailure, UserModel>> addUser(UserModel userId);
+  Future<Either<ApplicationFailure, Unit>> addUser(UserModel userModel);
 }

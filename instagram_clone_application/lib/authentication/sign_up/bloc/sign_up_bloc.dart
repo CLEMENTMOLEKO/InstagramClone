@@ -70,10 +70,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     if (createEmailResult.isRight() && createPasswordResult.isRight()) {
       final registerResult =
           await authenticationService.registerWithEmailAndPassword(
-        emailAddress: createEmailResult.getOrElse(() =>
-            throw Exception("Error occured using email address to login")),
-        password: createPasswordResult.getOrElse(
-            () => throw Exception("Error occured using password to login")),
+        emailAddress: createEmailResult.getOrElse(() => throw Exception(
+            "Error occured using email address to register user")),
+        password: createPasswordResult.getOrElse(() =>
+            throw Exception("Error occured using password to register user")),
       );
 
       registerResult.fold(
