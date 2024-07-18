@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:instagram_clone_application/user/user_repository.dart';
 import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:meta/meta.dart';
 
@@ -12,8 +13,11 @@ part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final AuthenticationService authenticationService;
+  final UserRepository userRepository;
+
   SignUpBloc({
     required this.authenticationService,
+    required this.userRepository,
   }) : super(const SignUpState()) {
     on<SignUpRequested>(_signUpRequested);
     on<SignUpEmailChanged>(_signUpEmailChanged);
@@ -68,10 +72,11 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     final createEmailResult = EmailAddress.create(email: email);
     final createPasswordResult = Password.create(password: password);
     if (createEmailResult.isRight() && createPasswordResult.isRight()) {
+      final emailAddress = createEmailResult.getOrElse(() => throw Exception(
+          "Error occured using email address to register user"));
       final registerResult =
           await authenticationService.registerWithEmailAndPassword(
-        emailAddress: createEmailResult.getOrElse(() => throw Exception(
-            "Error occured using email address to register user")),
+        emailAddress: emailAddress,
         password: createPasswordResult.getOrElse(() =>
             throw Exception("Error occured using password to register user")),
       );
@@ -79,13 +84,37 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       registerResult.fold(
         (failure) => emit(state.copyWith(
             formzSubmissionStatus: FormzSubmissionStatus.failure)),
-        (success) => emit(
-          state.copyWith(formzSubmissionStatus: FormzSubmissionStatus.success),
-        ),
+        (userId) {
+          _addUserToFirebaseUserDb(userId, emailAddress);
+
+          emit(
+            state.copyWith(
+                formzSubmissionStatus: FormzSubmissionStatus.success),
+          );
+        },
       );
     } else {
       emit(
           state.copyWith(formzSubmissionStatus: FormzSubmissionStatus.failure));
     }
+  }
+
+  Future<void> _addUserToFirebaseUserDb(
+    String uid,
+    EmailAddress emailAddres,
+  ) async {
+    final userModel = UserModel.createUser(
+        userId: UserId.create(value: uid)
+            .getOrElse(() => throw Exception("Error creating user")),
+        userName: state.userName,
+        bio: "",
+        avatarUrl: "",
+        emailAddress: emailAddres,
+        joined: DateTime.now());
+
+    await userRepository.addUser(
+      userModel: userModel
+          .getOrElse(() => throw Exception("Error creating userModel")),
+    );
   }
 }

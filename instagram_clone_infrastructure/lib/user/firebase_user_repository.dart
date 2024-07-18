@@ -13,7 +13,9 @@ class FirebaseUserRepository implements UserRepository {
 
   /// Adds the [UserModel] into the database
   @override
-  Future<Either<ApplicationFailure, Unit>> addUser(UserModel userModel) async {
+  Future<Either<ApplicationFailure, Unit>> addUser({
+    required UserModel userModel,
+  }) async {
     await _firebaseFirestore
         .collection(userDb)
         .doc(userModel.id.value)
@@ -23,7 +25,9 @@ class FirebaseUserRepository implements UserRepository {
   }
 
   @override
-  Future<Either<ApplicationFailure, UserModel>> getUser(String userId) async {
+  Future<Either<ApplicationFailure, UserModel>> getUser({
+    required String userId,
+  }) async {
     final userDocumentSnapShot =
         await _firebaseFirestore.collection(userDb).doc(userId).get();
     if (userDocumentSnapShot.exists) {

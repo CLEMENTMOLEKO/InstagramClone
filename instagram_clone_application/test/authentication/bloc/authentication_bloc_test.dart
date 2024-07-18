@@ -70,7 +70,7 @@ void main() {
         when(() => mockAuthenticationService.user).thenAnswer(
           (_) => Stream.value(mockUser),
         );
-        when(() => mockUserRepository.getUser(any()))
+        when(() => mockUserRepository.getUser(userId: any(named: "userId")))
             .thenAnswer((_) async => right(userModel));
       },
       build: () => AuthenticationBloc(
@@ -87,8 +87,9 @@ void main() {
           when(() => mockAuthenticationService.user).thenAnswer(
             (_) => Stream.value(mockUser),
           );
-          when(() => mockUserRepository.getUser(any())).thenAnswer(
-              (_) async => left(ApplicationFailure.errorGettingUser));
+          when(
+            () => mockUserRepository.getUser(userId: any(named: "userId")),
+          ).thenAnswer((_) async => left(ApplicationFailure.errorGettingUser));
         },
         build: () => AuthenticationBloc(
           authenticationService: mockAuthenticationService,

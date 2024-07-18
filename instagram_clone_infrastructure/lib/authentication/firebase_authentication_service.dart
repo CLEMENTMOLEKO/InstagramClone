@@ -27,14 +27,16 @@ final class FirebaseAuthenticationService implements AuthenticationService {
   }
 
   @override
-  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
+  Future<Either<AuthFailure, String>> registerWithEmailAndPassword({
     required EmailAddress emailAddress,
     required Password password,
   }) async {
     try {
-      await firebaseAuth.createUserWithEmailAndPassword(
-          email: emailAddress.value, password: password.value);
-      return right(unit);
+      final registerResults = await firebaseAuth.createUserWithEmailAndPassword(
+        email: emailAddress.value,
+        password: password.value,
+      );
+      return right(registerResults.user!.uid);
     } on FirebaseAuthException catch (e) {
       return left(_handleErrorCodes(code: e.code));
     }

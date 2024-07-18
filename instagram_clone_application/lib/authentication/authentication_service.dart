@@ -9,9 +9,9 @@ abstract class AuthenticationService {
   /// stream returns user if authenitcation or null if not.
   Stream<User?> get user;
 
-  /// [registerWithEmailAndPassword] returns either an [AuthFailure] or [Unit]
-  /// returns [Unit] if registration was successful and [AuthFailure] if not.
-  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
+  /// [registerWithEmailAndPassword] returns either an [AuthFailure] or [String] (Uid)
+  /// returns [String] (Uid) if registration was successful and [AuthFailure] if not.
+  Future<Either<AuthFailure, String>> registerWithEmailAndPassword({
     required EmailAddress emailAddress,
     required Password password,
   });

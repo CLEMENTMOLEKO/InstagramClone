@@ -41,7 +41,8 @@ class AuthenticationBloc
     if (event.user == null) {
       emit(UnAuthenticated());
     } else {
-      final getUserResult = await userRepository.getUser(event.user!.uid);
+      final getUserResult =
+          await userRepository.getUser(userId: event.user!.uid);
       getUserResult.fold(
           (failure) => emit(AuthenticationFailed(failure: failure)),
           (userModel) => emit(Authenticated(user: userModel)));

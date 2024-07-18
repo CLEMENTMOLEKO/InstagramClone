@@ -3,11 +3,14 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
+import 'package:instagram_clone_application/user/user_repository.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../test_utils/constants/constants.dart';
 
 class MockAuthenticationService extends Mock implements AuthenticationService {}
+
+class MockUserRepository extends Mock implements UserRepository {}
 
 extension on SignUpBloc {
   void addSignUpRequestedWith({
@@ -25,17 +28,24 @@ extension on SignUpBloc {
 void main() {
   late SignUpBloc sut;
   late MockAuthenticationService mockAuthenticationService;
+  late MockUserRepository mockUserRepository;
 
   setUp(() {
     mockAuthenticationService = MockAuthenticationService();
+    mockUserRepository = MockUserRepository();
     sut = SignUpBloc(
       authenticationService: mockAuthenticationService,
+      userRepository: mockUserRepository,
     );
   });
 
   setUpAll(() {
     registerFallbackValue(UserDtoConstants.arrangeEmailAddress());
     registerFallbackValue(UserDtoConstants.arrangePassword());
+    registerFallbackValue(
+      UserDtoConstants.userDto.toDomainUser().getOrElse(
+          () => throw Exception("Error registerFallback for userModel")),
+    );
   });
 
   test(
@@ -54,9 +64,7 @@ void main() {
     blocTest(
       "Should not emit new state when state is invalid",
       act: (bloc) => bloc.addSignUpRequestedWith(),
-      build: () => SignUpBloc(
-        authenticationService: mockAuthenticationService,
-      ),
+      build: () => sut,
       expect: () => const <SignUpState>[],
     );
 
@@ -73,9 +81,7 @@ void main() {
         ).thenAnswer((_) async => left(AuthFailure.emailAlreadyInUse));
       },
       act: (bloc) => bloc.addSignUpRequestedWith(),
-      build: () => SignUpBloc(
-        authenticationService: mockAuthenticationService,
-      ),
+      build: () => sut,
       expect: () => const <SignUpState>[
         SignUpState(
           formzSubmissionStatus: FormzSubmissionStatus.inProgress,
@@ -98,12 +104,13 @@ void main() {
             emailAddress: any(named: "emailAddress"),
             password: any(named: "password"),
           ),
+        ).thenAnswer((_) async => right(Constants.validUuids.first));
+        when(
+          () => mockUserRepository.addUser(userModel: any(named: "userModel")),
         ).thenAnswer((_) async => right(unit));
       },
       act: (bloc) => bloc.addSignUpRequestedWith(),
-      build: () => SignUpBloc(
-        authenticationService: mockAuthenticationService,
-      ),
+      build: () => sut,
       expect: () => const <SignUpState>[
         SignUpState(
           formzSubmissionStatus: FormzSubmissionStatus.inProgress,
@@ -124,9 +131,7 @@ void main() {
         emailAddress: UserDtoConstants.invalidEmails.first,
         password: UserDtoConstants.invalidPasswords.first,
       ),
-      build: () => SignUpBloc(
-        authenticationService: mockAuthenticationService,
-      ),
+      build: () => sut,
       expect: () => const <SignUpState>[
         SignUpState(
           formzSubmissionStatus: FormzSubmissionStatus.inProgress,
@@ -146,9 +151,7 @@ void main() {
         ..add(SignUpPasswordChanged(
           password: UserDtoConstants.validPasswords.first,
         )),
-      build: () => SignUpBloc(
-        authenticationService: mockAuthenticationService,
-      ),
+      build: () => sut,
       expect: () => <SignUpState>[
         SignUpState(
             emailInput:
@@ -172,7 +175,7 @@ void main() {
       ),
       act: (bloc) => bloc.add(SignUpPasswordChanged(
           password: UserDtoConstants.invalidPasswords.first)),
-      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      build: () => sut,
       expect: () => <SignUpState>[
         SignUpState(
           passwordInput: PasswordInput.dirty(
@@ -190,7 +193,7 @@ void main() {
       ),
       act: (bloc) => bloc.add(SignUpPasswordChanged(
           password: UserDtoConstants.invalidPasswords.first)),
-      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      build: () => sut,
       expect: () => <SignUpState>[
         SignUpState(
           passwordInput: PasswordInput.dirty(
@@ -208,7 +211,7 @@ void main() {
       ),
       act: (bloc) => bloc.add(SignUpPasswordChanged(
           password: UserDtoConstants.validPasswords.first)),
-      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      build: () => sut,
       expect: () => <SignUpState>[
         SignUpState(
           passwordInput:
@@ -229,7 +232,7 @@ void main() {
       ),
       act: (bloc) => bloc
           .add(SignUpEmailChanged(email: UserDtoConstants.invalidEmails.first)),
-      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      build: () => sut,
       expect: () => <SignUpState>[
         SignUpState(
           passwordInput: PasswordInput.dirty(
@@ -248,7 +251,7 @@ void main() {
       ),
       act: (bloc) => bloc
           .add(SignUpEmailChanged(email: UserDtoConstants.invalidEmails.first)),
-      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      build: () => sut,
       expect: () => <SignUpState>[
         SignUpState(
           passwordInput:
@@ -267,7 +270,7 @@ void main() {
       ),
       act: (bloc) => bloc
           .add(SignUpEmailChanged(email: UserDtoConstants.validEmails.first)),
-      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      build: () => sut,
       expect: () => <SignUpState>[
         SignUpState(
           passwordInput:
@@ -284,7 +287,7 @@ void main() {
     const userName = "Clement";
     blocTest(
       "Should emit current state with changed userName",
-      build: () => SignUpBloc(authenticationService: mockAuthenticationService),
+      build: () => sut,
       act: (bloc) => bloc.add(UserNameChanged(userName: userName)),
       expect: () => const <SignUpState>[SignUpState(userName: userName)],
     );
