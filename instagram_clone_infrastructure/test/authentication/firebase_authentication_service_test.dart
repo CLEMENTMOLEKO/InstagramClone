@@ -6,6 +6,8 @@ import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_infrastructure/authentication/firebase_authentication_service.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../test_utils/constants/constants.dart';
+
 class MockFirebaseAuth extends Mock implements FirebaseAuth {}
 
 class MockGoogleSignIn extends Mock implements GoogleSignIn {}
@@ -16,6 +18,8 @@ class MockGoogleSignInAccount extends Mock implements GoogleSignInAccount {}
 
 class MockGoogleSignInAuthentication extends Mock
     implements GoogleSignInAuthentication {}
+
+class MockUser extends Mock implements User {}
 
 void main() {
   late FirebaseAuthenticationService sut;
@@ -91,14 +95,22 @@ void main() {
   });
 
   group("RegisterWithEmailAndPassword", () {
-    test("Should return unit when authenticatioin is successful", () async {
+    test("Should return Uuid when authenticatioin is successful", () async {
       //Arrange
+      final mockUserCredential = MockUserCredential();
+      final fakeUser = MockUser();
+      when(
+        () => fakeUser.uid,
+      ).thenReturn(Constants.validUuids.first);
+      when(
+        () => mockUserCredential.user,
+      ).thenReturn(fakeUser);
       when(
         () => mockFirebaseAuth.createUserWithEmailAndPassword(
           email: any(named: "email"),
           password: any(named: "password"),
         ),
-      ).thenAnswer((_) async => MockUserCredential());
+      ).thenAnswer((_) async => mockUserCredential);
       //Act
       final result = await sut.registerWithEmailAndPassword(
         emailAddress: emailAddress,
@@ -109,7 +121,7 @@ void main() {
             email: emailAddress.value,
             password: password.value,
           ));
-      expect(result, right(unit));
+      expect(result, right(Constants.validUuids.first));
     });
 
     test("Should return AuthFailure when authenticatioin is unsuccessful",

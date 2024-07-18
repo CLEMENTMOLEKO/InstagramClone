@@ -11,13 +11,9 @@ void main() {
         () {
       //Arrange
       final signUpRequested = SignUpRequested(
-        email: UserDtoConstants.validEmails.first,
-        password: UserDtoConstants.validPasswords.first,
         userName: userName,
       );
       final signUpRequested1 = SignUpRequested(
-        email: UserDtoConstants.validEmails.first,
-        password: UserDtoConstants.validPasswords.first,
         userName: userName,
       );
       //Act
@@ -30,13 +26,9 @@ void main() {
         () {
       //Arrange
       final signUpRequested = SignUpRequested(
-        email: UserDtoConstants.validEmails.last,
-        password: UserDtoConstants.validPasswords.last,
         userName: userName,
       );
       final signUpRequested1 = SignUpRequested(
-        email: UserDtoConstants.validEmails.first,
-        password: UserDtoConstants.validPasswords.first,
         userName: "${userName}J",
       );
       //Act

@@ -13,14 +13,9 @@ class MockAuthenticationService extends Mock implements AuthenticationService {}
 class MockUserRepository extends Mock implements UserRepository {}
 
 extension on SignUpBloc {
-  void addSignUpRequestedWith({
-    String? emailAddress,
-    String? password,
-  }) {
+  void addSignUpRequestedWith({String? userName}) {
     return add(SignUpRequested(
-      email: emailAddress ?? UserDtoConstants.validEmails.first,
-      password: password ?? UserDtoConstants.validPasswords.first,
-      userName: "Clement",
+      userName: userName ?? "Clement",
     ));
   }
 }
@@ -96,8 +91,7 @@ void main() {
 
     blocTest(
       "Should emit [FormzSubmissionStatus.inProgress, FormzSubmissionStatus.success] "
-      "when registerWithEmail and Password returns Unit",
-      seed: () => const SignUpState(isValid: true),
+      "when registerWithEmail and Password returns Uuid",
       setUp: () {
         when(
           () => mockAuthenticationService.registerWithEmailAndPassword(
@@ -109,16 +103,39 @@ void main() {
           () => mockUserRepository.addUser(userModel: any(named: "userModel")),
         ).thenAnswer((_) async => right(unit));
       },
-      act: (bloc) => bloc.addSignUpRequestedWith(),
+      act: (bloc) => bloc
+        ..add(SignUpEmailChanged(email: UserDtoConstants.validEmails.first))
+        ..add(SignUpPasswordChanged(
+          password: UserDtoConstants.validPasswords.first,
+        ))
+        ..addSignUpRequestedWith(),
       build: () => sut,
-      expect: () => const <SignUpState>[
+      expect: () => <SignUpState>[
+        SignUpState(
+            emailInput:
+                EmailInput.dirty(value: UserDtoConstants.validEmails.first)),
+        SignUpState(
+          emailInput:
+              EmailInput.dirty(value: UserDtoConstants.validEmails.first),
+          passwordInput:
+              PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
+          isValid: true,
+        ),
         SignUpState(
           formzSubmissionStatus: FormzSubmissionStatus.inProgress,
           isValid: true,
+          emailInput:
+              EmailInput.dirty(value: UserDtoConstants.validEmails.first),
+          passwordInput:
+              PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
         ),
         SignUpState(
           formzSubmissionStatus: FormzSubmissionStatus.success,
           isValid: true,
+          emailInput:
+              EmailInput.dirty(value: UserDtoConstants.validEmails.first),
+          passwordInput:
+              PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
         ),
       ],
     );
@@ -127,10 +144,7 @@ void main() {
       "Should emit [FormzSubmissionStatus.inProgress, FormzSubmissionStatus.failure] "
       "when password or email are invalid and valid is true",
       seed: () => const SignUpState(isValid: true),
-      act: (bloc) => bloc.addSignUpRequestedWith(
-        emailAddress: UserDtoConstants.invalidEmails.first,
-        password: UserDtoConstants.invalidPasswords.first,
-      ),
+      act: (bloc) => bloc.addSignUpRequestedWith(),
       build: () => sut,
       expect: () => const <SignUpState>[
         SignUpState(
@@ -164,6 +178,60 @@ void main() {
         ),
       ],
     );
+
+    group("AddUserToFirebaseDb", () {
+      blocTest(
+        "Should add user to firebase db when registerWithAndPassword is successful",
+        setUp: () {
+          when(
+            () => mockAuthenticationService.registerWithEmailAndPassword(
+                emailAddress: any(named: "emailAddress"),
+                password: any(named: "password")),
+          ).thenAnswer((_) async => right(Constants.validUuids.first));
+          when(
+            () =>
+                mockUserRepository.addUser(userModel: any(named: "userModel")),
+          ).thenAnswer((_) async => right(unit));
+        },
+        act: (bloc) => bloc
+          ..add(SignUpEmailChanged(email: UserDtoConstants.validEmails.first))
+          ..add(SignUpPasswordChanged(
+            password: UserDtoConstants.validPasswords.first,
+          ))
+          ..addSignUpRequestedWith(),
+        build: () => sut,
+        verify: (bloc) {
+          verify(
+            () =>
+                mockUserRepository.addUser(userModel: any(named: "userModel")),
+          ).called(1);
+        },
+      );
+
+      blocTest(
+        "Should not add user to firebase db when registerWithAndPassword is unsuccessful",
+        setUp: () {
+          when(
+            () => mockAuthenticationService.registerWithEmailAndPassword(
+                emailAddress: any(named: "emailAddress"),
+                password: any(named: "password")),
+          ).thenAnswer((_) async => left(AuthFailure.weakPassword));
+        },
+        act: (bloc) => bloc
+          ..add(SignUpEmailChanged(email: UserDtoConstants.validEmails.first))
+          ..add(SignUpPasswordChanged(
+            password: UserDtoConstants.validPasswords.first,
+          ))
+          ..addSignUpRequestedWith(),
+        build: () => sut,
+        verify: (bloc) {
+          verifyNever(
+            () =>
+                mockUserRepository.addUser(userModel: any(named: "userModel")),
+          );
+        },
+      );
+    });
   });
 
   group("SignUpPasswordChanged", () {

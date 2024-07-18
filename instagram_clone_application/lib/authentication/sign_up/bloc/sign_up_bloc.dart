@@ -32,7 +32,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     if (!state.isValid) return;
     emit(state.copyWith(
         formzSubmissionStatus: FormzSubmissionStatus.inProgress));
-    await _registerWithEmailAndPassword(event.email, event.password, emit);
+    await _registerWithEmailAndPassword(
+        state.emailInput.value, state.passwordInput.value, emit);
   }
 
   void _signUpEmailChanged(
