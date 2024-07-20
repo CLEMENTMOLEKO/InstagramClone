@@ -1,8 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
-
-import '../../../test_utils/constants/constants.dart';
+import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 
 void main() {
   test("Should be equal when two states with same values are compared", () {

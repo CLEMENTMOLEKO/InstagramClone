@@ -16,12 +16,24 @@ class FirebaseUserRepository implements UserRepository {
   Future<Either<ApplicationFailure, Unit>> addUser({
     required UserModel userModel,
   }) async {
-    await _firebaseFirestore
-        .collection(userDb)
-        .doc(userModel.id.value)
-        .set(UserDtoDomainConverter.fromDomainUser(user: userModel).toJson());
-
-    return right(unit);
+    //TODO: let's use a package to check for network connections before we do these requests.
+    try {
+      await _firebaseFirestore
+          .collection(userDb)
+          .doc(userModel.id.value)
+          .set(UserDtoDomainConverter.fromDomainUser(user: userModel).toJson());
+      return right(unit);
+    } on FirebaseException catch (e) {
+      if (e.code == 'permission-denied') {
+        return left(ApplicationFailure.permissionDenied);
+      } else if (e.code == 'unavailable') {
+        return left(ApplicationFailure.networkFailure);
+      } else {
+        return left(ApplicationFailure.unexpected);
+      }
+    } catch (e) {
+      return left(ApplicationFailure.unexpected);
+    }
   }
 
   @override

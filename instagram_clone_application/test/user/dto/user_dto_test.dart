@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_application/common/common.dart';
 import 'package:instagram_clone_application/user/user.dart';
-
-import '../../test_utils/constants/constants.dart';
-import '../../test_utils/json_reader.dart';
+import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late UserDto sut;
   const bio =
       "I'm Clement a software developer and I like to build good stuff.";
@@ -51,10 +51,11 @@ void main() {
       );
 
       group("fromJson", () {
-        test("Should read user data correctly when given valid user data", () {
+        test("Should read user data correctly when given valid user data",
+            () async {
           //Arrange
           final userDataAsString =
-              JsonReader.readAsStringFrom(path: "user/user.json");
+              await JsonReader.readAsStringFrom(path: "user/user.json");
           final userData = json.decode(userDataAsString);
           //Act
           final result = UserDto.fromJson(userData);
@@ -65,10 +66,10 @@ void main() {
         });
 
         test("Should return failure with invalid data when data is invalid.",
-            () {
+            () async {
           //Arrange
           final userDataAsString =
-              JsonReader.readAsStringFrom(path: "user/user_invalid.json");
+              await JsonReader.readAsStringFrom(path: "user/user_invalid.json");
           final userData = json.decode(userDataAsString);
           //Act
           final result = UserDto.fromJson(userData);
@@ -77,10 +78,10 @@ void main() {
         });
 
         test("Should valid user when lists are empty, no posts and no reels.",
-            () {
+            () async {
           //Arrange
-          final userDataAsString =
-              JsonReader.readAsStringFrom(path: "user/user_empty_lists.json");
+          final userDataAsString = await JsonReader.readAsStringFrom(
+              path: "user/user_empty_lists.json");
           final userData = json.decode(userDataAsString);
           //Act
           final result = UserDto.fromJson(userData);
@@ -92,10 +93,10 @@ void main() {
       });
 
       group("toJson", () {
-        test("Should return correct map", () {
+        test("Should return correct map", () async {
           //Arrange
           final userDataAsString =
-              JsonReader.readAsStringFrom(path: "user/user.json");
+              await JsonReader.readAsStringFrom(path: "user/user.json");
           final postDataMap = json.decode(userDataAsString);
           final userData = UserDto.fromJson(postDataMap).getOrElse(
             () => throw Exception(

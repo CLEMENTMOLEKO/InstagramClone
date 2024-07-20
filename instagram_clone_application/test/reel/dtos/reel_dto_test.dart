@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_application/common/common.dart';
 import 'package:instagram_clone_application/reel/reel.dart';
-
-import '../../test_utils/constants/constants.dart';
-import '../../test_utils/json_reader.dart';
+import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late ReelDto sut;
   const description = "This is the first reel on the platform period";
 
@@ -50,10 +50,11 @@ void main() {
       );
 
       group("fromJson", () {
-        test("Should read reel data correctly when given valid reel data", () {
+        test("Should read reel data correctly when given valid reel data",
+            () async {
           //Arrange
           final reelDataAsString =
-              JsonReader.readAsStringFrom(path: "reel/reel.json");
+              await JsonReader.readAsStringFrom(path: "reel/reel.json");
           final reelData = json.decode(reelDataAsString);
           //Act
           final result = ReelDto.fromJson(reelData);
@@ -64,10 +65,10 @@ void main() {
         });
 
         test("Should return failure with invalid data when data is invalid.",
-            () {
+            () async {
           //Arrange
           final reelDataAsString =
-              JsonReader.readAsStringFrom(path: "reel/reel_invalid.json");
+              await JsonReader.readAsStringFrom(path: "reel/reel_invalid.json");
           final reelData = json.decode(reelDataAsString);
           //Act
           final result = ReelDto.fromJson(reelData);
@@ -77,10 +78,10 @@ void main() {
 
         test(
             "Should valid reel when lists are empty, no likes and no comments.",
-            () {
+            () async {
           //Arrange
-          final reelDataAsString =
-              JsonReader.readAsStringFrom(path: "reel/reel_empty_lists.json");
+          final reelDataAsString = await JsonReader.readAsStringFrom(
+              path: "reel/reel_empty_lists.json");
           final reelData = json.decode(reelDataAsString);
           //Act
           final result = ReelDto.fromJson(reelData);
@@ -92,10 +93,10 @@ void main() {
       });
 
       group("toJson", () {
-        test("Should return correct map", () {
+        test("Should return correct map", () async {
           //Arrange
           final reelDataAsString =
-              JsonReader.readAsStringFrom(path: "reel/reel.json");
+              await JsonReader.readAsStringFrom(path: "reel/reel.json");
           final reelDataMap = json.decode(reelDataAsString);
           final reelData = ReelDto.fromJson(reelDataMap).getOrElse(
             () => throw Exception(

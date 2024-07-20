@@ -4,7 +4,10 @@ enum ApplicationFailure {
   invalidReelData,
   invalidCommentData,
   invalidUserData,
-  errorGettingUser
+  errorGettingUser,
+  permissionDenied,
+  networkFailure,
+  unexpected
 }
 
 enum AuthFailure {

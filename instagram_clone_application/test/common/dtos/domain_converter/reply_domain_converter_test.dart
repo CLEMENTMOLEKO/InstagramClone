@@ -2,8 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_application/common/common.dart';
 import 'package:instagram_clone_domain/instagram_clone_domain.dart';
-
-import '../../../test_utils/constants/constants.dart';
+import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 
 void main() {
   late ReplyDto sut;

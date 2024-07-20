@@ -1,0 +1,31 @@
+name: instagram_clone_shared
+description: "A new Flutter package project."
+version: 0.0.1
+homepage:
+
+publish_to: none
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  instagram_clone_application:
+      path: ../instagram_clone_application
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  assets:
+    - assets/json/comment/
+    - assets/json/post/
+    - assets/json/reel/
+    - assets/json/reply/
+    - assets/json/user/
+
+

@@ -4,9 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_infrastructure/authentication/firebase_authentication_service.dart';
+import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 import 'package:mocktail/mocktail.dart';
-
-import '../test_utils/constants/constants.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {}
 

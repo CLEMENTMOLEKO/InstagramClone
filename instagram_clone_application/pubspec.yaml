@@ -22,6 +22,8 @@ dependencies:
   formz: ^0.7.0
   instagram_clone_domain:
     path: ../instagram_clone_domain
+  instagram_clone_shared:
+    path: ../instagram_clone_shared
   intl: ^0.19.0
   meta: ^1.12.0
 
@@ -31,6 +33,14 @@ dev_dependencies:
   flutter_lints: ^3.0.0
   bloc_test: ^9.1.7
   mocktail: ^1.0.4
+
+flutter:
+  assets:
+    - packages/instagram_clone_shared/assets/json/comment/
+    - packages/instagram_clone_sharedassets/json/post/
+    - packages/instagram_clone_sharedassets/json/reel/
+    - packages/instagram_clone_sharedassets/json/reply/
+    - packages/instagram_clone_sharedassets/json/user/
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_application/common/common.dart';
 import 'package:instagram_clone_application/post/post.dart';
-
-import '../../test_utils/constants/constants.dart';
-import '../../test_utils/json_reader.dart';
+import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late PostDto sut;
   const description = "This is the first post on the platform period";
 
@@ -50,10 +50,11 @@ void main() {
       );
 
       group("fromJson", () {
-        test("Should read post data correctly when given valid post data", () {
+        test("Should read post data correctly when given valid post data",
+            () async {
           //Arrange
           final postDataAsString =
-              JsonReader.readAsStringFrom(path: "post/post.json");
+              await JsonReader.readAsStringFrom(path: "post/post.json");
           final postData = json.decode(postDataAsString);
           //Act
           final result = PostDto.fromJson(postData);
@@ -64,10 +65,10 @@ void main() {
         });
 
         test("Should return failure with invalid data when data is invalid.",
-            () {
+            () async {
           //Arrange
           final postDataAsString =
-              JsonReader.readAsStringFrom(path: "post/post_invalid.json");
+              await JsonReader.readAsStringFrom(path: "post/post_invalid.json");
           final postData = json.decode(postDataAsString);
           //Act
           final result = PostDto.fromJson(postData);
@@ -77,10 +78,10 @@ void main() {
 
         test(
             "Should valid post when lists are empty, no likes and no comments.",
-            () {
+            () async {
           //Arrange
-          final postDataAsString =
-              JsonReader.readAsStringFrom(path: "post/post_empty_lists.json");
+          final postDataAsString = await JsonReader.readAsStringFrom(
+              path: "post/post_empty_lists.json");
           final postData = json.decode(postDataAsString);
           //Act
           final result = PostDto.fromJson(postData);
@@ -92,10 +93,10 @@ void main() {
       });
 
       group("toJson", () {
-        test("Should return correct map", () {
+        test("Should return correct map", () async {
           //Arrange
           final postDataAsString =
-              JsonReader.readAsStringFrom(path: "post/post.json");
+              await JsonReader.readAsStringFrom(path: "post/post.json");
           final postDataMap = json.decode(postDataAsString);
           final postData = PostDto.fromJson(postDataMap).getOrElse(
             () => throw Exception(

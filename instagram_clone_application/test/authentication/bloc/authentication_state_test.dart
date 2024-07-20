@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
-
-import '../../test_utils/constants/constants.dart';
+import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 
 void main() {
   test(

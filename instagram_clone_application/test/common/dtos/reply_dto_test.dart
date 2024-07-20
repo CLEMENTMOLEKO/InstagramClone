@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
-
-import '../../test_utils/constants/constants.dart';
-import '../../test_utils/json_reader.dart';
+import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late ReplyDto sut;
   const description = "You lying this is not production environment";
   final date = DateTime(2024, 24, 24);
@@ -51,10 +51,10 @@ void main() {
       () {
         test(
           "Should return valid ReplyDto given valid data",
-          () {
+          () async {
             //Arrange
             final replyDtoAsString =
-                JsonReader.readAsStringFrom(path: "reply/reply.json");
+                await JsonReader.readAsStringFrom(path: "reply/reply.json");
             final replyDtoMap = json.decode(replyDtoAsString);
             //Act
             final result = ReplyDto.fromJson(replyDtoMap).getOrElse(
@@ -66,10 +66,10 @@ void main() {
         );
         test(
           "Should return Failure invalidReplyData given invalid data",
-          () {
+          () async {
             //Arrange
-            final replyDtoAsString =
-                JsonReader.readAsStringFrom(path: "reply/reply_invalid.json");
+            final replyDtoAsString = await JsonReader.readAsStringFrom(
+                path: "reply/reply_invalid.json");
             final replyDtoMap = json.decode(replyDtoAsString);
             //Act
             final result = ReplyDto.fromJson(replyDtoMap);
@@ -81,10 +81,10 @@ void main() {
     );
 
     group("toJson", () {
-      test("Should return valid map", () {
+      test("Should return valid map", () async {
         //Arrange
         final replyDataAsString =
-            JsonReader.readAsStringFrom(path: "reply/reply.json");
+            await JsonReader.readAsStringFrom(path: "reply/reply.json");
         final replyDataMap = json.decode(replyDataAsString);
         final replyData = ReplyDto.fromJson(replyDataMap).getOrElse(
           () => throw Exception(

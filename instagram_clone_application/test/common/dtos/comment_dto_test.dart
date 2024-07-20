@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_application/common/common.dart';
-import '../../test_utils/constants/constants.dart';
-import '../../test_utils/json_reader.dart';
+import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late CommentDto postCommentDto;
   late CommentDto reelCommentDto;
   const description = "This is the first comment in the app";
@@ -47,9 +48,9 @@ void main() {
 
       group("fromJson", () {
         test("Should read comment data correctly when data is a post comment",
-            () {
+            () async {
           //Arrange
-          final postDataAsString = JsonReader.readAsStringFrom(
+          final postDataAsString = await JsonReader.readAsStringFrom(
               path: "${baseFileUrl}comment_post.json");
           final postData = json.decode(postDataAsString);
           //Act
@@ -61,9 +62,9 @@ void main() {
         });
 
         test("Should read commnet data correctly when data is a reel comment",
-            () {
+            () async {
           //Arrange
-          final reelDataAsString = JsonReader.readAsStringFrom(
+          final reelDataAsString = await JsonReader.readAsStringFrom(
               path: "${baseFileUrl}comment_reel.json");
           final reelData = json.decode(reelDataAsString);
           //Act
@@ -75,9 +76,9 @@ void main() {
         });
 
         test("Should return failure with invalid data when data is invalid.",
-            () {
+            () async {
           //Arrange
-          final reelDataAsString = JsonReader.readAsStringFrom(
+          final reelDataAsString = await JsonReader.readAsStringFrom(
               path: "${baseFileUrl}comment_invalid.json");
           final reelData = json.decode(reelDataAsString);
           //Act
@@ -88,9 +89,9 @@ void main() {
 
         test(
             "Should valid comment when lists are empty, no likes and no replies.",
-            () {
+            () async {
           //Arrange
-          final reelDataAsString = JsonReader.readAsStringFrom(
+          final reelDataAsString = await JsonReader.readAsStringFrom(
               path: "${baseFileUrl}comment_post_empty_lists.json");
           final reelData = json.decode(reelDataAsString);
           //Act
@@ -103,9 +104,9 @@ void main() {
       });
 
       group("toJson", () {
-        test("Should return correct map", () {
+        test("Should return correct map", () async {
           //Arrange
-          final commentDataAsString = JsonReader.readAsStringFrom(
+          final commentDataAsString = await JsonReader.readAsStringFrom(
               path: "${baseFileUrl}comment_post.json");
           final commentDataMap = json.decode(commentDataAsString);
           final commentData = CommentDto.fromJson(commentDataMap).getOrElse(
