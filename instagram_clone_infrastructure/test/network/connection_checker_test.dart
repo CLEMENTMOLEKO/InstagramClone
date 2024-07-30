@@ -17,20 +17,38 @@ void main() {
   });
 
   test(
-    "Should return the same future instance returned by [InternetConncetionChecker.hasConnection]",
-    () {
+    "Should return true when [InternetConncetionChecker.hasConnection] returns true",
+    () async {
       //Arrange
       final hasConnectionFuture = Future.value(true);
       when(
         () => mockInternetConnectionChecker.hasConnection,
       ).thenAnswer((_) async => hasConnectionFuture);
       //Act
-      final result = sut.hasConnection;
+      final result = await sut.hasConnection;
       //Assert
       verify(
         () => mockInternetConnectionChecker.hasConnection,
       ).called(1);
-      expect(result, hasConnectionFuture);
+      expect(result, true);
+    },
+  );
+
+  test(
+    "Should return false when [InternetConncetionChecker.hasConnection] returns false",
+    () async {
+      //Arrange
+      final hasConnectionFuture = Future.value(false);
+      when(
+        () => mockInternetConnectionChecker.hasConnection,
+      ).thenAnswer((_) async => hasConnectionFuture);
+      //Act
+      final result = await sut.hasConnection;
+      //Assert
+      verify(
+        () => mockInternetConnectionChecker.hasConnection,
+      ).called(1);
+      expect(result, false);
     },
   );
 }
