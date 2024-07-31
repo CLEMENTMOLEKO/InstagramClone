@@ -110,6 +110,21 @@ void main() {
           AuthenticationFailed(failure: ApplicationFailure.errorGettingUser)
         ],
       );
+
+      blocTest<AuthenticationBloc, AuthenticationState>(
+        'emits [AuthenticationFailed] when hasConnection is false',
+        setUp: () {
+          setupConnectionChecker(hasConnection: false);
+          when(
+            () => mockAuthenticationService.user,
+          ).thenAnswer((_) => Stream.value(MockUser()));
+        },
+        build: setupAuthenticationBloc,
+        verify: (bloc) => verify(() => mockConnectionChecker.hasConnection),
+        expect: () => <AuthenticationState>[
+          AuthenticationFailed(failure: ApplicationFailure.networkFailure)
+        ],
+      );
     });
 
     group('SignOutRequested', () {
