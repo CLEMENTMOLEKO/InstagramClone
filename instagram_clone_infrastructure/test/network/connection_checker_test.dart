@@ -7,12 +7,12 @@ class MockInternetConnectionChecker extends Mock
     implements InternetConnectionChecker {}
 
 void main() {
-  late ConnectionChecker sut;
+  late ConnectionCheckerImpl sut;
   late MockInternetConnectionChecker mockInternetConnectionChecker;
 
   setUp(() {
     mockInternetConnectionChecker = MockInternetConnectionChecker();
-    sut = ConnectionChecker(
+    sut = ConnectionCheckerImpl(
         internetConnectionChecker: mockInternetConnectionChecker);
   });
 
