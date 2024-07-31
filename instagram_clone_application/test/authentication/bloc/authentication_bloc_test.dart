@@ -11,6 +11,8 @@ class MockAuthenticationService extends Mock implements AuthenticationService {}
 
 class MockUserRepository extends Mock implements UserRepository {}
 
+class MockConnectionChecker extends Mock implements ConnectionChecker {}
+
 class MockUser extends Mock implements User {}
 
 void main() {
@@ -20,6 +22,7 @@ void main() {
       .getOrElse(() => throw Exception());
   late MockAuthenticationService mockAuthenticationService;
   late MockUserRepository mockUserRepository;
+  late MockConnectionChecker mockConnectionChecker;
   late AuthenticationBloc sut;
 
   void setupMockUser() {
@@ -28,16 +31,34 @@ void main() {
     ).thenReturn(Constants.validUuids.first);
   }
 
+  void setupConnectionChecker({bool hasConnection = true}) {
+    when(
+      () => mockConnectionChecker.hasConnection,
+    ).thenAnswer((_) async => hasConnection);
+  }
+
+  AuthenticationBloc setupAuthenticationBloc() {
+    return AuthenticationBloc(
+      authenticationService: mockAuthenticationService,
+      userRepository: mockUserRepository,
+      connectionChecker: mockConnectionChecker,
+    );
+  }
+
   setUp(() {
     mockAuthenticationService = MockAuthenticationService();
     mockUserRepository = MockUserRepository();
+    mockConnectionChecker = MockConnectionChecker();
 
     when(() => mockAuthenticationService.user)
         .thenAnswer((_) => const Stream.empty());
     sut = AuthenticationBloc(
-        authenticationService: mockAuthenticationService,
-        userRepository: mockUserRepository);
+      authenticationService: mockAuthenticationService,
+      userRepository: mockUserRepository,
+      connectionChecker: mockConnectionChecker,
+    );
     setupMockUser();
+    setupConnectionChecker();
   });
 
   group("AuthenticationBloc", () {
@@ -56,10 +77,7 @@ void main() {
           (_) => Stream.value(null),
         );
       },
-      build: () => AuthenticationBloc(
-        authenticationService: mockAuthenticationService,
-        userRepository: mockUserRepository,
-      ),
+      build: setupAuthenticationBloc,
       expect: () => <AuthenticationState>[UnAuthenticated()],
     );
 
@@ -72,10 +90,7 @@ void main() {
         when(() => mockUserRepository.getUser(userId: any(named: "userId")))
             .thenAnswer((_) async => right(userModel));
       },
-      build: () => AuthenticationBloc(
-        authenticationService: mockAuthenticationService,
-        userRepository: mockUserRepository,
-      ),
+      build: setupAuthenticationBloc,
       expect: () => <AuthenticationState>[Authenticated(user: userModel)],
     );
 
@@ -90,10 +105,7 @@ void main() {
             () => mockUserRepository.getUser(userId: any(named: "userId")),
           ).thenAnswer((_) async => left(ApplicationFailure.errorGettingUser));
         },
-        build: () => AuthenticationBloc(
-          authenticationService: mockAuthenticationService,
-          userRepository: mockUserRepository,
-        ),
+        build: setupAuthenticationBloc,
         expect: () => <AuthenticationState>[
           AuthenticationFailed(failure: ApplicationFailure.errorGettingUser)
         ],
@@ -106,10 +118,7 @@ void main() {
         'when SignOutRequested is added',
         setUp: () => when(() => mockAuthenticationService.signOut())
             .thenAnswer((_) async => Unit),
-        build: () => AuthenticationBloc(
-          authenticationService: mockAuthenticationService,
-          userRepository: mockUserRepository,
-        ),
+        build: setupAuthenticationBloc,
         act: (bloc) => bloc.add(SignOutRequested()),
         verify: (_) {
           verify(() => mockAuthenticationService.signOut()).called(1);
