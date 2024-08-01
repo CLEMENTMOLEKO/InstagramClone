@@ -11,6 +11,8 @@ class MockAuthenticationService extends Mock implements AuthenticationService {}
 
 class MockUserRepository extends Mock implements UserRepository {}
 
+class MockConnectionChecker extends Mock implements ConnectionChecker {}
+
 extension on SignUpBloc {
   void addSignUpRequestedWith({String? userName}) {
     return add(SignUpRequested(
@@ -23,14 +25,20 @@ void main() {
   late SignUpBloc sut;
   late MockAuthenticationService mockAuthenticationService;
   late MockUserRepository mockUserRepository;
+  late MockConnectionChecker mockConnectionChecker;
 
   setUp(() {
     mockAuthenticationService = MockAuthenticationService();
     mockUserRepository = MockUserRepository();
+    mockConnectionChecker = MockConnectionChecker();
     sut = SignUpBloc(
       authenticationService: mockAuthenticationService,
       userRepository: mockUserRepository,
+      connectionChecker: mockConnectionChecker,
     );
+    when(
+      () => mockConnectionChecker.hasConnection,
+    ).thenAnswer((_) async => true);
   });
 
   setUpAll(() {
