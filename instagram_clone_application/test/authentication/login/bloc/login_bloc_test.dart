@@ -73,6 +73,23 @@ void main() {
       expect: () => const <LoginState>[],
     );
 
+    blocTest(
+      "Should emit [FormzSubmissionStatus.canceled] when login is requested with no connection",
+      seed: () => const LoginState(isValid: true),
+      setUp: () => when(
+        () => mockConnectionChecker.hasConnection,
+      ).thenAnswer((_) async => false),
+      act: (bloc) => bloc.addLoginRequestedEventWith(
+          emailAddress: UserDtoConstants.invalidEmails.first),
+      build: arrangeLoginBloc,
+      expect: () => const <LoginState>[
+        LoginState(
+          formzSubmissionStatus: FormzSubmissionStatus.canceled,
+          isValid: true,
+        )
+      ],
+    );
+
     group("SignInWithGoogle", () {
       blocTest(
         "Should emit [FormzSubmissionStatus.success] when login type is [Logintype.googleSignIn] and google sign in was successful",
