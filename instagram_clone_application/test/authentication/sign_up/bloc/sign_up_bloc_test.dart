@@ -71,6 +71,21 @@ void main() {
     );
 
     blocTest(
+      "Should emit [FormzSubmissionStatus.canceled] when not connected to internet",
+      seed: () => const SignUpState(isValid: true),
+      setUp: () => when(
+        () => mockConnectionChecker.hasConnection,
+      ).thenAnswer((_) async => false),
+      act: (bloc) => bloc.addSignUpRequestedWith(),
+      build: () => sut,
+      expect: () => const <SignUpState>[
+        SignUpState(
+            formzSubmissionStatus: FormzSubmissionStatus.canceled,
+            isValid: true)
+      ],
+    );
+
+    blocTest(
       "Should emit [FormzSubmissionStatus.inProgress, FormzSubmissionStatus.failure] "
       "when registerWithEmail and Password returns AuthFailure",
       seed: () => const SignUpState(isValid: true),
