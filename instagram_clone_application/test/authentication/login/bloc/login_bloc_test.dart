@@ -8,6 +8,8 @@ import 'package:mocktail/mocktail.dart';
 
 class MockAuthenticationService extends Mock implements AuthenticationService {}
 
+class MockConnectionChecker extends Mock implements ConnectionChecker {}
+
 extension on LoginBloc {
   void addLoginRequestedEventWith({
     LoginType loginType = LoginType.emailAndAddress,
@@ -25,16 +27,30 @@ extension on LoginBloc {
 void main() {
   late LoginBloc sut;
   late MockAuthenticationService mockAuthenticationService;
+  late MockConnectionChecker mockConnectionChecker;
 
   setUp(() {
     mockAuthenticationService = MockAuthenticationService();
-    sut = LoginBloc(authenticationService: mockAuthenticationService);
+    mockConnectionChecker = MockConnectionChecker();
+    sut = LoginBloc(
+      authenticationService: mockAuthenticationService,
+      connectionChecker: mockConnectionChecker,
+    );
+    when(
+      () => mockConnectionChecker.hasConnection,
+    ).thenAnswer((_) async => true);
   });
 
   setUpAll(() {
     registerFallbackValue(UserDtoConstants.arrangeEmailAddress());
     registerFallbackValue(UserDtoConstants.arrangePassword());
   });
+
+  LoginBloc arrangeLoginBloc() {
+    return LoginBloc(
+        authenticationService: mockAuthenticationService,
+        connectionChecker: mockConnectionChecker);
+  }
 
   test(
     "Should have status as [FormzSubmissionStatus.initial] when first initialized",
@@ -53,9 +69,7 @@ void main() {
       "Should not emit new state when login is requested with LoginState.isValid is false",
       act: (bloc) => bloc.addLoginRequestedEventWith(
           emailAddress: UserDtoConstants.invalidEmails.first),
-      build: () => LoginBloc(
-        authenticationService: mockAuthenticationService,
-      ),
+      build: arrangeLoginBloc,
       expect: () => const <LoginState>[],
     );
 
@@ -70,9 +84,7 @@ void main() {
         act: (bloc) {
           bloc.addLoginRequestedEventWith(loginType: LoginType.googleSignIn);
         },
-        build: () => LoginBloc(
-          authenticationService: mockAuthenticationService,
-        ),
+        build: arrangeLoginBloc,
         expect: () => const <LoginState>[
           LoginState(
             formzSubmissionStatus: FormzSubmissionStatus.inProgress,
@@ -95,8 +107,7 @@ void main() {
         },
         act: (bloc) =>
             bloc.addLoginRequestedEventWith(loginType: LoginType.googleSignIn),
-        build: () =>
-            LoginBloc(authenticationService: mockAuthenticationService),
+        build: arrangeLoginBloc,
         expect: () => const <LoginState>[
           LoginState(
             formzSubmissionStatus: FormzSubmissionStatus.inProgress,
@@ -125,8 +136,7 @@ void main() {
         },
         act: (bloc) => bloc.addLoginRequestedEventWith(
             loginType: LoginType.emailAndAddress),
-        build: () =>
-            LoginBloc(authenticationService: mockAuthenticationService),
+        build: arrangeLoginBloc,
         expect: () => const <LoginState>[
           LoginState(
               formzSubmissionStatus: FormzSubmissionStatus.inProgress,
@@ -151,8 +161,7 @@ void main() {
         },
         act: (bloc) => bloc.addLoginRequestedEventWith(
             loginType: LoginType.emailAndAddress),
-        build: () =>
-            LoginBloc(authenticationService: mockAuthenticationService),
+        build: arrangeLoginBloc,
         expect: () => const <LoginState>[
           LoginState(
             formzSubmissionStatus: FormzSubmissionStatus.inProgress,
@@ -176,8 +185,7 @@ void main() {
         ),
         act: (bloc) =>
             bloc.add(EmailChanged(email: UserDtoConstants.validEmails.first)),
-        build: () =>
-            LoginBloc(authenticationService: mockAuthenticationService),
+        build: arrangeLoginBloc,
         expect: () => <LoginState>[
           LoginState(
             formzSubmissionStatus: FormzSubmissionStatus.canceled,
@@ -195,8 +203,7 @@ void main() {
             LoginState(passwordInput: ValidatorsConstants.invalidPasswordInput),
         act: (bloc) =>
             bloc.add(EmailChanged(email: UserDtoConstants.validEmails.first)),
-        build: () =>
-            LoginBloc(authenticationService: mockAuthenticationService),
+        build: arrangeLoginBloc,
         expect: () => <LoginState>[
           LoginState(
             passwordInput: ValidatorsConstants.invalidPasswordInput,
@@ -213,8 +220,7 @@ void main() {
             formzSubmissionStatus: FormzSubmissionStatus.canceled),
         act: (bloc) => bloc.add(
             PasswordChanged(password: UserDtoConstants.invalidPasswords.first)),
-        build: () =>
-            LoginBloc(authenticationService: mockAuthenticationService),
+        build: arrangeLoginBloc,
         expect: () => <LoginState>[
           LoginState(
             formzSubmissionStatus: FormzSubmissionStatus.canceled,
@@ -231,8 +237,7 @@ void main() {
         ),
         act: (bloc) => bloc.add(
             PasswordChanged(password: UserDtoConstants.validPasswords.first)),
-        build: () =>
-            LoginBloc(authenticationService: mockAuthenticationService),
+        build: arrangeLoginBloc,
         expect: () => <LoginState>[
           LoginState(
             isValid: true,

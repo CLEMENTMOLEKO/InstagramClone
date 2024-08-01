@@ -6,6 +6,7 @@ import 'package:formz/formz.dart';
 import 'package:instagram_clone_application/authentication/authentication.dart';
 import 'package:instagram_clone_application/authentication/validators/email_input_validator.dart';
 import 'package:instagram_clone_application/authentication/validators/password_input_validator.dart';
+import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:instagram_clone_domain/user/user.dart';
 import 'package:meta/meta.dart';
@@ -17,7 +18,11 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthenticationService authenticationService;
-  LoginBloc({required this.authenticationService}) : super(const LoginState()) {
+  final ConnectionChecker connectionChecker;
+  LoginBloc({
+    required this.authenticationService,
+    required this.connectionChecker,
+  }) : super(const LoginState()) {
     on<LoginRequested>(_loginRequested);
     on<EmailChanged>(_emailChanged);
     on<PasswordChanged>(_passwordChanged);
@@ -28,6 +33,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     if (!state.isValid) return;
+
+    if (!await connectionChecker.hasConnection) {
+      return emit(state.copyWith(
+          formzSubmissionStatus: FormzSubmissionStatus.canceled));
+    }
 
     emit(state.copyWith(
         formzSubmissionStatus: FormzSubmissionStatus.inProgress));
