@@ -19,7 +19,9 @@ final class FirebaseAuthenticationService implements AuthenticationService {
       {required EmailAddress emailAddress, required Password password}) async {
     try {
       await firebaseAuth.signInWithEmailAndPassword(
-          email: emailAddress.value, password: password.value);
+        email: emailAddress.value,
+        password: password.value,
+      );
       return right(unit);
     } on FirebaseAuthException catch (e) {
       return left(_handleErrorCodes(code: e.code));
@@ -50,7 +52,9 @@ final class FirebaseAuthenticationService implements AuthenticationService {
     try {
       final googleAuth = await googleAccount.authentication;
       final ouAuthCredentials = GoogleAuthProvider.credential(
-          idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
+        idToken: googleAuth.idToken,
+        accessToken: googleAuth.accessToken,
+      );
 
       await firebaseAuth.signInWithCredential(ouAuthCredentials);
       return right(unit);
