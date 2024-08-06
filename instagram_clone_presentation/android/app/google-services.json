@@ -9,25 +9,6 @@
       "client_info": {
         "mobilesdk_app_id": "1:1011795411631:android:0c2930e139cab46b180a5a",
         "android_client_info": {
-          "package_name": "com.instagram_clon.app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBjvwD0XaMvxX6-5xbgfJbiFqi1um4AMsc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1011795411631:android:d0430b7fcb2d0ca2180a5a",
-        "android_client_info": {
           "package_name": "com.instagram_clone.app"
         }
       },

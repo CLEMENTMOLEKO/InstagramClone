@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'instagramclone-98515.appspot.com',
     iosBundleId: 'com.example.instagramClonePresentation',
   );
+
 }
