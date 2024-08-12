@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone_presentation/authentication/sign_up/sing_up_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -10,23 +11,11 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Color.lerp(
-            Colors.pink,
-            Colors.deepPurple,
-            5,
-          )!,
+          seedColor: Colors.deepPurple,
         ),
         useMaterial3: true,
       ),
-      home: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        body: Center(
-          child: Container(
-            color: Theme.of(context).colorScheme.surfaceTint,
-            child: Text("Test scaffold"),
-          ),
-        ),
-      ),
+      home: const SingUpPage(),
     );
   }
 }
