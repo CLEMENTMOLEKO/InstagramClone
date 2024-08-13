@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram_clone_presentation/authentication/sign_up/sing_up_page.dart';
+import 'package:instagram_clone_presentation/authentication/sign_up/sign_up_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -15,7 +15,7 @@ class App extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const SingUpPage(),
+      home: const SignUpPage(),
     );
   }
 }

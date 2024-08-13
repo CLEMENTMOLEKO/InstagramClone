@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../common/gradient_view.dart';
 
-class SingUpPage extends StatelessWidget {
-  const SingUpPage({super.key});
+class SignUpView extends StatelessWidget {
+  const SignUpView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -23,12 +23,16 @@ dependencies:
     path: ../instagram_clone_shared
   firebase_core: ^3.2.0
   internet_connection_checker: ^1.0.0+1
+  injectable: ^2.4.4
+  get_it: ^7.7.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
   mocktail: ^1.0.4
+  build_runner: ^2.4.11
+  injectable_generator: ^2.6.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
