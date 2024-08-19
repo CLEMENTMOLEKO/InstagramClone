@@ -12,8 +12,10 @@ class App extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurple,
+          brightness: Brightness.dark,
         ),
         useMaterial3: true,
+        brightness: Brightness.dark,
       ),
       home: const SignUpPage(),
     );
