@@ -27,7 +27,7 @@ class SignUpEmailView extends StatelessWidget {
                 ),
                 const Gap(30),
                 const InstaTextField(
-                  labelText: "Text label text",
+                  labelText: "Email Address",
                 )
               ],
             ),
