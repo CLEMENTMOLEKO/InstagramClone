@@ -11,31 +11,25 @@ class SignUpEmailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SignUpBloc, SignUpState>(
-      listener: (context, state) {
-        if (state.isValid) {
-          Navigator.pushNamed(context, RouteNames.signUpEmailVerification);
-        }
+    return FormFieldView<SignUpBloc, SignUpEvent, SignUpState>(
+      buildWhen: (previous, current) =>
+          previous.emailInput != current.emailInput,
+      onFieldValueChanged: (email) {
+        context.read<SignUpBloc>().add(SignUpEmailChanged(email: email));
       },
-      child: FormFieldView<SignUpBloc, SignUpEvent, SignUpState>(
-        buildWhen: (previous, current) =>
-            previous.emailInput != current.emailInput,
-        onChanged: (email) {
-          context.read<SignUpBloc>().add(SignUpEmailChanged(email: email));
-        },
-        getErrorText: _getErrorText,
-        title: "What's your email address?",
-        subtitle:
-            "Enter the email address at which you can be contacted. No one will see this on your profile.",
-        fieldLabel: "Email Address",
-        primaryButtonText: "Next",
-        onPrimaryButtonPressed: (state) => _onPrimaryButtonPressed(
-          state,
-          context,
-        ),
-        secondaryButtonText: "Sign Up with Mobile Number",
-        onSecondaryButtonPressed: () {},
+      getErrorText: _getErrorText,
+      title: "What's your email address?",
+      subtitle:
+          "Enter the email address at which you can be contacted. No one will see this on your profile.",
+      fieldLabel: "Email Address",
+      primaryButtonText: "Next",
+      onPrimaryButtonPressed: (state) => _onPrimaryButtonPressed(
+        state,
+        context,
       ),
+      secondaryButtonText: "Sign Up with Mobile Number",
+      onSecondaryButtonPressed: () {},
+      getFieldIcon: _getFieldIcon,
     );
   }
 }
@@ -43,17 +37,26 @@ class SignUpEmailView extends StatelessWidget {
 VoidCallback? _onPrimaryButtonPressed(SignUpState state, BuildContext context) {
   return state.emailInput.isValid
       ? () {
-          context
-              .read<SignUpBloc>()
-              .add(SignUpRequested(userName: state.emailInput.value));
+          if (state.emailInput.isValid) {
+            Navigator.pushNamed(context, RouteNames.signUpEmailVerification);
+          }
         }
       : null;
 }
 
 String? _getErrorText(SignUpState state) {
-  return state.emailInput.isNotValid &&
-          !state.emailInput.isPure &&
-          state.formzSubmissionStatus != FormzSubmissionStatus.initial
-      ? "Invalid email address"
-      : null;
+  if (state.emailInput.isPure ||
+      state.formzSubmissionStatus == FormzSubmissionStatus.initial) {
+    return null;
+  }
+
+  return state.emailInput.isNotValid ? "Invalid email address" : null;
+}
+
+Icon? _getFieldIcon(SignUpState state) {
+  if (state.emailInput.isPure) return null;
+
+  return state.emailInput.isNotValid
+      ? const Icon(Icons.error, color: Colors.red)
+      : const Icon(Icons.check_circle, color: Colors.green);
 }

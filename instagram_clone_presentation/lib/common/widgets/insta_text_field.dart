@@ -4,10 +4,13 @@ class InstaTextField extends StatelessWidget {
   final String labelText;
   final void Function(String) onChanged;
   final String? errorText;
+  final Icon? icon;
+
   const InstaTextField({
     super.key,
     required this.labelText,
     required this.onChanged,
+    this.icon,
     this.errorText,
   });
 
@@ -22,6 +25,7 @@ class InstaTextField extends StatelessWidget {
         ),
         labelText: labelText,
         errorText: errorText,
+        suffixIcon: icon,
       ),
       onChanged: onChanged,
     );

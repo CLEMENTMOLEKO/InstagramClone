@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -15,8 +16,9 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
   final String? secondaryButtonText;
   final VoidCallback? onSecondaryButtonPressed;
   final bool Function(TState, TState) buildWhen;
-  final void Function(String) onChanged;
+  final void Function(String) onFieldValueChanged;
   final String? Function(TState) getErrorText;
+  final Icon? Function(TState)? getFieldIcon;
 
   const FormFieldView({
     super.key,
@@ -28,8 +30,9 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
     this.secondaryButtonText,
     this.onSecondaryButtonPressed,
     required this.buildWhen,
-    required this.onChanged,
+    required this.onFieldValueChanged,
     required this.getErrorText,
+    this.getFieldIcon,
   });
 
   @override
@@ -55,11 +58,16 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                   buildWhen: buildWhen,
                   builder: (context, state) {
                     return Column(
+                      key: const Key("form_field_view_root_column"),
                       children: [
                         InstaTextField(
+                          key: const Key("form_field_view_field"),
                           labelText: fieldLabel,
-                          onChanged: onChanged,
+                          onChanged: onFieldValueChanged,
                           errorText: getErrorText(state),
+                          icon: getFieldIcon != null
+                              ? getFieldIcon!(state)
+                              : null,
                         ),
                         const Gap(20),
                         SizedBox(
@@ -67,6 +75,9 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                           child: ElevatedButton(
                             key: const Key("form_field_view_primary_button"),
                             onPressed: onPrimaryButtonPressed(state),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: CupertinoColors.activeBlue,
+                            ),
                             child: Text(primaryButtonText),
                           ),
                         )

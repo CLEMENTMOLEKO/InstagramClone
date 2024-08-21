@@ -13,7 +13,7 @@ class SignUpEmailVerificationView extends StatelessWidget {
     return FormFieldView<SignUpBloc, SignUpEvent, SignUpState>(
       buildWhen: (previous, current) =>
           previous.emailInput != current.emailInput,
-      onChanged: (email) {
+      onFieldValueChanged: (email) {
         context.read<SignUpBloc>().add(SignUpEmailChanged(email: email));
       },
       getErrorText: (state) =>
