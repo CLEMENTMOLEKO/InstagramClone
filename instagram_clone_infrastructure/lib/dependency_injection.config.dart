@@ -16,9 +16,10 @@ import 'package:injectable/injectable.dart' as _i526;
 import 'package:instagram_clone_application/common/common.dart' as _i14;
 import 'package:instagram_clone_application/instagram_clone_application.dart'
     as _i876;
-import 'package:instagram_clone_application/user/user_repository.dart' as _i953;
 import 'package:instagram_clone_infrastructure/authentication/firebase_authentication_service.dart'
     as _i9;
+import 'package:instagram_clone_infrastructure/dependency_injection_modules.dart'
+    as _i764;
 import 'package:instagram_clone_infrastructure/network/connection_checker.dart'
     as _i397;
 import 'package:instagram_clone_infrastructure/user/firebase_user_repository.dart'
@@ -37,15 +38,26 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
+    final dependencyInjectionModules = _$DependencyInjectionModules();
+    gh.lazySingleton<_i59.FirebaseAuth>(
+        () => dependencyInjectionModules.firebaseAuth);
+    gh.lazySingleton<_i974.FirebaseFirestore>(
+        () => dependencyInjectionModules.firebaseFirestore);
+    gh.lazySingleton<_i116.GoogleSignIn>(
+        () => dependencyInjectionModules.googleSignIn);
+    gh.lazySingleton<_i973.InternetConnectionChecker>(
+        () => dependencyInjectionModules.internetConnectionChecker);
     gh.factory<_i876.AuthenticationService>(
         () => _i9.FirebaseAuthenticationService(
               firebaseAuth: gh<_i59.FirebaseAuth>(),
               googleSignIn: gh<_i116.GoogleSignIn>(),
             ));
-    gh.factory<_i953.UserRepository>(() => _i754.FirebaseUserRepository(
-        firebaseFirestore: gh<_i974.FirebaseFirestore>()));
     gh.factory<_i14.ConnectionChecker>(() => _i397.ConnectionCheckerImpl(
         internetConnectionChecker: gh<_i973.InternetConnectionChecker>()));
+    gh.factory<_i876.UserRepository>(() => _i754.FirebaseUserRepository(
+        firebaseFirestore: gh<_i974.FirebaseFirestore>()));
     return this;
   }
 }
+
+class _$DependencyInjectionModules extends _i764.DependencyInjectionModules {}

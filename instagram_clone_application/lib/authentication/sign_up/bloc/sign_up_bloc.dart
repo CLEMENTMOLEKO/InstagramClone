@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_application/user/user_repository.dart';
 import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:meta/meta.dart';
 
+import '../../../common/network/connection_checker.dart';
 import '../../authentication.dart';
 
 part 'sign_up_event.dart';
