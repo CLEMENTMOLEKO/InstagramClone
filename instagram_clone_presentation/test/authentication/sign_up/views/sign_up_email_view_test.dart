@@ -17,6 +17,18 @@ void main() {
     when(() => mockSignUpBloc.state).thenReturn(const SignUpState());
   });
 
+  void setupValidState() {
+    when(() => mockSignUpBloc.state).thenReturn(const SignUpState(
+      emailInput: EmailInput.dirty(value: "test@test.com"),
+    ));
+  }
+
+  void setupInvalidState() {
+    when(() => mockSignUpBloc.state).thenReturn(const SignUpState(
+      emailInput: EmailInput.dirty(value: "testtest.com"),
+    ));
+  }
+
   Future<void> renderSignUpEmailView(
       WidgetTester tester, SignUpBloc bloc) async {
     await tester.pumpWidget(MaterialApp(
@@ -87,13 +99,19 @@ void main() {
     });
 
     group("Email Text Field", () {
+      (Finder, InstaTextField) setupTextFieldWidget(WidgetTester tester) {
+        final emailFieldFinder = find.byKey(const Key("form_field_view_field"));
+        final emailField = tester.widget(emailFieldFinder) as InstaTextField;
+        return (emailFieldFinder, emailField);
+      }
+
       testWidgets("Should emit email changed event when email is changed",
           (WidgetTester tester) async {
         // Arrange
         await renderSignUpEmailView(tester, mockSignUpBloc);
 
         // Act
-        final emailFieldFinder = find.byKey(const Key("form_field_view_field"));
+        final (emailFieldFinder, _) = setupTextFieldWidget(tester);
         await tester.enterText(emailFieldFinder, "test@example.com");
         await tester.pumpAndSettle();
         // Assert
@@ -105,15 +123,11 @@ void main() {
       testWidgets("Should show error icon when email is invalid",
           (WidgetTester tester) async {
         // Arrange
-        when(() => mockSignUpBloc.state).thenReturn(const SignUpState(
-          emailInput: EmailInput.dirty(value: "testtest.com"),
-        ));
+        setupInvalidState();
         await renderSignUpEmailView(tester, mockSignUpBloc);
-        await tester.pumpAndSettle();
 
         // Act
-        final emailFieldFinder = find.byKey(const Key("form_field_view_field"));
-        final emailField = tester.widget(emailFieldFinder) as InstaTextField;
+        final (_, emailField) = setupTextFieldWidget(tester);
         // Assert
         expect(emailField.icon, isNotNull);
         expect(emailField.icon!.icon, Icons.error);
@@ -123,14 +137,10 @@ void main() {
       testWidgets("Should show check icon when email is valid",
           (WidgetTester tester) async {
         // Arrange
-        when(() => mockSignUpBloc.state).thenReturn(const SignUpState(
-          emailInput: EmailInput.dirty(value: "test@test.com"),
-        ));
+        setupValidState();
         await renderSignUpEmailView(tester, mockSignUpBloc);
-        await tester.pumpAndSettle();
         // Act
-        final emailFieldFinder = find.byKey(const Key("form_field_view_field"));
-        final emailField = tester.widget(emailFieldFinder) as InstaTextField;
+        final (_, emailField) = setupTextFieldWidget(tester);
         // Assert
         expect(emailField.icon, isNotNull);
         expect(emailField.icon!.icon, Icons.check_circle);
@@ -139,19 +149,20 @@ void main() {
     });
 
     group("next button", () {
-      testWidgets("Should enable next button when email is valid",
-          (WidgetTester tester) async {
-        // Arrange
-        when(() => mockSignUpBloc.state).thenReturn(const SignUpState(
-          emailInput: EmailInput.dirty(value: "test@test.com"),
-        ));
-        await renderSignUpEmailView(tester, mockSignUpBloc);
-        await tester.pumpAndSettle();
+      ElevatedButton setupButtonWidget(WidgetTester tester) {
         final nextButtonFinder =
             find.byKey(const Key("form_field_view_primary_button"));
         final nextButton = tester.widget(nextButtonFinder) as ElevatedButton;
-        // Act
+        return nextButton;
+      }
 
+      testWidgets("Should enable next button when email is valid",
+          (WidgetTester tester) async {
+        // Arrange
+        setupValidState();
+        await renderSignUpEmailView(tester, mockSignUpBloc);
+        final nextButton = setupButtonWidget(tester);
+        // Act
         // Assert
         expect(nextButton.onPressed, isNotNull);
       });
@@ -159,15 +170,10 @@ void main() {
       testWidgets("Should disable next button when email is invalid",
           (WidgetTester tester) async {
         // Arrange
-        when(() => mockSignUpBloc.state).thenReturn(const SignUpState(
-          emailInput: EmailInput.dirty(value: "testtest.com"),
-        ));
+        setupInvalidState();
         await renderSignUpEmailView(tester, mockSignUpBloc);
-        await tester.pumpAndSettle();
         // Act
-        final nextButtonFinder =
-            find.byKey(const Key("form_field_view_primary_button"));
-        final nextButton = tester.widget(nextButtonFinder) as ElevatedButton;
+        final nextButton = setupButtonWidget(tester);
         // Assert
         expect(nextButton.onPressed, isNull);
       });
