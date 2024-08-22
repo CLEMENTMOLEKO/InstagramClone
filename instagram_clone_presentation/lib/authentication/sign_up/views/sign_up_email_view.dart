@@ -36,11 +36,10 @@ class SignUpEmailView extends StatelessWidget {
 
 VoidCallback? _onPrimaryButtonPressed(SignUpState state, BuildContext context) {
   return state.emailInput.isValid
-      ? () {
-          if (state.emailInput.isValid) {
-            Navigator.pushNamed(context, RouteNames.signUpEmailVerification);
-          }
-        }
+      ? () => Navigator.pushNamed(
+            context,
+            RouteNames.signUpEmailVerification,
+          )
       : null;
 }
 

@@ -6,15 +6,25 @@ import 'package:instagram_clone_infrastructure/instagram_clone_infrastructure.da
 import 'views/sign_up_email_view.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+  final AuthenticationService? authenticationService;
+  final UserRepository? userRepository;
+  final ConnectionChecker? connectionChecker;
+
+  const SignUpPage({
+    super.key,
+    this.authenticationService,
+    this.userRepository,
+    this.connectionChecker,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SignUpBloc(
-        authenticationService: getIt.get<AuthenticationService>(),
-        userRepository: getIt.get<UserRepository>(),
-        connectionChecker: getIt.get<ConnectionChecker>(),
+        authenticationService:
+            authenticationService ?? getIt.get<AuthenticationService>(),
+        userRepository: userRepository ?? getIt.get<UserRepository>(),
+        connectionChecker: connectionChecker ?? getIt.get<ConnectionChecker>(),
       ),
       child: const SignUpEmailView(),
     );

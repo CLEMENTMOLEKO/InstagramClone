@@ -44,6 +44,9 @@ dependencies:
   gap: ^3.0.1
   build_runner: ^2.4.11
   formz: ^0.7.0
+  injectable: ^2.4.4
+  bloc_test: ^9.1.7
+  dev: ^1.0.0
 
 dev_dependencies:
   flutter_test:

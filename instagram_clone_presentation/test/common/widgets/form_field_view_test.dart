@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gap/gap.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
-import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_up_email_view.dart';
 import 'package:instagram_clone_presentation/common/widgets/form_field_view.dart';
 import 'package:instagram_clone_presentation/common/widgets/gradient_view.dart';
 import 'package:instagram_clone_presentation/common/widgets/insta_text_field.dart';
@@ -39,7 +38,16 @@ void main() {
     await widgetTester.pumpWidget(MaterialApp(
       home: BlocProvider.value(
         value: bloc,
-        child: const SignUpEmailView(),
+        child: FormFieldView<SignUpBloc, SignUpEvent, SignUpState>(
+          title: "Title",
+          subtitle: "Subtitle",
+          fieldLabel: "Field Label",
+          primaryButtonText: "Primary Button Text",
+          onPrimaryButtonPressed: (_) => null,
+          buildWhen: (_, __) => true,
+          onFieldValueChanged: (_) {},
+          getErrorText: (_) => null,
+        ),
       ),
     ));
   }
@@ -90,7 +98,7 @@ void main() {
       (widgetTester) async {
     //Arrange
     await pumpFormFieldView(widgetTester, bloc);
-    final columnFinder = find.byType(Column);
+    final columnFinder = find.byKey(const Key("form_field_view_root_column"));
     final column = widgetTester.widget(columnFinder) as Column;
     //Act
     //Assert
