@@ -14,13 +14,11 @@ class SignUpEmailVerificationView extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.emailInput != current.emailInput,
       onFieldValueChanged: (email) {
-        context.read<SignUpBloc>().add(SignUpEmailChanged(email: email));
+        //context.read<SignUpBloc>().add(SignUpEmailChanged(email: email));
       },
-      getErrorText: (state) =>
-          state.emailInput.isNotValid ? "Invalid email address" : null,
       title: "Enter the confirmation code",
       subtitle:
-          "To confirm your account, enter the 6-digit code that we sent to clementtest@mailinator.com.",
+          "To confirm your account, enter the 6-digit code that we sent to ${context.read<SignUpBloc>().state.emailInput.value}.",
       fieldLabel: "Confirmation code",
       primaryButtonText: "Primary Button Text",
       onPrimaryButtonPressed: (state) =>
@@ -32,9 +30,7 @@ class SignUpEmailVerificationView extends StatelessWidget {
 }
 
 VoidCallback? _onPrimaryButtonPressed(SignUpState state, BuildContext context) {
-  return state.emailInput.isValid
-      ? () {
-          Navigator.pushNamed(context, RouteNames.signUpEmailVerification);
-        }
-      : null;
+  return () {
+    Navigator.pushNamed(context, RouteNames.signUpEmailVerification);
+  };
 }

@@ -17,7 +17,7 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
   final VoidCallback? onSecondaryButtonPressed;
   final bool Function(TState, TState) buildWhen;
   final void Function(String) onFieldValueChanged;
-  final String? Function(TState) getErrorText;
+  final String? Function(TState)? getErrorText;
   final Icon? Function(TState)? getFieldIcon;
 
   const FormFieldView({
@@ -31,7 +31,7 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
     this.onSecondaryButtonPressed,
     required this.buildWhen,
     required this.onFieldValueChanged,
-    required this.getErrorText,
+    this.getErrorText,
     this.getFieldIcon,
   });
 
@@ -64,7 +64,9 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                           key: const Key("form_field_view_field"),
                           labelText: fieldLabel,
                           onChanged: onFieldValueChanged,
-                          errorText: getErrorText(state),
+                          errorText: getErrorText != null
+                              ? getErrorText!(state)
+                              : null,
                           icon: getFieldIcon != null
                               ? getFieldIcon!(state)
                               : null,

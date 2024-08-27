@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
-import 'package:instagram_clone_infrastructure/instagram_clone_infrastructure.dart';
 
 import 'views/sign_up_email_view.dart';
 
@@ -19,14 +17,6 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => SignUpBloc(
-        authenticationService:
-            authenticationService ?? getIt.get<AuthenticationService>(),
-        userRepository: userRepository ?? getIt.get<UserRepository>(),
-        connectionChecker: connectionChecker ?? getIt.get<ConnectionChecker>(),
-      ),
-      child: const SignUpEmailView(),
-    );
+    return const SignUpEmailView();
   }
 }
