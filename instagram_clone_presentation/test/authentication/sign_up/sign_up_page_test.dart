@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:injectable/injectable.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/authentication/sign_up/sign_up_page.dart';
 import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_up_email_view.dart';
 import 'package:mocktail/mocktail.dart';
 
-@Injectable(as: AuthenticationService, env: [Environment.test])
 class MockAuthenticationService extends Mock implements AuthenticationService {}
 
 class MockUserRepository extends Mock implements UserRepository {}

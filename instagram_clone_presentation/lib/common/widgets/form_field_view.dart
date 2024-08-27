@@ -92,6 +92,9 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                     child: TextButton(
                       key: const Key("form_field_view_secondary_button"),
                       onPressed: onSecondaryButtonPressed,
+                      style: TextButton.styleFrom(
+                        side: const BorderSide(color: Colors.grey),
+                      ),
                       child: Text(secondaryButtonText!),
                     ),
                   ),
