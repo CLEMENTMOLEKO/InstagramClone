@@ -1,11 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 
-import '../../../common/navigation/route_names.dart';
+import '../../../common/navigation/router.gr.dart';
 import '../../../common/widgets/form_field_view.dart';
 
+@RoutePage()
 class SignUpEmailView extends StatelessWidget {
   const SignUpEmailView({super.key});
 
@@ -36,10 +38,7 @@ class SignUpEmailView extends StatelessWidget {
 
 VoidCallback? _onPrimaryButtonPressed(SignUpState state, BuildContext context) {
   return state.emailInput.isValid
-      ? () => Navigator.pushNamed(
-            context,
-            RouteNames.signUpEmailVerification,
-          )
+      ? () => context.router.pushNamed(SignUpEmailVerificationView.name)
       : null;
 }
 

@@ -13,5 +13,5 @@ void main() async {
 
   //DependencyInjection
   configureInfrastructureDependencies();
-  runApp(const App());
+  runApp(App());
 }
