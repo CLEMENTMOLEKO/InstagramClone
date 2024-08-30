@@ -25,6 +25,15 @@ class SingUpEmailVerificationRequested extends SignUpEvent {
   List<Object?> get props => [email];
 }
 
+class SignUpCodeVerificationRequested extends SignUpEvent {
+  final String code;
+
+  SignUpCodeVerificationRequested({required this.code});
+
+  @override
+  List<Object?> get props => [code];
+}
+
 class SignUpEmailChanged extends SignUpEvent {
   final String email;
 

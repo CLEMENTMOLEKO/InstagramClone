@@ -30,6 +30,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     on<SignUpPasswordChanged>(_signUpPasswordChanged);
     on<UserNameChanged>(_userNameChanged);
     on<SingUpEmailVerificationRequested>(_signUpEmailVerificationRequested);
+    on<SignUpCodeVerificationRequested>(_signUpCodeVerificationRequested);
   }
 
   Future<void> _signUpRequested(
@@ -88,6 +89,15 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       code: code,
     );
     emit(state.copyWith(verificationCode: code));
+  }
+
+  void _signUpCodeVerificationRequested(
+    SignUpCodeVerificationRequested event,
+    Emitter<SignUpState> emit,
+  ) {
+    if (state.verificationCode == int.parse(event.code)) {
+      emit(state.copyWith(isEmailVerified: true));
+    }
   }
 
   Future<void> _registerWithEmailAndPassword(

@@ -424,4 +424,26 @@ void main() {
       },
     );
   });
+
+  group("SignUpCodeVerificationRequested", () {
+    const verificationCode = 123456;
+    blocTest(
+      "Should emit current state with isEmailVerified true if verificationCode is correct",
+      seed: () => const SignUpState(
+        formzSubmissionStatus: FormzSubmissionStatus.canceled,
+        verificationCode: verificationCode,
+      ),
+      build: () => sut,
+      act: (bloc) => bloc.add(
+        SignUpCodeVerificationRequested(code: verificationCode.toString()),
+      ),
+      expect: () => const <SignUpState>[
+        SignUpState(
+          formzSubmissionStatus: FormzSubmissionStatus.canceled,
+          verificationCode: verificationCode,
+          isEmailVerified: true,
+        )
+      ],
+    );
+  });
 }

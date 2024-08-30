@@ -25,6 +25,8 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   injectable: ^2.4.4
   get_it: ^7.7.0
+  mailer: ^6.1.2
+  uuid: ^4.4.2
 
 dev_dependencies:
   flutter_test:

@@ -7,7 +7,8 @@ final class SignUpState extends Equatable {
   final EmailInput emailInput;
   final String userName;
   final int verificationCode;
-  final bool isValid;
+  final bool isEmailVerified;
+  final bool isValid; //TODO: remove this it's not used.
 
   const SignUpState({
     this.formzSubmissionStatus = FormzSubmissionStatus.initial,
@@ -16,6 +17,7 @@ final class SignUpState extends Equatable {
     this.userName = '',
     this.isValid = false,
     this.verificationCode = 0,
+    this.isEmailVerified = false,
   });
 
   SignUpState copyWith({
@@ -25,6 +27,7 @@ final class SignUpState extends Equatable {
     String? userName,
     bool? isValid,
     int? verificationCode,
+    bool? isEmailVerified,
   }) {
     return SignUpState(
       formzSubmissionStatus:
@@ -34,6 +37,7 @@ final class SignUpState extends Equatable {
       userName: userName ?? this.userName,
       isValid: isValid ?? this.isValid,
       verificationCode: verificationCode ?? this.verificationCode,
+      isEmailVerified: isEmailVerified ?? this.isEmailVerified,
     );
   }
 
@@ -45,5 +49,6 @@ final class SignUpState extends Equatable {
         userName,
         isValid,
         verificationCode,
+        isEmailVerified,
       ];
 }
