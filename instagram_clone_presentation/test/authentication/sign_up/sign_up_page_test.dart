@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/authentication/sign_up/sign_up_page.dart';
-import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_up_email_view.dart';
 import 'package:instagram_clone_presentation/common/navigation/router.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -43,7 +42,7 @@ void main() {
     testWidgets("Should render AutoRouter", (widgetTester) async {
       await pumpSignUpPage(widgetTester);
       await widgetTester.pumpAndSettle();
-      expect(find.byType(SignUpEmailView), findsOneWidget);
+      expect(find.byType(AutoRouter), findsOneWidget);
     }, skip: true); // TODO: Fix this test, error caused by auto_route
   });
 }

@@ -14,17 +14,22 @@ class MockUserRepository extends Mock implements UserRepository {}
 
 class MockConnectionChecker extends Mock implements ConnectionChecker {}
 
+class MockEmailService extends Mock implements EmailService {}
+
 void main() {
   late SignUpBloc bloc;
   late AuthenticationService mockAuthenticationService;
   late UserRepository mockUserRepository;
   late ConnectionChecker mockConnectionChecker;
+  late EmailService mockEmailService;
 
   setUp(() {
     mockAuthenticationService = MockAuthenticationService();
     mockUserRepository = MockUserRepository();
     mockConnectionChecker = MockConnectionChecker();
+    mockEmailService = MockEmailService();
     bloc = SignUpBloc(
+      emailService: mockEmailService,
       authenticationService: mockAuthenticationService,
       userRepository: mockUserRepository,
       connectionChecker: mockConnectionChecker,

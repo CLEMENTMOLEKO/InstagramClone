@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
-import 'package:instagram_clone_application/user/user_repository.dart';
 import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -12,6 +11,8 @@ class MockAuthenticationService extends Mock implements AuthenticationService {}
 class MockUserRepository extends Mock implements UserRepository {}
 
 class MockConnectionChecker extends Mock implements ConnectionChecker {}
+
+class MockEmailService extends Mock implements EmailService {}
 
 extension on SignUpBloc {
   void addSignUpRequestedWith({String? userName}) {
@@ -26,15 +27,18 @@ void main() {
   late MockAuthenticationService mockAuthenticationService;
   late MockUserRepository mockUserRepository;
   late MockConnectionChecker mockConnectionChecker;
+  late MockEmailService mockEmailService;
 
   setUp(() {
     mockAuthenticationService = MockAuthenticationService();
     mockUserRepository = MockUserRepository();
     mockConnectionChecker = MockConnectionChecker();
+    mockEmailService = MockEmailService();
     sut = SignUpBloc(
       authenticationService: mockAuthenticationService,
       userRepository: mockUserRepository,
       connectionChecker: mockConnectionChecker,
+      emailService: mockEmailService,
     );
     when(
       () => mockConnectionChecker.hasConnection,
@@ -380,6 +384,44 @@ void main() {
       build: () => sut,
       act: (bloc) => bloc.add(UserNameChanged(userName: userName)),
       expect: () => const <SignUpState>[SignUpState(userName: userName)],
+    );
+  });
+
+  group("SingUpEmailVerificationRequested", () {
+    const verificationCode = 123456;
+    blocTest(
+      "Should emit current state with verificationCode",
+      setUp: () {
+        when(
+          () => mockEmailService.generateVerificationCode(),
+        ).thenReturn(verificationCode);
+        when(
+          () => mockEmailService.sendVerificationCodeToEmail(
+            email: any(named: "email"),
+            code: any(named: "code"),
+          ),
+        ).thenAnswer((_) async => unit);
+      },
+      seed: () => const SignUpState(
+        formzSubmissionStatus: FormzSubmissionStatus.canceled,
+      ),
+      build: () => sut,
+      act: (bloc) => bloc.add(SingUpEmailVerificationRequested(
+          email: UserDtoConstants.validEmails.first)),
+      expect: () => const <SignUpState>[
+        SignUpState(
+          formzSubmissionStatus: FormzSubmissionStatus.canceled,
+          verificationCode: verificationCode,
+        )
+      ],
+      verify: (bloc) {
+        verify(
+          () => mockEmailService.sendVerificationCodeToEmail(
+            email: UserDtoConstants.validEmails.first,
+            code: verificationCode,
+          ),
+        ).called(1);
+      },
     );
   });
 }

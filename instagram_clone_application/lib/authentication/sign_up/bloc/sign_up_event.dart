@@ -14,6 +14,17 @@ class SignUpRequested extends SignUpEvent {
   List<Object?> get props => [userName];
 }
 
+class SingUpEmailVerificationRequested extends SignUpEvent {
+  final String email;
+
+  SingUpEmailVerificationRequested({
+    required this.email,
+  });
+
+  @override
+  List<Object?> get props => [email];
+}
+
 class SignUpEmailChanged extends SignUpEvent {
   final String email;
 

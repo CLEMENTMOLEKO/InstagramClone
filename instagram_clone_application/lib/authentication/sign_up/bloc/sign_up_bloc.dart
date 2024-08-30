@@ -6,6 +6,7 @@ import 'package:instagram_clone_application/user/user_repository.dart';
 import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:meta/meta.dart';
 
+import '../../../common/email/email_service.dart';
 import '../../../common/network/connection_checker.dart';
 import '../../authentication.dart';
 
@@ -16,16 +17,19 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final AuthenticationService authenticationService;
   final UserRepository userRepository;
   final ConnectionChecker connectionChecker;
+  final EmailService emailService;
 
   SignUpBloc({
     required this.authenticationService,
     required this.userRepository,
     required this.connectionChecker,
+    required this.emailService,
   }) : super(const SignUpState()) {
     on<SignUpRequested>(_signUpRequested);
     on<SignUpEmailChanged>(_signUpEmailChanged);
     on<SignUpPasswordChanged>(_signUpPasswordChanged);
     on<UserNameChanged>(_userNameChanged);
+    on<SingUpEmailVerificationRequested>(_signUpEmailVerificationRequested);
   }
 
   Future<void> _signUpRequested(
@@ -72,6 +76,18 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     Emitter<SignUpState> emit,
   ) {
     emit(state.copyWith(userName: event.userName));
+  }
+
+  void _signUpEmailVerificationRequested(
+    SingUpEmailVerificationRequested event,
+    Emitter<SignUpState> emit,
+  ) async {
+    final code = emailService.generateVerificationCode();
+    await emailService.sendVerificationCodeToEmail(
+      email: event.email,
+      code: code,
+    );
+    emit(state.copyWith(verificationCode: code));
   }
 
   Future<void> _registerWithEmailAndPassword(

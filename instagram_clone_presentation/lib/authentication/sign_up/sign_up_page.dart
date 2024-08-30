@@ -9,18 +9,21 @@ class SignUpPage extends StatelessWidget {
   final AuthenticationService? authenticationService;
   final UserRepository? userRepository;
   final ConnectionChecker? connectionChecker;
+  final EmailService? emailService;
 
   const SignUpPage({
     super.key,
     this.authenticationService,
     this.userRepository,
     this.connectionChecker,
+    this.emailService,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SignUpBloc(
+        emailService: emailService ?? getIt.get<EmailService>(),
         authenticationService:
             authenticationService ?? getIt.get<AuthenticationService>(),
         userRepository: userRepository ?? getIt.get<UserRepository>(),
