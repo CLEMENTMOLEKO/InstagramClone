@@ -1,10 +1,11 @@
-import 'package:google_sign_in/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 
+@LazySingleton(as: EmailService)
 class LocalEmailService implements EmailService {
   @override
   Future<void> sendVerificationCodeToEmail({

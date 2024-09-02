@@ -20,6 +20,8 @@ import 'package:instagram_clone_infrastructure/authentication/firebase_authentic
     as _i9;
 import 'package:instagram_clone_infrastructure/dependency_injection_modules.dart'
     as _i764;
+import 'package:instagram_clone_infrastructure/email/local_email_service.dart'
+    as _i842;
 import 'package:instagram_clone_infrastructure/network/connection_checker.dart'
     as _i397;
 import 'package:instagram_clone_infrastructure/user/firebase_user_repository.dart'
@@ -52,6 +54,7 @@ extension GetItInjectableX on _i174.GetIt {
               firebaseAuth: gh<_i59.FirebaseAuth>(),
               googleSignIn: gh<_i116.GoogleSignIn>(),
             ));
+    gh.lazySingleton<_i876.EmailService>(() => _i842.LocalEmailService());
     gh.factory<_i14.ConnectionChecker>(() => _i397.ConnectionCheckerImpl(
         internetConnectionChecker: gh<_i973.InternetConnectionChecker>()));
     gh.factory<_i876.UserRepository>(() => _i754.FirebaseUserRepository(
