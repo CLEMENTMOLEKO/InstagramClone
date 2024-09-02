@@ -435,7 +435,7 @@ void main() {
       ),
       build: () => sut,
       act: (bloc) => bloc.add(
-        SignUpCodeVerificationRequested(code: verificationCode.toString()),
+        VerifySignUpCodeRequested(code: verificationCode.toString()),
       ),
       expect: () => const <SignUpState>[
         SignUpState(

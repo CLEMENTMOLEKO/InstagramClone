@@ -1,3 +1,4 @@
+import 'package:google_sign_in/widgets.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:uuid/uuid.dart';
@@ -10,7 +11,6 @@ class LocalEmailService implements EmailService {
     required int code,
     required String email,
   }) async {
-    // Implement sendVerificationCodeToEmail
     final smtpServer = gmail('africantradingmarkets@gmail.com', '@Bafana5');
 
     final message = Message()
@@ -32,7 +32,8 @@ class LocalEmailService implements EmailService {
   int generateVerificationCode() {
     final uuid = Uuid();
     final uuidString = uuid.v4();
-    final numbers = uuidString.replaceAll(RegExp(r'[^0-9]'), '');
+    var numbers = uuidString.replaceAll(RegExp(r'[^0-9]'), '');
+    if (numbers.length < 6) numbers += "0";
     return int.parse(numbers.substring(0, 6));
   }
 }

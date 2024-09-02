@@ -18,6 +18,10 @@ class AppRouter extends RootStackRouter {
             path: SignUpEmailVerificationView.name,
             page: SignUpEmailVerificationView.page,
           ),
+          AutoRoute(
+            path: SignUpPasswordView.name,
+            page: SignUpPasswordView.page,
+          ),
         ],
       ),
     ];

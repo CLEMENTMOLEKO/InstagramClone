@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class InstaTextField extends StatelessWidget {
   final String labelText;
-  final void Function(String) onChanged;
+  final void Function(String)? onChanged;
   final String? errorText;
   final Icon? icon;
 

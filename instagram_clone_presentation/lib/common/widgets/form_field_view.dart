@@ -15,8 +15,8 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
   final VoidCallback? Function(TState) onPrimaryButtonPressed;
   final String? secondaryButtonText;
   final VoidCallback? onSecondaryButtonPressed;
-  final bool Function(TState, TState) buildWhen;
-  final void Function(String) onFieldValueChanged;
+  final bool Function(TState, TState)? buildWhen;
+  final void Function(String)? onFieldValueChanged;
   final String? Function(TState)? getErrorText;
   final Icon? Function(TState)? getFieldIcon;
 
@@ -27,10 +27,10 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
     required this.fieldLabel,
     required this.primaryButtonText,
     required this.onPrimaryButtonPressed,
+    this.buildWhen,
     this.secondaryButtonText,
     this.onSecondaryButtonPressed,
-    required this.buildWhen,
-    required this.onFieldValueChanged,
+    this.onFieldValueChanged,
     this.getErrorText,
     this.getFieldIcon,
   });

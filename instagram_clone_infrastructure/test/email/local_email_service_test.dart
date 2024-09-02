@@ -30,9 +30,8 @@ void main() {
         ),
         throwsA(isA<Exception>()),
       );
-    },
-        skip:
-            true); //TODO: Find a wayt to mock smtp server otherwise this case can't be tested.
+      //TODO: Find a way to mock smtp server otherwise this case can't be tested.
+    }, skip: true);
 
     test('generateVerificationCode should return a 6-digit code', () {
       final code = sut.generateVerificationCode();
