@@ -46,5 +46,29 @@ void main() {
               'To confirm your account, enter the 6-digit code that we sent to $validEmail.'),
           findsOneWidget);
     });
+
+    testWidgets('Should display the confirmation code field', (tester) async {
+      await pumpSignUpEmailVerificationView(tester);
+      expect(find.byKey(const Key('form_field_view_field')), findsOneWidget);
+    });
+
+    testWidgets("Should display field with label 'Confirmation code'",
+        (tester) async {
+      await pumpSignUpEmailVerificationView(tester);
+      expect(find.text('Confirmation code'), findsOneWidget);
+    });
+
+    testWidgets("Should display primary button with text 'Next'",
+        (tester) async {
+      await pumpSignUpEmailVerificationView(tester);
+      expect(find.text('Next'), findsOneWidget);
+    });
+
+    testWidgets(
+        "Should display secondary button with text 'I didn't receive the code'",
+        (tester) async {
+      await pumpSignUpEmailVerificationView(tester);
+      expect(find.text("I didn't receive the code"), findsOneWidget);
+    });
   });
 }
