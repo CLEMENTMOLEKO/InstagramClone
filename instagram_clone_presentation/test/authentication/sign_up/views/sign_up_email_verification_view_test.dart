@@ -56,9 +56,10 @@ void main() {
       //Act
       //Assert
       expect(
-          find.text(
-              'To confirm your account, enter the 6-digit code that we sent to $validEmail.'),
-          findsOneWidget);
+        find.text(
+            'To confirm your account, enter the 6-digit code that we sent to $validEmail.'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('Should display the confirmation code field',
@@ -83,9 +84,14 @@ void main() {
         (widgetTester) async {
       //Arrange
       await pumpSignUpEmailVerificationView(widgetTester);
+      final primaryButtonFinder =
+          find.byKey(const Key("form_field_view_primary_button"));
+      final primaryButton =
+          widgetTester.widget<ElevatedButton>(primaryButtonFinder);
       //Act
       //Assert
-      expect(find.text('Next'), findsOneWidget);
+      expect(primaryButtonFinder, findsOneWidget);
+      expect((primaryButton.child as Text).data, "Next");
     });
 
     testWidgets(
