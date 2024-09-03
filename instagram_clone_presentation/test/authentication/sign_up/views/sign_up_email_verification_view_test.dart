@@ -106,7 +106,7 @@ void main() {
 
     group("PrimaryButtonPressed", () {
       testWidgets(
-        "Should add [VerifySignUpCodeRequested] event with code on the field",
+        "Should add [VerifySignUpCodeRequested] event with code on the field when pressed.",
         (WidgetTester widgetTester) async {
           //Arrange
           const code = "123456";
