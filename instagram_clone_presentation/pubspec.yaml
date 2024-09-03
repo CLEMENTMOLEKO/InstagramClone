@@ -49,6 +49,7 @@ dependencies:
   dev: ^1.0.0
   auto_route: ^9.2.0
   provider: ^6.1.2
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:
