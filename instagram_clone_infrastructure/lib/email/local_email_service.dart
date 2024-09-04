@@ -12,7 +12,7 @@ class LocalEmailService implements EmailService {
     required int code,
     required String email,
   }) async {
-    final smtpServer = gmail('africantradingmarkets@gmail.com', '@Bafana5');
+    final smtpServer = gmail('africantradingmarkets@gmail.com', '@123456');
 
     final message = Message()
       ..from =
