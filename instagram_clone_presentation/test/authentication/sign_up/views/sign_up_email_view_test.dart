@@ -30,8 +30,8 @@ void main() {
   }
 
   Future<void> renderSignUpEmailView(
-      WidgetTester tester, SignUpBloc bloc) async {
-    await tester.pumpWidget(MaterialApp(
+      WidgetTester widgetTester, SignUpBloc bloc) async {
+    await widgetTester.pumpWidget(MaterialApp(
       home: BlocProvider<SignUpBloc>.value(
         value: bloc,
         child: const SignUpEmailView(),
@@ -40,9 +40,9 @@ void main() {
   }
 
   group("SignUpEmailView", () {
-    testWidgets("Should render title label", (WidgetTester tester) async {
+    testWidgets("Should render title label", (WidgetTester widgetTester) async {
       // Arrange
-      await renderSignUpEmailView(tester, mockSignUpBloc);
+      await renderSignUpEmailView(widgetTester, mockSignUpBloc);
 
       // Act
       final titleFinder = find.text("What's your email address?");
@@ -51,9 +51,10 @@ void main() {
       expect(titleFinder, findsOneWidget);
     });
 
-    testWidgets("Should render subtitle label", (WidgetTester tester) async {
+    testWidgets("Should render subtitle label",
+        (WidgetTester widgetTester) async {
       // Arrange
-      await renderSignUpEmailView(tester, mockSignUpBloc);
+      await renderSignUpEmailView(widgetTester, mockSignUpBloc);
 
       // Act
       final subtitleFinder = find.text(
@@ -63,9 +64,9 @@ void main() {
       expect(subtitleFinder, findsOneWidget);
     });
 
-    testWidgets("Should render email field", (WidgetTester tester) async {
+    testWidgets("Should render email field", (WidgetTester widgetTester) async {
       // Arrange
-      await renderSignUpEmailView(tester, mockSignUpBloc);
+      await renderSignUpEmailView(widgetTester, mockSignUpBloc);
 
       // Act
       final emailFieldFinder = find.byKey(const Key("form_field_view_field"));
@@ -74,46 +75,52 @@ void main() {
       expect(emailFieldFinder, findsOneWidget);
     });
 
-    testWidgets("Should render next button", (WidgetTester tester) async {
+    testWidgets("Should render next button", (WidgetTester widgetTester) async {
       // Arrange
-      await renderSignUpEmailView(tester, mockSignUpBloc);
+      await renderSignUpEmailView(widgetTester, mockSignUpBloc);
 
       // Act
-      final nextButtonFinder = find.text("Next");
-
-      // Assert
+      final nextButtonFinder =
+          find.byKey(const Key("form_field_view_primary_button"));
+      final primaryButton =
+          widgetTester.widget<ElevatedButton>(nextButtonFinder);
+      //Act
+      //Assert
       expect(nextButtonFinder, findsOneWidget);
+      expect((primaryButton.child as Text).data, "Next");
     });
 
     testWidgets("Should render sign up with mobile number button",
-        (WidgetTester tester) async {
+        (WidgetTester widgetTester) async {
       // Arrange
-      await renderSignUpEmailView(tester, mockSignUpBloc);
+      await renderSignUpEmailView(widgetTester, mockSignUpBloc);
 
       // Act
       final mobileButtonFinder =
           find.byKey(const Key("form_field_view_secondary_button"));
-
+      final mobileButton = widgetTester.widget<TextButton>(mobileButtonFinder);
       // Assert
       expect(mobileButtonFinder, findsOneWidget);
+      expect((mobileButton.child as Text).data, "Sign Up with Mobile Number");
     });
 
     group("Email Text Field", () {
-      (Finder, InstaTextField) setupTextFieldWidget(WidgetTester tester) {
+      (Finder, InstaTextField) setupTextFieldWidget(WidgetTester widgetTester) {
         final emailFieldFinder = find.byKey(const Key("form_field_view_field"));
-        final emailField = tester.widget(emailFieldFinder) as InstaTextField;
+        final emailField =
+            widgetTester.widget(emailFieldFinder) as InstaTextField;
         return (emailFieldFinder, emailField);
       }
 
       testWidgets("Should emit email changed event when email is changed",
-          (WidgetTester tester) async {
+          (WidgetTester widgetTester) async {
         // Arrange
-        await renderSignUpEmailView(tester, mockSignUpBloc);
+        await renderSignUpEmailView(widgetTester, mockSignUpBloc);
 
         // Act
-        final (emailFieldFinder, _) = setupTextFieldWidget(tester);
-        await tester.enterText(emailFieldFinder, "test@example.com");
-        await tester.pumpAndSettle();
+        final (emailFieldFinder, _) = setupTextFieldWidget(widgetTester);
+        await widgetTester.enterText(emailFieldFinder, "test@example.com");
+        await widgetTester.pumpAndSettle();
         // Assert
         verify(() =>
             mockSignUpBloc.add(SignUpEmailChanged(email: "test@example.com")));
@@ -121,13 +128,13 @@ void main() {
       });
 
       testWidgets("Should show error icon when email is invalid",
-          (WidgetTester tester) async {
+          (WidgetTester widgetTester) async {
         // Arrange
         setupInvalidState();
-        await renderSignUpEmailView(tester, mockSignUpBloc);
+        await renderSignUpEmailView(widgetTester, mockSignUpBloc);
 
         // Act
-        final (_, emailField) = setupTextFieldWidget(tester);
+        final (_, emailField) = setupTextFieldWidget(widgetTester);
         // Assert
         expect(emailField.icon, isNotNull);
         expect(emailField.icon!.icon, Icons.error);
@@ -135,12 +142,12 @@ void main() {
       });
 
       testWidgets("Should show check icon when email is valid",
-          (WidgetTester tester) async {
+          (WidgetTester widgetTester) async {
         // Arrange
         setupValidState();
-        await renderSignUpEmailView(tester, mockSignUpBloc);
+        await renderSignUpEmailView(widgetTester, mockSignUpBloc);
         // Act
-        final (_, emailField) = setupTextFieldWidget(tester);
+        final (_, emailField) = setupTextFieldWidget(widgetTester);
         // Assert
         expect(emailField.icon, isNotNull);
         expect(emailField.icon!.icon, Icons.check_circle);
@@ -149,31 +156,32 @@ void main() {
     });
 
     group("next button", () {
-      ElevatedButton setupButtonWidget(WidgetTester tester) {
+      ElevatedButton setupButtonWidget(WidgetTester widgetTester) {
         final nextButtonFinder =
             find.byKey(const Key("form_field_view_primary_button"));
-        final nextButton = tester.widget(nextButtonFinder) as ElevatedButton;
+        final nextButton =
+            widgetTester.widget(nextButtonFinder) as ElevatedButton;
         return nextButton;
       }
 
       testWidgets("Should enable next button when email is valid",
-          (WidgetTester tester) async {
+          (WidgetTester widgetTester) async {
         // Arrange
         setupValidState();
-        await renderSignUpEmailView(tester, mockSignUpBloc);
-        final nextButton = setupButtonWidget(tester);
+        await renderSignUpEmailView(widgetTester, mockSignUpBloc);
+        final nextButton = setupButtonWidget(widgetTester);
         // Act
         // Assert
         expect(nextButton.onPressed, isNotNull);
       });
 
       testWidgets("Should disable next button when email is invalid",
-          (WidgetTester tester) async {
+          (WidgetTester widgetTester) async {
         // Arrange
         setupInvalidState();
-        await renderSignUpEmailView(tester, mockSignUpBloc);
+        await renderSignUpEmailView(widgetTester, mockSignUpBloc);
         // Act
-        final nextButton = setupButtonWidget(tester);
+        final nextButton = setupButtonWidget(widgetTester);
         // Assert
         expect(nextButton.onPressed, isNull);
       });
