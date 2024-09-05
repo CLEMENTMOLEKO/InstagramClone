@@ -33,6 +33,8 @@ class _SignUpEmailVerificationViewState
           context.router.pushNamed(SignUpPasswordView.name);
         }
       },
+      listenWhen: (previous, current) =>
+          previous.isEmailVerified != current.isEmailVerified,
       child: FormFieldView<SignUpBloc, SignUpEvent, SignUpState>(
         title: "Enter the confirmation code",
         subtitle:

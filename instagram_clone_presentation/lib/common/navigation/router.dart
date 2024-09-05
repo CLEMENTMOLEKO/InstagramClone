@@ -5,13 +5,17 @@ import 'package:instagram_clone_presentation/common/navigation/router.gr.dart';
 class AppRouter extends RootStackRouter {
   final _routes = [
     AutoRoute(
-      path: SignUpRoute.name,
+      path: "/",
       page: SignUpRoute.page,
       children: [
         AutoRoute(path: '', page: SignUpEmailView.page),
         AutoRoute(
           path: SignUpEmailVerificationView.name,
           page: SignUpEmailVerificationView.page,
+        ),
+        AutoRoute(
+          path: SignUpPasswordView.name,
+          page: SignUpPasswordView.page,
         ),
       ],
     ),
