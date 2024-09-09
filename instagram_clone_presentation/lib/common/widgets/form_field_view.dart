@@ -46,13 +46,18 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
+                  key: const Key("form_field_view_title"),
                   title,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineMedium
+                      ?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const Gap(10),
-                Text(subtitle),
+                Text(
+                  key: const Key("form_field_view_subtitle"),
+                  subtitle,
+                ),
                 const Gap(30),
                 BlocBuilder<Tbloc, TState>(
                   buildWhen: buildWhen,

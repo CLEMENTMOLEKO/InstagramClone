@@ -31,10 +31,14 @@ class LocalEmailService implements EmailService {
 
   @override
   int generateVerificationCode() {
-    final uuid = Uuid();
+    const uuid = Uuid();
     final uuidString = uuid.v4();
     var numbers = uuidString.replaceAll(RegExp(r'[^0-9]'), '');
-    if (numbers.length < 6) numbers += "0";
+    // guid could generate less numbers append numbers in these numbers
+    final loopCount = numbers.length - 6;
+    for (var i = 0; i < loopCount; i++) {
+      numbers += "$i";
+    }
     return int.parse(numbers.substring(0, 6));
   }
 }

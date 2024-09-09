@@ -34,8 +34,6 @@ class SignUpPasswordView extends StatelessWidget {
       SignUpState state, BuildContext context) {
     return state.passwordInput.isValid
         ? () {
-            context.read<SignUpBloc>().add(
-                SignUpPasswordChanged(password: state.passwordInput.value));
             // context.router.pushNamed(SignUpEmailVerificationView.name);
             Navigator.of(context).push(
               MaterialPageRoute(
