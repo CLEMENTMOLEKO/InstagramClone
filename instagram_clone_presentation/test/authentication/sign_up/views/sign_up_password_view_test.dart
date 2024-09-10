@@ -99,6 +99,14 @@ void main() {
     });
 
     group("PasswordTextField", () {
+      (Finder, InstaTextField) setupPasswordTextField(
+          WidgetTester widgetTester) {
+        final emailFieldFinder = find.byKey(const Key("form_field_view_field"));
+        final emailField =
+            widgetTester.widget(emailFieldFinder) as InstaTextField;
+        return (emailFieldFinder, emailField);
+      }
+
       testWidgets(
           "Should raise [SignUpPasswordChanged] event when value changes",
           (WidgetTester widgetTester) async {
@@ -112,6 +120,33 @@ void main() {
         verify(
           () => mockSignUpBloc.add(SignUpPasswordChanged(password: password)),
         );
+      });
+
+      testWidgets("Should show error icon when email is invalid",
+          (WidgetTester widgetTester) async {
+        // Arrange
+        setupInvalidState();
+        await renderSignUpPasswordView(widgetTester);
+
+        // Act
+        final (_, passwordField) = setupPasswordTextField(widgetTester);
+        // Assert
+        expect(passwordField.icon, isNotNull);
+        expect(passwordField.icon!.icon, Icons.error);
+        expect(passwordField.icon!.color, Colors.red);
+      });
+
+      testWidgets("Should show check icon when email is valid",
+          (WidgetTester widgetTester) async {
+        // Arrange
+        setupValidState();
+        await renderSignUpPasswordView(widgetTester);
+        // Act
+        final (_, passwordField) = setupPasswordTextField(widgetTester);
+        // Assert
+        expect(passwordField.icon, isNotNull);
+        expect(passwordField.icon!.icon, Icons.check_circle);
+        expect(passwordField.icon!.color, Colors.green);
       });
     });
   });
