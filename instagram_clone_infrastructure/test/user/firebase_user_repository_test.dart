@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
-import 'package:instagram_clone_application/user/user_repository.dart';
 import 'package:instagram_clone_infrastructure/user/firebase_user_repository.dart';
+import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 import 'package:instagram_clone_shared/test_utils/constants/constants.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -15,6 +17,9 @@ class MockCollectionReference extends Mock
 class MockDocumentReference extends Mock
     implements DocumentReference<Map<String, dynamic>> {}
 
+class MockDocumentSnapshot extends Mock
+    implements DocumentSnapshot<Map<String, dynamic>> {}
+
 class MockFirebaseException extends Mock implements FirebaseException {}
 
 void main() {
@@ -23,12 +28,18 @@ void main() {
   late MockDocumentReference mockDocumentReference;
   late MockFirebaseFireStore mockFirebaseFirestore;
   late FirebaseException mockFirebaseException;
+  late MockDocumentSnapshot mockDocumentSnapshot;
+
+  setUpAll(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
+  });
 
   setUp(() {
     mockFirebaseFirestore = MockFirebaseFireStore();
     mockCollectionReference = MockCollectionReference();
     mockDocumentReference = MockDocumentReference();
     mockFirebaseException = MockFirebaseException();
+    mockDocumentSnapshot = MockDocumentSnapshot();
     sut = FirebaseUserRepository(firebaseFirestore: mockFirebaseFirestore);
 
     when(() => mockFirebaseFirestore.collection(any()))
@@ -36,6 +47,8 @@ void main() {
     when(() => mockCollectionReference.doc(any()))
         .thenReturn(mockDocumentReference);
     when(() => mockDocumentReference.set(any())).thenAnswer((_) async => unit);
+    when(() => mockDocumentReference.get())
+        .thenAnswer((_) async => mockDocumentSnapshot);
   });
 
   Future<Either<ApplicationFailure, Unit>> callAddUser() async {
@@ -107,6 +120,55 @@ void main() {
         final result = await callAddUser();
         //Assert
         expect(result, left(ApplicationFailure.unexpected));
+      });
+    });
+
+    group("GetUser", () {
+      test("Should return [UserModel] when get is successful", () async {
+        //Arrange
+        final userDataAsString =
+            await JsonReader.readAsStringFrom(path: "user/user.json");
+        final userData = json.decode(userDataAsString);
+        when(
+          () => mockDocumentSnapshot.exists,
+        ).thenReturn(true);
+        when(
+          () => mockDocumentSnapshot.data(),
+        ).thenReturn(userData);
+        //Act
+        final result = await sut.getUser(userId: Constants.validUuids.first);
+        final userModel = result.getOrElse(
+          () => throw Exception("Error gettng user"),
+        );
+        //Assert
+        expect(result.isRight(), equals(true));
+        expect(
+          userModel,
+          isA<UserModel>()
+              .having(
+                (e) => e.id.value,
+                'id',
+                equals(userData["id"]),
+              )
+              .having(
+                (e) => e.emailAddress.value,
+                "emailAddress",
+                equals(userData['emailAddress']),
+              ),
+        );
+      });
+
+      test(
+          "Should return [ApplicationFailure.errorGettingUser] when snapshot doesn't exist",
+          () async {
+        //Arrange
+        when(
+          () => mockDocumentSnapshot.exists,
+        ).thenReturn(false);
+        //Act
+        final result = await sut.getUser(userId: Constants.validUuids.first);
+        //Assert
+        expect(result, left(ApplicationFailure.errorGettingUser));
       });
     });
   });
