@@ -8,10 +8,10 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i5;
-import 'package:flutter/material.dart' as _i6;
+import 'package:auto_route/auto_route.dart' as _i6;
+import 'package:flutter/material.dart' as _i7;
 import 'package:instagram_clone_application/instagram_clone_application.dart'
-    as _i7;
+    as _i8;
 import 'package:instagram_clone_presentation/authentication/sign_up/sign_up_page.dart'
     as _i3;
 import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_up_email_verification_view.dart'
@@ -20,11 +20,13 @@ import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_u
     as _i2;
 import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_up_password_view.dart'
     as _i4;
+import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_up_username_view.dart'
+    as _i5;
 
 /// generated route for
 /// [_i1.SignUpEmailVerificationView]
-class SignUpEmailVerificationView extends _i5.PageRouteInfo<void> {
-  const SignUpEmailVerificationView({List<_i5.PageRouteInfo>? children})
+class SignUpEmailVerificationView extends _i6.PageRouteInfo<void> {
+  const SignUpEmailVerificationView({List<_i6.PageRouteInfo>? children})
       : super(
           SignUpEmailVerificationView.name,
           initialChildren: children,
@@ -32,7 +34,7 @@ class SignUpEmailVerificationView extends _i5.PageRouteInfo<void> {
 
   static const String name = 'SignUpEmailVerificationView';
 
-  static _i5.PageInfo page = _i5.PageInfo(
+  static _i6.PageInfo page = _i6.PageInfo(
     name,
     builder: (data) {
       return const _i1.SignUpEmailVerificationView();
@@ -42,8 +44,8 @@ class SignUpEmailVerificationView extends _i5.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.SignUpEmailView]
-class SignUpEmailView extends _i5.PageRouteInfo<void> {
-  const SignUpEmailView({List<_i5.PageRouteInfo>? children})
+class SignUpEmailView extends _i6.PageRouteInfo<void> {
+  const SignUpEmailView({List<_i6.PageRouteInfo>? children})
       : super(
           SignUpEmailView.name,
           initialChildren: children,
@@ -51,7 +53,7 @@ class SignUpEmailView extends _i5.PageRouteInfo<void> {
 
   static const String name = 'SignUpEmailView';
 
-  static _i5.PageInfo page = _i5.PageInfo(
+  static _i6.PageInfo page = _i6.PageInfo(
     name,
     builder: (data) {
       return const _i2.SignUpEmailView();
@@ -61,14 +63,14 @@ class SignUpEmailView extends _i5.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.SignUpPage]
-class SignUpRoute extends _i5.PageRouteInfo<SignUpRouteArgs> {
+class SignUpRoute extends _i6.PageRouteInfo<SignUpRouteArgs> {
   SignUpRoute({
-    _i6.Key? key,
-    _i7.AuthenticationService? authenticationService,
-    _i7.UserRepository? userRepository,
-    _i7.ConnectionChecker? connectionChecker,
-    _i7.EmailService? emailService,
-    List<_i5.PageRouteInfo>? children,
+    _i7.Key? key,
+    _i8.AuthenticationService? authenticationService,
+    _i8.UserRepository? userRepository,
+    _i8.ConnectionChecker? connectionChecker,
+    _i8.EmailService? emailService,
+    List<_i6.PageRouteInfo>? children,
   }) : super(
           SignUpRoute.name,
           args: SignUpRouteArgs(
@@ -83,7 +85,7 @@ class SignUpRoute extends _i5.PageRouteInfo<SignUpRouteArgs> {
 
   static const String name = 'SignUpRoute';
 
-  static _i5.PageInfo page = _i5.PageInfo(
+  static _i6.PageInfo page = _i6.PageInfo(
     name,
     builder: (data) {
       final args =
@@ -108,15 +110,15 @@ class SignUpRouteArgs {
     this.emailService,
   });
 
-  final _i6.Key? key;
+  final _i7.Key? key;
 
-  final _i7.AuthenticationService? authenticationService;
+  final _i8.AuthenticationService? authenticationService;
 
-  final _i7.UserRepository? userRepository;
+  final _i8.UserRepository? userRepository;
 
-  final _i7.ConnectionChecker? connectionChecker;
+  final _i8.ConnectionChecker? connectionChecker;
 
-  final _i7.EmailService? emailService;
+  final _i8.EmailService? emailService;
 
   @override
   String toString() {
@@ -126,8 +128,8 @@ class SignUpRouteArgs {
 
 /// generated route for
 /// [_i4.SignUpPasswordView]
-class SignUpPasswordView extends _i5.PageRouteInfo<void> {
-  const SignUpPasswordView({List<_i5.PageRouteInfo>? children})
+class SignUpPasswordView extends _i6.PageRouteInfo<void> {
+  const SignUpPasswordView({List<_i6.PageRouteInfo>? children})
       : super(
           SignUpPasswordView.name,
           initialChildren: children,
@@ -135,10 +137,29 @@ class SignUpPasswordView extends _i5.PageRouteInfo<void> {
 
   static const String name = 'SignUpPasswordView';
 
-  static _i5.PageInfo page = _i5.PageInfo(
+  static _i6.PageInfo page = _i6.PageInfo(
     name,
     builder: (data) {
       return const _i4.SignUpPasswordView();
+    },
+  );
+}
+
+/// generated route for
+/// [_i5.SignUpUsernameView]
+class SignUpUsernameView extends _i6.PageRouteInfo<void> {
+  const SignUpUsernameView({List<_i6.PageRouteInfo>? children})
+      : super(
+          SignUpUsernameView.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SignUpUsernameView';
+
+  static _i6.PageInfo page = _i6.PageInfo(
+    name,
+    builder: (data) {
+      return const _i5.SignUpUsernameView();
     },
   );
 }

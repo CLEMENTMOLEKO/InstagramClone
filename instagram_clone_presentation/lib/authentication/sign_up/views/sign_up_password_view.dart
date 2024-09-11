@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
+import 'package:instagram_clone_presentation/common/navigation/router.gr.dart';
 import '../widget_helpers/get_field_icon.dart';
 import '../../../common/widgets/form_field_view.dart';
 
@@ -34,16 +35,7 @@ class SignUpPasswordView extends StatelessWidget {
       SignUpState state, BuildContext context) {
     return state.passwordInput.isValid
         ? () {
-            // context.router.pushNamed(SignUpEmailVerificationView.name);
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => const Scaffold(
-                  body: Center(
-                    child: Text("Test Screen"),
-                  ),
-                ),
-              ),
-            );
+            context.router.pushNamed(SignUpUsernameView.name);
           }
         : null;
   }
