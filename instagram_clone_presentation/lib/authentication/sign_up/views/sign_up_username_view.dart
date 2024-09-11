@@ -12,7 +12,7 @@ class SignUpUsernameView extends StatelessWidget {
     return FormFieldView<SignUpBloc, SignUpEvent, SignUpState>(
       title: "Create a username",
       subtitle:
-          "Add a username or use our suggestion. You can change theis at any time",
+          "Add a username or use our suggestion. You can change this at any time",
       fieldLabel: "Username",
       primaryButtonText: "Next",
       onPrimaryButtonPressed: (_) => () {},

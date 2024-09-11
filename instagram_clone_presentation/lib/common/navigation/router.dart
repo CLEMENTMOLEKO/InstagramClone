@@ -18,7 +18,7 @@ class AppRouter extends RootStackRouter {
           page: SignUpPasswordView.page,
         ),
         AutoRoute(
-          path: SignUpPasswordView.name,
+          path: SignUpUsernameView.name,
           page: SignUpUsernameView.page,
         ),
       ],
