@@ -70,20 +70,6 @@ void main() {
       expect(subtitleWidget.data, appropriateString);
     });
 
-    testWidgets("Should render text field with appropriate label",
-        (WidgetTester widgetTester) async {
-      //Arrange
-      const filedLabel = "Password";
-      await renderSignUpPasswordView(widgetTester);
-      //Act
-      final textFieldFinder = find.byKey(const Key("form_field_view_field"));
-      final textFieldWidget =
-          widgetTester.widget<InstaTextField>(textFieldFinder);
-      //Assert
-      expect(textFieldFinder, findsOneWidget);
-      expect(textFieldWidget.labelText, filedLabel);
-    });
-
     testWidgets("Should render primary button with appropriate label",
         (WidgetTester widgetTester) async {
       //Arrange
@@ -100,12 +86,26 @@ void main() {
 
     group("PasswordTextField", () {
       (Finder, InstaTextField) setupPasswordTextField(
-          WidgetTester widgetTester) {
+        WidgetTester widgetTester,
+      ) {
         final emailFieldFinder = find.byKey(const Key("form_field_view_field"));
         final emailField =
             widgetTester.widget(emailFieldFinder) as InstaTextField;
         return (emailFieldFinder, emailField);
       }
+
+      testWidgets("Should render text field with appropriate label",
+          (WidgetTester widgetTester) async {
+        //Arrange
+        const filedLabel = "Password";
+        await renderSignUpPasswordView(widgetTester);
+        final (passwordFiedFinder, passwordFieldWidget) =
+            setupPasswordTextField(widgetTester);
+        //Act
+        //Assert
+        expect(passwordFiedFinder, findsOneWidget);
+        expect(passwordFieldWidget.labelText, filedLabel);
+      });
 
       testWidgets(
           "Should raise [SignUpPasswordChanged] event when value changes",
@@ -113,8 +113,8 @@ void main() {
         //Arrange
         const password = "passwordtest";
         await renderSignUpPasswordView(widgetTester);
+        final (textFieldFinder, _) = setupPasswordTextField(widgetTester);
         //Act
-        final textFieldFinder = find.byKey(const Key("form_field_view_field"));
         await widgetTester.enterText(textFieldFinder, password);
         //Assert
         verify(
