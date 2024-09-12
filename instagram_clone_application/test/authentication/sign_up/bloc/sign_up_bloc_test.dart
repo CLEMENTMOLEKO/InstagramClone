@@ -393,7 +393,7 @@ void main() {
           (_) async => right(userWithUsernameExists),
         ),
         build: () => sut,
-        act: (bloc) => bloc.add(UserNameChanged(userName: userNameInput.value)),
+        act: (bloc) => bloc.add(UserNameChanged(username: userNameInput.value)),
         expect: () => const <SignUpState>[
           SignUpState(
             usernameInput: userNameInput,
@@ -415,7 +415,7 @@ void main() {
           (_) async => right(userWithUsernameExists),
         ),
         build: () => sut,
-        act: (bloc) => bloc.add(UserNameChanged(userName: userNameInput.value)),
+        act: (bloc) => bloc.add(UserNameChanged(username: userNameInput.value)),
         expect: () => const <SignUpState>[
           SignUpState(
             usernameInput: userNameInput,

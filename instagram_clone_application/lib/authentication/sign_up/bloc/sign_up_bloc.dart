@@ -94,9 +94,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     UserNameChanged event,
     Emitter<SignUpState> emit,
   ) async {
-    final usernameInput = UsernameInput.dirty(value: event.userName);
+    final usernameInput = UsernameInput.dirty(value: event.username);
     final userWithUsernameExistsResults = await authenticationService
-        .userWithUsernameExists(username: event.userName);
+        .userWithUsernameExists(username: event.username);
 
     if (userWithUsernameExistsResults.isRight() && !usernameInput.isPure) {
       final userWithUsernameExists = userWithUsernameExistsResults.getOrElse(

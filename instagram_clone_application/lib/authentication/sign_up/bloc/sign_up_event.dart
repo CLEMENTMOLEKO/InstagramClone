@@ -53,10 +53,10 @@ class SignUpPasswordChanged extends SignUpEvent {
 }
 
 class UserNameChanged extends SignUpEvent {
-  final String userName;
+  final String username;
 
-  UserNameChanged({required this.userName});
+  UserNameChanged({required this.username});
 
   @override
-  List<Object?> get props => [userName];
+  List<Object?> get props => [username];
 }

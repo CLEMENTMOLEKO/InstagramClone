@@ -97,8 +97,8 @@ void main() {
         "Should be equal when two UserNameChanged with same values are compared.",
         () {
       //Arrange
-      final userNameChanged = UserNameChanged(userName: userName);
-      final userNameChanged1 = UserNameChanged(userName: userName);
+      final userNameChanged = UserNameChanged(username: userName);
+      final userNameChanged1 = UserNameChanged(username: userName);
       //Act
       //Assert
       expect(userNameChanged1, userNameChanged);
@@ -108,8 +108,8 @@ void main() {
         "Should not be equal when two SignUpRequested with different values are compared",
         () {
       //Arrange
-      final userNameChanged = UserNameChanged(userName: userName);
-      final userNameChanged1 = UserNameChanged(userName: "${userName}J");
+      final userNameChanged = UserNameChanged(username: userName);
+      final userNameChanged1 = UserNameChanged(username: "${userName}J");
       //Act
       //Assert
       expect(userNameChanged1, isNot(equals(userNameChanged)));

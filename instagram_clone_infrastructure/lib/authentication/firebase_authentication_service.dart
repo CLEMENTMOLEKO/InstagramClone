@@ -72,8 +72,8 @@ final class FirebaseAuthenticationService implements AuthenticationService {
   Future<Either<AuthFailure, bool>> userWithUsernameExists({
     required String username,
   }) {
-    // TODO: implement userWithUsernameExists
-    throw UnimplementedError();
+    // TODO: user the database to check user collection if user with username exists
+    return Future.value(right(false));
   }
 
   @override
