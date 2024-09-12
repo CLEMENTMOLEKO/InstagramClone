@@ -90,6 +90,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     ));
   }
 
+  // TODO: we should debounc this event.
   void _userNameChanged(
     UserNameChanged event,
     Emitter<SignUpState> emit,
