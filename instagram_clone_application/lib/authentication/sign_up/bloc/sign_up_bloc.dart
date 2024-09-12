@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:instagram_clone_application/authentication/validators/username_input_validator.dart';
+import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_application/user/user_repository.dart';
 import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:meta/meta.dart';
@@ -37,19 +40,31 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SignUpRequested event,
     Emitter<SignUpState> emit,
   ) async {
-    if (!state.isValid) return;
+    if (!state.isUsernameValid) return;
 
     if (!await connectionChecker.hasConnection) {
-      return emit(state.copyWith(
-          formzSubmissionStatus: FormzSubmissionStatus.canceled));
+      return emit(
+        state.copyWith(formzSubmissionStatus: FormzSubmissionStatus.canceled),
+      );
     }
 
     emit(state.copyWith(
         formzSubmissionStatus: FormzSubmissionStatus.inProgress));
-    await _registerWithEmailAndPassword(
+    final registerResults = await _registerWithEmailAndPassword(
       state.emailInput.value,
       state.passwordInput.value,
       emit,
+    );
+
+    registerResults.fold(
+      (failure) => emit(
+        state.copyWith(formzSubmissionStatus: FormzSubmissionStatus.failure),
+      ),
+      (userId) {
+        emit(
+          state.copyWith(formzSubmissionStatus: FormzSubmissionStatus.success),
+        );
+      },
     );
   }
 
@@ -60,7 +75,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     final emailInput = EmailInput.dirty(value: event.email);
     emit(state.copyWith(
       emailInput: emailInput,
-      isValid: Formz.validate([emailInput, state.passwordInput]),
+      isUsernameValid: Formz.validate([emailInput, state.passwordInput]),
     ));
   }
 
@@ -71,15 +86,31 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     final passwordInput = PasswordInput.dirty(value: event.password);
     emit(state.copyWith(
       passwordInput: passwordInput,
-      isValid: Formz.validate([passwordInput, state.emailInput]),
+      isUsernameValid: Formz.validate([passwordInput, state.emailInput]),
     ));
   }
 
   void _userNameChanged(
     UserNameChanged event,
     Emitter<SignUpState> emit,
-  ) {
-    emit(state.copyWith(userName: event.userName));
+  ) async {
+    final usernameInput = UsernameInput.dirty(value: event.userName);
+    final userWithUsernameExistsResults = await authenticationService
+        .userWithUsernameExists(username: event.userName);
+
+    if (userWithUsernameExistsResults.isRight() && !usernameInput.isPure) {
+      final userWithUsernameExists = userWithUsernameExistsResults.getOrElse(
+        () => throw Exception("Error getting userWithUsernameExists results"),
+      );
+      return emit(state.copyWith(
+        usernameInput: usernameInput,
+        isUsernameValid: !userWithUsernameExists,
+      ));
+    }
+    return emit(state.copyWith(
+      usernameInput: usernameInput,
+      isUsernameValid: false,
+    ));
   }
 
   void _signUpEmailVerificationRequested(
@@ -109,39 +140,37 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     }
   }
 
-  Future<void> _registerWithEmailAndPassword(
+  Future<Either<AuthFailure, Unit>> _registerWithEmailAndPassword(
     String email,
     String password,
     Emitter<SignUpState> emit,
   ) async {
     final createEmailResult = EmailAddress.create(email: email);
     final createPasswordResult = Password.create(password: password);
+
     if (createEmailResult.isRight() && createPasswordResult.isRight()) {
-      final emailAddress = createEmailResult.getOrElse(() => throw Exception(
-          "Error occured using email address to register user"));
-      final registerResult =
+      final emailAddress = createEmailResult.getOrElse(
+        () => throw Exception(
+            "Error occured using email address to register user"),
+      );
+      final password = createPasswordResult.getOrElse(
+        () => throw Exception("Error occured using password to register user"),
+      );
+
+      final registerResults =
           await authenticationService.registerWithEmailAndPassword(
         emailAddress: emailAddress,
-        password: createPasswordResult.getOrElse(() =>
-            throw Exception("Error occured using password to register user")),
+        password: password,
       );
 
-      registerResult.fold(
-        (failure) => emit(state.copyWith(
-            formzSubmissionStatus: FormzSubmissionStatus.failure)),
-        (userId) {
-          _addUserToFirebaseUserDb(userId, emailAddress);
-
-          emit(
-            state.copyWith(
-                formzSubmissionStatus: FormzSubmissionStatus.success),
-          );
-        },
-      );
-    } else {
-      emit(
-          state.copyWith(formzSubmissionStatus: FormzSubmissionStatus.failure));
+      return registerResults.fold((authFailer) => left(authFailer),
+          (userId) async {
+        await _addUserToFirebaseUserDb(userId, emailAddress);
+        return right(unit);
+      });
     }
+
+    return left(AuthFailure.invalidCredentials);
   }
 
   Future<void> _addUserToFirebaseUserDb(
@@ -149,17 +178,19 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     EmailAddress emailAddres,
   ) async {
     final userModel = UserModel.createUser(
-        userId: UserId.create(value: uid)
-            .getOrElse(() => throw Exception("Error creating user")),
-        userName: state.userName,
-        bio: "",
-        avatarUrl: "",
-        emailAddress: emailAddres,
-        joined: DateTime.now());
+      userId: UserId.create(value: uid)
+          .getOrElse(() => throw Exception("Error creating user")),
+      userName: state.usernameInput.value,
+      bio: "",
+      avatarUrl: "",
+      emailAddress: emailAddres,
+      joined: DateTime.now(),
+    );
 
     await userRepository.addUser(
-      userModel: userModel
-          .getOrElse(() => throw Exception("Error creating userModel")),
+      userModel: userModel.getOrElse(
+        () => throw Exception("Error creating userModel"),
+      ),
     );
   }
 }

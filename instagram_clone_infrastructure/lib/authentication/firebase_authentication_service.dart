@@ -67,6 +67,15 @@ final class FirebaseAuthenticationService implements AuthenticationService {
     }
   }
 
+  // TODO: write tests.
+  @override
+  Future<Either<AuthFailure, bool>> userWithUsernameExists({
+    required String username,
+  }) {
+    // TODO: implement userWithUsernameExists
+    throw UnimplementedError();
+  }
+
   @override
   Future<void> signOut() async {
     await firebaseAuth.signOut();

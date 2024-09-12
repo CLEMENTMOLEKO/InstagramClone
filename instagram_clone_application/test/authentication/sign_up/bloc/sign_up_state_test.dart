@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
+import 'package:instagram_clone_application/authentication/validators/username_input_validator.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 
@@ -72,8 +73,8 @@ void main() {
               PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
           emailInput:
               EmailInput.dirty(value: UserDtoConstants.validEmails.first),
-          userName: "Clement",
-          isValid: true,
+          usernameInput: const UsernameInput.dirty(value: "Clement"),
+          isUsernameValid: true,
         ))),
       );
     });

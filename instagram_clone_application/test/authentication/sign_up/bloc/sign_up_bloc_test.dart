@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
+import 'package:instagram_clone_application/authentication/validators/username_input_validator.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 import 'package:mocktail/mocktail.dart';
@@ -76,7 +77,7 @@ void main() {
 
     blocTest(
       "Should emit [FormzSubmissionStatus.canceled] when not connected to internet",
-      seed: () => const SignUpState(isValid: true),
+      seed: () => const SignUpState(isUsernameValid: true),
       setUp: () => when(
         () => mockConnectionChecker.hasConnection,
       ).thenAnswer((_) async => false),
@@ -85,14 +86,14 @@ void main() {
       expect: () => const <SignUpState>[
         SignUpState(
             formzSubmissionStatus: FormzSubmissionStatus.canceled,
-            isValid: true)
+            isUsernameValid: true)
       ],
     );
 
     blocTest(
       "Should emit [FormzSubmissionStatus.inProgress, FormzSubmissionStatus.failure] "
       "when registerWithEmail and Password returns AuthFailure",
-      seed: () => const SignUpState(isValid: true),
+      seed: () => const SignUpState(isUsernameValid: true),
       setUp: () {
         when(
           () => mockAuthenticationService.registerWithEmailAndPassword(
@@ -106,11 +107,11 @@ void main() {
       expect: () => const <SignUpState>[
         SignUpState(
           formzSubmissionStatus: FormzSubmissionStatus.inProgress,
-          isValid: true,
+          isUsernameValid: true,
         ),
         SignUpState(
           formzSubmissionStatus: FormzSubmissionStatus.failure,
-          isValid: true,
+          isUsernameValid: true,
         ),
       ],
     );
@@ -145,11 +146,11 @@ void main() {
               EmailInput.dirty(value: UserDtoConstants.validEmails.first),
           passwordInput:
               PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
-          isValid: true,
+          isUsernameValid: true,
         ),
         SignUpState(
           formzSubmissionStatus: FormzSubmissionStatus.inProgress,
-          isValid: true,
+          isUsernameValid: true,
           emailInput:
               EmailInput.dirty(value: UserDtoConstants.validEmails.first),
           passwordInput:
@@ -157,7 +158,7 @@ void main() {
         ),
         SignUpState(
           formzSubmissionStatus: FormzSubmissionStatus.success,
-          isValid: true,
+          isUsernameValid: true,
           emailInput:
               EmailInput.dirty(value: UserDtoConstants.validEmails.first),
           passwordInput:
@@ -169,17 +170,17 @@ void main() {
     blocTest(
       "Should emit [FormzSubmissionStatus.inProgress, FormzSubmissionStatus.failure] "
       "when password or email are invalid and valid is true",
-      seed: () => const SignUpState(isValid: true),
+      seed: () => const SignUpState(isUsernameValid: true),
       act: (bloc) => bloc.addSignUpRequestedWith(),
       build: () => sut,
       expect: () => const <SignUpState>[
         SignUpState(
           formzSubmissionStatus: FormzSubmissionStatus.inProgress,
-          isValid: true,
+          isUsernameValid: true,
         ),
         SignUpState(
           formzSubmissionStatus: FormzSubmissionStatus.failure,
-          isValid: true,
+          isUsernameValid: true,
         ),
       ],
     );
@@ -312,7 +313,7 @@ void main() {
               PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
           emailInput:
               EmailInput.dirty(value: UserDtoConstants.validEmails.first),
-          isValid: true,
+          isUsernameValid: true,
         )
       ],
     );
@@ -371,20 +372,58 @@ void main() {
               PasswordInput.dirty(value: UserDtoConstants.validPasswords.first),
           emailInput:
               EmailInput.dirty(value: UserDtoConstants.validEmails.first),
-          isValid: true,
+          isUsernameValid: true,
         )
       ],
     );
   });
 
   group("UserNameChanged", () {
-    const userName = "Clement";
-    blocTest(
-      "Should emit current state with changed userName",
-      build: () => sut,
-      act: (bloc) => bloc.add(UserNameChanged(userName: userName)),
-      expect: () => const <SignUpState>[SignUpState(userName: userName)],
-    );
+    const userNameInput = UsernameInput.dirty(value: "Clement");
+
+    group("User with user name does not exist", () {
+      const userWithUsernameExists = false;
+      blocTest(
+        "Should state with UsernameValid true when user with username doesnt' exist",
+        setUp: () => when(
+          () => mockAuthenticationService.userWithUsernameExists(
+            username: any(named: "username"),
+          ),
+        ).thenAnswer(
+          (_) async => right(userWithUsernameExists),
+        ),
+        build: () => sut,
+        act: (bloc) => bloc.add(UserNameChanged(userName: userNameInput.value)),
+        expect: () => const <SignUpState>[
+          SignUpState(
+            usernameInput: userNameInput,
+            isUsernameValid: !userWithUsernameExists,
+          )
+        ],
+      );
+    });
+
+    group("User with user name exists", () {
+      const userWithUsernameExists = true;
+      blocTest(
+        "Should state with UsernameValid false when user with username exist",
+        setUp: () => when(
+          () => mockAuthenticationService.userWithUsernameExists(
+            username: any(named: "username"),
+          ),
+        ).thenAnswer(
+          (_) async => right(userWithUsernameExists),
+        ),
+        build: () => sut,
+        act: (bloc) => bloc.add(UserNameChanged(userName: userNameInput.value)),
+        expect: () => const <SignUpState>[
+          SignUpState(
+            usernameInput: userNameInput,
+            isUsernameValid: !userWithUsernameExists,
+          )
+        ],
+      );
+    });
   });
 
   group("SingUpEmailVerificationRequested", () {

@@ -27,5 +27,11 @@ abstract class AuthenticationService {
   /// returns [Unit] if login was successful and [AuthFailure] if not.
   Future<Either<AuthFailure, Unit>> signInWithGoogle();
 
+  /// [userWithUsernameExists] returns either a [bool] if successfully checked for existing user with [username]
+  /// or [AuthFailure] if there was an error checking for user with [username]
+  Future<Either<AuthFailure, bool>> userWithUsernameExists({
+    required String username,
+  });
+
   Future<void> signOut();
 }

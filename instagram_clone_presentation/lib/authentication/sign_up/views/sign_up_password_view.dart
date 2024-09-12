@@ -32,7 +32,9 @@ class SignUpPasswordView extends StatelessWidget {
   }
 
   VoidCallback? _onPrimaryButtonPressed(
-      SignUpState state, BuildContext context) {
+    SignUpState state,
+    BuildContext context,
+  ) {
     return state.passwordInput.isValid
         ? () {
             context.router.pushNamed(SignUpUsernameView.name);
