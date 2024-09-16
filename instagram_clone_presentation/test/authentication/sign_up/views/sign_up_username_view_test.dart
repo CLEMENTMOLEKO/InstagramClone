@@ -104,7 +104,7 @@ void main() {
       testWidgets("Should render text field with appropriate label",
           (WidgetTester widgetTester) async {
         //Arrange
-        const filedLabel = "Password";
+        const filedLabel = "Username";
         await renderSignUpUsernameView(widgetTester);
         final (passwordFiedFinder, passwordFieldWidget) =
             setupPasswordTextField(widgetTester);
