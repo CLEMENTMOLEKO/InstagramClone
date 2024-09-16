@@ -88,10 +88,11 @@ void main() {
       (Finder, InstaTextField) setupPasswordTextField(
         WidgetTester widgetTester,
       ) {
-        final emailFieldFinder = find.byKey(const Key("form_field_view_field"));
-        final emailField =
-            widgetTester.widget(emailFieldFinder) as InstaTextField;
-        return (emailFieldFinder, emailField);
+        final passwordFieldFinder =
+            find.byKey(const Key("form_field_view_field"));
+        final passwordFinder =
+            widgetTester.widget(passwordFieldFinder) as InstaTextField;
+        return (passwordFieldFinder, passwordFinder);
       }
 
       testWidgets("Should render text field with appropriate label",

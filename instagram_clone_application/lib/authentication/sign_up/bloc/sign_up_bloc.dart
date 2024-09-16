@@ -4,12 +4,12 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:instagram_clone_application/authentication/validators/username_input_validator.dart';
-import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_application/user/user_repository.dart';
 import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:meta/meta.dart';
 
 import '../../../common/email/email_service.dart';
+import '../../../common/errors/failure.dart';
 import '../../../common/network/connection_checker.dart';
 import '../../authentication.dart';
 
@@ -48,8 +48,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       );
     }
 
-    emit(state.copyWith(
-        formzSubmissionStatus: FormzSubmissionStatus.inProgress));
+    emit(
+      state.copyWith(formzSubmissionStatus: FormzSubmissionStatus.inProgress),
+    );
+
     final registerResults = await _registerWithEmailAndPassword(
       state.emailInput.value,
       state.passwordInput.value,
@@ -57,10 +59,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     );
 
     registerResults.fold(
-      (failure) => emit(
+      (_) => emit(
         state.copyWith(formzSubmissionStatus: FormzSubmissionStatus.failure),
       ),
-      (userId) {
+      (_) {
         emit(
           state.copyWith(formzSubmissionStatus: FormzSubmissionStatus.success),
         );
