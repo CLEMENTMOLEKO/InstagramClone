@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone_presentation/app_themes.dart';
 
 import 'common/navigation/router.dart';
 
@@ -12,14 +13,8 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
-        brightness: Brightness.dark,
-      ),
+      theme: InstagramCloneThemes.light,
+      darkTheme: InstagramCloneThemes.dark,
       routerConfig: _appRouter.config(),
     );
   }

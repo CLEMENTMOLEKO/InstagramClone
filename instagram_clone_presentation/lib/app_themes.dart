@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 class InstagramCloneThemes {
   static ThemeData get light {
     return ThemeData(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: Colors.deepPurple,
+      ),
       snackBarTheme: const SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
       ),
