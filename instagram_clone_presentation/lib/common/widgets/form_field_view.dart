@@ -87,9 +87,7 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                             ),
                             child: Text(
                               primaryButtonText,
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                              ),
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
                         )
