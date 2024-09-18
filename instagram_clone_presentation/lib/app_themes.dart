@@ -9,6 +9,7 @@ class InstagramCloneThemes {
       snackBarTheme: const SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
       ),
+      scaffoldBackgroundColor: Colors.white,
     );
   }
 
@@ -21,6 +22,7 @@ class InstagramCloneThemes {
       snackBarTheme: const SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
       ),
+      scaffoldBackgroundColor: Colors.grey[900],
     );
   }
 }

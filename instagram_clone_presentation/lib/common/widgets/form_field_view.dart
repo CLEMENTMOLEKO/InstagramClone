@@ -85,7 +85,12 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                             style: ElevatedButton.styleFrom(
                               backgroundColor: CupertinoColors.activeBlue,
                             ),
-                            child: Text(primaryButtonText),
+                            child: Text(
+                              primaryButtonText,
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
                           ),
                         )
                       ],
@@ -100,7 +105,7 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                       key: const Key("form_field_view_secondary_button"),
                       onPressed: onSecondaryButtonPressed,
                       style: TextButton.styleFrom(
-                        side: const BorderSide(color: Colors.grey),
+                        side: BorderSide(color: Theme.of(context).dividerColor),
                       ),
                       child: Text(secondaryButtonText!),
                     ),
