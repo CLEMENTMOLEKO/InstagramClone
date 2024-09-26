@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_up_save_login_info_view.dart';
-import 'package:instagram_clone_presentation/common/widgets/form_field_view.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockSignUpBloc extends MockBloc<SignUpEvent, SignUpState>
