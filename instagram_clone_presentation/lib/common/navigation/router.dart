@@ -21,6 +21,10 @@ class AppRouter extends RootStackRouter {
           path: SignUpUsernameView.name,
           page: SignUpUsernameView.page,
         ),
+        AutoRoute(
+          path: SignUpSaveLoginInfoView.name,
+          page: SignUpSaveLoginInfoView.page,
+        ),
       ],
     ),
   ];

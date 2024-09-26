@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/common/widgets/form_field_view.dart';
 
+@RoutePage()
 class SignUpSaveLoginInfoView extends StatelessWidget {
   const SignUpSaveLoginInfoView({super.key});
 
