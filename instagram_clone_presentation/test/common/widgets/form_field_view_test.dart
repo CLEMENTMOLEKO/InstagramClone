@@ -73,12 +73,10 @@ void main() {
   testWidgets("Should render GradientView as its body", (widgetTester) async {
     //Arrange
     await pumpFormFieldView(widgetTester, bloc);
-    final scaffoldFinder = find.byType(Scaffold);
-    final scaffold = widgetTester.widget(scaffoldFinder) as Scaffold;
+    final gradientViewFinder = find.byType(GradientView);
     //Act
     //Assert
-    expect(scaffoldFinder, findsOneWidget);
-    expect(scaffold.body, isA<GradientView>());
+    expect(gradientViewFinder, findsOneWidget);
   });
 
   testWidgets("Should render text label", (widgetTester) async {

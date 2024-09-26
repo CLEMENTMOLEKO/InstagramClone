@@ -10,6 +10,9 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
     extends StatelessWidget {
   final String title;
   final String subtitle;
+
+  /// [fieldLabel] is required if [showTextField] is true,
+  /// by default [showTextField] is true
   final String fieldLabel;
   final String primaryButtonText;
   final VoidCallback? Function(TState) onPrimaryButtonPressed;
@@ -19,12 +22,15 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
   final void Function(String)? onFieldValueChanged;
   final String? Function(TState)? getErrorText;
   final Icon? Function(TState)? getFieldIcon;
+  final VoidCallback? onAlreadyHaveAccountPressed;
+
+  /// [showTextField] defaults to true and [fieldLabel] is required if [showTextField] is true
+  final bool showTextField;
 
   const FormFieldView({
     super.key,
     required this.title,
     required this.subtitle,
-    required this.fieldLabel,
     required this.primaryButtonText,
     required this.onPrimaryButtonPressed,
     this.buildWhen,
@@ -33,12 +39,15 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
     this.onFieldValueChanged,
     this.getErrorText,
     this.getFieldIcon,
+    this.onAlreadyHaveAccountPressed,
+    this.fieldLabel = "",
+    this.showTextField = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GradientView(
+    return Material(
+      child: GradientView(
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(12.0),
@@ -65,17 +74,18 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                     return Column(
                       key: const Key("form_field_view_root_column"),
                       children: [
-                        InstaTextField(
-                          key: const Key("form_field_view_field"),
-                          labelText: fieldLabel,
-                          onChanged: onFieldValueChanged,
-                          errorText: getErrorText != null
-                              ? getErrorText!(state)
-                              : null,
-                          icon: getFieldIcon != null
-                              ? getFieldIcon!(state)
-                              : null,
-                        ),
+                        if (showTextField)
+                          InstaTextField(
+                            key: const Key("form_field_view_field"),
+                            labelText: fieldLabel,
+                            onChanged: onFieldValueChanged,
+                            errorText: getErrorText != null
+                                ? getErrorText!(state)
+                                : null,
+                            icon: getFieldIcon != null
+                                ? getFieldIcon!(state)
+                                : null,
+                          ),
                         const Gap(20),
                         SizedBox(
                           width: double.infinity,
@@ -108,6 +118,12 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                       child: Text(secondaryButtonText!),
                     ),
                   ),
+                const Spacer(),
+                TextButton(
+                  key: const Key("form_field_view_already_have_account_button"),
+                  onPressed: () {},
+                  child: const Text("I already have an account"),
+                ),
               ],
             ),
           ),
