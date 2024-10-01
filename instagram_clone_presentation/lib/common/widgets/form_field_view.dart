@@ -23,6 +23,8 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
   final String? Function(TState)? getErrorText;
   final Icon? Function(TState)? getFieldIcon;
   final VoidCallback? onAlreadyHaveAccountPressed;
+  final String? subtitleContextButtonText;
+  final VoidCallback? onSubtitleButtonPressed;
 
   /// [showTextField] defaults to true and [fieldLabel] is required if [showTextField] is true
   final bool showTextField;
@@ -40,8 +42,10 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
     this.getErrorText,
     this.getFieldIcon,
     this.onAlreadyHaveAccountPressed,
+    this.subtitleContextButtonText,
     this.fieldLabel = "",
     this.showTextField = true,
+    this.onSubtitleButtonPressed,
   });
 
   @override
@@ -67,6 +71,18 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                   key: const Key("form_field_view_subtitle"),
                   subtitle,
                 ),
+                if (subtitleContextButtonText != null)
+                  Column(
+                    key: const Key(
+                        "form_field_view_subtitle_context_button_column"),
+                    children: [
+                      const Gap(2),
+                      GestureDetector(
+                        onTap: onSubtitleButtonPressed,
+                        child: Text(subtitleContextButtonText!),
+                      ),
+                    ],
+                  ),
                 const Gap(30),
                 BlocBuilder<Tbloc, TState>(
                   buildWhen: buildWhen,

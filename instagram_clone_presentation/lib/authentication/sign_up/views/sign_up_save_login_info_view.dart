@@ -15,7 +15,7 @@ class SignUpSaveLoginInfoView extends StatelessWidget {
       subtitle:
           "We'll save the login info for your new account, so you won't need to enter it next time you log in.",
       primaryButtonText: "Save",
-      onPrimaryButtonPressed: (_) => onPrimaryButtonPressed(),
+      onPrimaryButtonPressed: (_) => onPrimaryButtonPressed,
       fieldLabel: "",
       showTextField: false,
       secondaryButtonText: "Not now",
@@ -25,7 +25,7 @@ class SignUpSaveLoginInfoView extends StatelessWidget {
     );
   }
 
-  onPrimaryButtonPressed() {
+  void onPrimaryButtonPressed() {
     //TODO: handle saving login info
   }
 }
