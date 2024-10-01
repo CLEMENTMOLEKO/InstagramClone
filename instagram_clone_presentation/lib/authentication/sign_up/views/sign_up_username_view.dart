@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/common/widgets/form_field_view.dart';
 
+import '../../../common/navigation/router.gr.dart';
+
 @RoutePage()
 class SignUpUsernameView extends StatelessWidget {
   const SignUpUsernameView({super.key});
@@ -26,7 +28,9 @@ class SignUpUsernameView extends StatelessWidget {
             ? const Icon(Icons.check_circle, color: Colors.green)
             : const Icon(Icons.error, color: Colors.red);
       },
-      onPrimaryButtonPressed: (_) => () {},
+      onPrimaryButtonPressed: (_) => () {
+        context.router.pushNamed(SignUpBirthdayView.name);
+      },
     );
   }
 }
