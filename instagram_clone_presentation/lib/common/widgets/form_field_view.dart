@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:instagram_clone_presentation/common/widgets/insta_text_field.dart';
 
 import 'gradient_view.dart';
+import 'interactive_text.dart';
 
 class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
     extends StatelessWidget {
@@ -26,13 +27,15 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
   final String? subtitleContextButtonText;
   final VoidCallback? onSubtitleButtonPressed;
 
+  /// use [textSpans] to display interactive text, by default interactive text will be used if [textSpans] length is greater than 0
+  final List<TextSpan> textSpans;
+
   /// [showTextField] defaults to true and [fieldLabel] is required if [showTextField] is true
   final bool showTextField;
 
   const FormFieldView({
     super.key,
     required this.title,
-    required this.subtitle,
     required this.primaryButtonText,
     required this.onPrimaryButtonPressed,
     this.buildWhen,
@@ -46,10 +49,14 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
     this.fieldLabel = "",
     this.showTextField = true,
     this.onSubtitleButtonPressed,
+    this.textSpans = const [],
+    this.subtitle = "",
   });
 
   @override
   Widget build(BuildContext context) {
+    _handleWidgetExceptions();
+
     return Material(
       child: GradientView(
         child: SafeArea(
@@ -67,22 +74,10 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                       ?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const Gap(10),
-                Text(
-                  key: const Key("form_field_view_subtitle"),
-                  subtitle,
+                _FormFieldViewSubtitle(
+                  subtitle: subtitle,
+                  textSpans: textSpans,
                 ),
-                if (subtitleContextButtonText != null)
-                  Column(
-                    key: const Key(
-                        "form_field_view_subtitle_context_button_column"),
-                    children: [
-                      const Gap(2),
-                      GestureDetector(
-                        onTap: onSubtitleButtonPressed,
-                        child: Text(subtitleContextButtonText!),
-                      ),
-                    ],
-                  ),
                 const Gap(30),
                 BlocBuilder<Tbloc, TState>(
                   buildWhen: buildWhen,
@@ -146,5 +141,41 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
         ),
       ),
     );
+  }
+
+  void _handleWidgetExceptions() {
+    if (textSpans.isEmpty && subtitle.isEmpty) {
+      throw Exception("subtitle and textSpans cannot both be empty");
+    }
+
+    if (showTextField && fieldLabel.isEmpty) {
+      throw Exception("Field label is required if showTextField is true");
+    }
+  }
+}
+
+class _FormFieldViewSubtitle extends StatelessWidget {
+  /// use [subtitle] to display none interactive text
+  final String subtitle;
+
+  /// use [textSpans] to display interactive text, by default interactive text will be used if [textSpans] length is greater than 0
+  final List<TextSpan> textSpans;
+  const _FormFieldViewSubtitle({
+    super.key,
+    required this.subtitle,
+    required this.textSpans,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return textSpans.isNotEmpty
+        ? InteractiveText(
+            key: const Key("form_field_view_subtitle_interactive_text"),
+            textSpans: textSpans,
+          )
+        : Text(
+            key: const Key("form_field_view_subtitle"),
+            subtitle,
+          );
   }
 }

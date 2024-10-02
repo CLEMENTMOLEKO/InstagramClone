@@ -138,7 +138,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
     // USE BELOW UNTIL WE CAN ACTUALLY SEND THE EMAIL OT USER.
     final code = int.tryParse(event.code);
-    if (code != null && code > 100000 && code < 999999) {
+    if (code != null && (code > 100000 && code < 999999)) {
       emit(state.copyWith(isEmailVerified: true));
     }
   }

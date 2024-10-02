@@ -73,7 +73,8 @@ class _SignUpEmailVerificationViewState
     );
   }
 
-  VoidCallback _onPrimaryButtonPressed(BuildContext context) {
+  VoidCallback? _onPrimaryButtonPressed(BuildContext context) {
+    //TODO: handle case where email is not verified, show a toast or alert after clicking next to say code verification failed or passed.
     return () => context
         .read<SignUpBloc>()
         .add(VerifySignUpCodeRequested(code: _codeController.text));

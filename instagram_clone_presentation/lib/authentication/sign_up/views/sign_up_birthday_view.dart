@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 
 import '../../../common/widgets/form_field_view.dart';
+import '../../../common/widgets/interactive_text.dart';
 
 @RoutePage()
 class SignUpBirthdayView extends StatelessWidget {
@@ -13,11 +14,20 @@ class SignUpBirthdayView extends StatelessWidget {
     return FormFieldView<SignUpBloc, SignUpEvent, SignUpState>(
       key: const Key("form_field_view"),
       title: "What's your birthday?",
-      subtitle:
-          "User your own birthday, even if this account is for a business, a pet or something else. No one will see this unless you choose to share it.",
+      textSpans: [
+        const TextSpan(
+          text:
+              "User your own birthday, even if this account is for a business, a pet or something else. No one will see this unless you choose to share it.",
+        ),
+        ClickableTextSpan(
+          text: "Why do I need to provide my birthday",
+          onTap: () => {},
+        ),
+      ],
       primaryButtonText: "Next",
       onPrimaryButtonPressed: (_) => onPrimaryButtonPressed(context),
-      showTextField: false,
+      fieldLabel:
+          "Birthday(0 year old)", //TODO: Use bloc or cubit to get age from birthday.
       subtitleContextButtonText: "Why do I need to provide my birthday",
     );
   }

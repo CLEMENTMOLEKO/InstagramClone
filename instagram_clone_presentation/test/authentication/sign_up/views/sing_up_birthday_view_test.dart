@@ -49,19 +49,6 @@ void main() {
       expect(find.text("What's your birthday?"), findsOneWidget);
     });
 
-    testWidgets("Should render subtitle", (WidgetTester widgetTester) async {
-      //Arrange
-      await arrangeSignUpBirthdayView(widgetTester);
-      //Act
-      //Assert
-      expect(
-        find.text(
-          "User your own birthday, even if this account is for a business, a pet or something else. No one will see this unless you choose to share it.",
-        ),
-        findsOneWidget,
-      );
-    });
-
     testWidgets("Should render primary button",
         (WidgetTester widgetTester) async {
       //Arrange
@@ -74,25 +61,25 @@ void main() {
       );
     });
 
-    testWidgets("Should render subtitle column with subtitle context button",
+    testWidgets("Should render subtitle as interactive text",
         (WidgetTester widgetTester) async {
       //Arrange
       await arrangeSignUpBirthdayView(widgetTester);
       //Act
       //Assert
       expect(
-        find.byKey(const Key("form_field_view_subtitle_context_button_column")),
+        find.byKey(const Key("form_field_view_subtitle_interactive_text")),
         findsOneWidget,
       );
     });
 
-    testWidgets("Should not render insta text field",
+    testWidgets("Should render insta text field",
         (WidgetTester widgetTester) async {
       //Arrange
       await arrangeSignUpBirthdayView(widgetTester);
       //Act
       //Assert
-      expect(find.byKey(const Key("form_field_view_field")), findsNothing);
+      expect(find.byKey(const Key("form_field_view_field")), findsOneWidget);
     });
   });
 }
