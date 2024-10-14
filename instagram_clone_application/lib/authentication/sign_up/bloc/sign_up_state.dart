@@ -6,9 +6,11 @@ final class SignUpState extends Equatable {
   final PasswordInput passwordInput;
   final EmailInput emailInput;
   final UsernameInput usernameInput;
+  final BirthdayInput birthdayInput;
   final int verificationCode;
   final bool isEmailVerified;
-  final bool isUsernameValid; //TODO: remove this it's not used.
+  final bool
+      isUsernameValid; //TODO: this is used staticly, we should check the db for aready existing users..
 
   const SignUpState({
     this.formzSubmissionStatus = FormzSubmissionStatus.initial,
@@ -16,6 +18,7 @@ final class SignUpState extends Equatable {
     this.emailInput = const EmailInput.pure(),
     this.usernameInput = const UsernameInput.pure(),
     this.isUsernameValid = false,
+    this.birthdayInput = const BirthdayInput.pure(),
     this.verificationCode = 0,
     this.isEmailVerified = false,
   });
@@ -25,6 +28,7 @@ final class SignUpState extends Equatable {
     PasswordInput? passwordInput,
     EmailInput? emailInput,
     UsernameInput? usernameInput,
+    BirthdayInput? birthdayInput,
     bool? isUsernameValid,
     int? verificationCode,
     bool? isEmailVerified,
@@ -36,6 +40,7 @@ final class SignUpState extends Equatable {
       emailInput: emailInput ?? this.emailInput,
       usernameInput: usernameInput ?? this.usernameInput,
       isUsernameValid: isUsernameValid ?? this.isUsernameValid,
+      birthdayInput: birthdayInput ?? this.birthdayInput,
       verificationCode: verificationCode ?? this.verificationCode,
       isEmailVerified: isEmailVerified ?? this.isEmailVerified,
     );
@@ -48,6 +53,7 @@ final class SignUpState extends Equatable {
         emailInput,
         usernameInput,
         isUsernameValid,
+        birthdayInput,
         verificationCode,
         isEmailVerified,
       ];

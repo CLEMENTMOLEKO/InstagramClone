@@ -12,6 +12,7 @@ import '../../../common/email/email_service.dart';
 import '../../../common/errors/failure.dart';
 import '../../../common/network/connection_checker.dart';
 import '../../authentication.dart';
+import '../../validators/birthday_input_validator.dart';
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';
@@ -34,6 +35,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     on<UserNameChanged>(_userNameChanged);
     on<SingUpEmailVerificationRequested>(_signUpEmailVerificationRequested);
     on<VerifySignUpCodeRequested>(_verifySignUpCodeRequested);
+    on<SignUpBirthdayChanged>(_signUpBirthdayChanged);
   }
 
   Future<void> _signUpRequested(
@@ -195,5 +197,14 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         () => throw Exception("Error creating userModel"),
       ),
     );
+  }
+
+  void _signUpBirthdayChanged(
+    SignUpBirthdayChanged event,
+    Emitter<SignUpState> emit,
+  ) {
+    emit(state.copyWith(
+      birthdayInput: BirthdayInput.dirty(value: event.birthday),
+    ));
   }
 }

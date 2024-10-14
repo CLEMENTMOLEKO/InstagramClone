@@ -9,9 +9,10 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i8;
-import 'package:flutter/material.dart' as _i9;
+import 'package:flutter/cupertino.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
 import 'package:instagram_clone_application/instagram_clone_application.dart'
-    as _i10;
+    as _i11;
 import 'package:instagram_clone_presentation/authentication/sign_up/sign_up_page.dart'
     as _i4;
 import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_up_birthday_view.dart'
@@ -29,10 +30,13 @@ import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_u
 
 /// generated route for
 /// [_i1.SignUpBirthdayView]
-class SignUpBirthdayView extends _i8.PageRouteInfo<void> {
-  const SignUpBirthdayView({List<_i8.PageRouteInfo>? children})
-      : super(
+class SignUpBirthdayView extends _i8.PageRouteInfo<SignUpBirthdayViewArgs> {
+  SignUpBirthdayView({
+    _i9.Key? key,
+    List<_i8.PageRouteInfo>? children,
+  }) : super(
           SignUpBirthdayView.name,
+          args: SignUpBirthdayViewArgs(key: key),
           initialChildren: children,
         );
 
@@ -41,9 +45,22 @@ class SignUpBirthdayView extends _i8.PageRouteInfo<void> {
   static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i1.SignUpBirthdayView();
+      final args = data.argsAs<SignUpBirthdayViewArgs>(
+          orElse: () => const SignUpBirthdayViewArgs());
+      return _i1.SignUpBirthdayView(key: args.key);
     },
   );
+}
+
+class SignUpBirthdayViewArgs {
+  const SignUpBirthdayViewArgs({this.key});
+
+  final _i9.Key? key;
+
+  @override
+  String toString() {
+    return 'SignUpBirthdayViewArgs{key: $key}';
+  }
 }
 
 /// generated route for
@@ -88,11 +105,11 @@ class SignUpEmailView extends _i8.PageRouteInfo<void> {
 /// [_i4.SignUpPage]
 class SignUpRoute extends _i8.PageRouteInfo<SignUpRouteArgs> {
   SignUpRoute({
-    _i9.Key? key,
-    _i10.AuthenticationService? authenticationService,
-    _i10.UserRepository? userRepository,
-    _i10.ConnectionChecker? connectionChecker,
-    _i10.EmailService? emailService,
+    _i10.Key? key,
+    _i11.AuthenticationService? authenticationService,
+    _i11.UserRepository? userRepository,
+    _i11.ConnectionChecker? connectionChecker,
+    _i11.EmailService? emailService,
     List<_i8.PageRouteInfo>? children,
   }) : super(
           SignUpRoute.name,
@@ -133,15 +150,15 @@ class SignUpRouteArgs {
     this.emailService,
   });
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
-  final _i10.AuthenticationService? authenticationService;
+  final _i11.AuthenticationService? authenticationService;
 
-  final _i10.UserRepository? userRepository;
+  final _i11.UserRepository? userRepository;
 
-  final _i10.ConnectionChecker? connectionChecker;
+  final _i11.ConnectionChecker? connectionChecker;
 
-  final _i10.EmailService? emailService;
+  final _i11.EmailService? emailService;
 
   @override
   String toString() {

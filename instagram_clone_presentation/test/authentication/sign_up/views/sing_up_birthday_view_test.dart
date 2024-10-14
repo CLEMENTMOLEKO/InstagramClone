@@ -15,7 +15,7 @@ void main() {
 
   setUp(() {
     mockSignUpBloc = MockSignUpBloc();
-    sut = const SignUpBirthdayView();
+    sut = SignUpBirthdayView();
 
     when(() => mockSignUpBloc.state).thenReturn(const SignUpState());
   });

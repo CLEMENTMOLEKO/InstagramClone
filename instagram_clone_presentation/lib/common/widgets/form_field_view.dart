@@ -15,6 +15,7 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
   /// [fieldLabel] is required if [showTextField] is true,
   /// by default [showTextField] is true
   final String fieldLabel;
+  final TextEditingController? textFieldController;
   final String primaryButtonText;
   final VoidCallback? Function(TState) onPrimaryButtonPressed;
   final String? secondaryButtonText;
@@ -26,9 +27,11 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
   final VoidCallback? onAlreadyHaveAccountPressed;
   final String? subtitleContextButtonText;
   final VoidCallback? onSubtitleButtonPressed;
+  final GestureTapCallback? onFieldClick;
+  final bool textFieldDisabled;
 
-  /// use [textSpans] to display interactive text, by default interactive text will be used if [textSpans] length is greater than 0
-  final List<TextSpan> textSpans;
+  /// use [subTitleTextSpans] to display interactive text, by default interactive text will be used if [subTitleTextSpans] length is greater than 0
+  final List<TextSpan> subTitleTextSpans;
 
   /// [showTextField] defaults to true and [fieldLabel] is required if [showTextField] is true
   final bool showTextField;
@@ -47,10 +50,13 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
     this.onAlreadyHaveAccountPressed,
     this.subtitleContextButtonText,
     this.fieldLabel = "",
+    this.textFieldController,
     this.showTextField = true,
     this.onSubtitleButtonPressed,
-    this.textSpans = const [],
+    this.subTitleTextSpans = const [],
     this.subtitle = "",
+    this.textFieldDisabled = false,
+    this.onFieldClick,
   });
 
   @override
@@ -76,7 +82,7 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                 const Gap(10),
                 _FormFieldViewSubtitle(
                   subtitle: subtitle,
-                  textSpans: textSpans,
+                  textSpans: subTitleTextSpans,
                 ),
                 const Gap(30),
                 BlocBuilder<Tbloc, TState>(
@@ -87,6 +93,9 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                       children: [
                         if (showTextField)
                           InstaTextField(
+                            controller: textFieldController,
+                            onTap: textFieldDisabled ? onFieldClick : null,
+                            readOnly: textFieldDisabled,
                             key: const Key("form_field_view_field"),
                             labelText: fieldLabel,
                             onChanged: onFieldValueChanged,
@@ -144,7 +153,7 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
   }
 
   void _handleWidgetExceptions() {
-    if (textSpans.isEmpty && subtitle.isEmpty) {
+    if (subTitleTextSpans.isEmpty && subtitle.isEmpty) {
       throw Exception("subtitle and textSpans cannot both be empty");
     }
 

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:injectable/injectable.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
@@ -32,14 +34,9 @@ class LocalEmailService implements EmailService {
 
   @override
   int generateVerificationCode() {
-    const uuid = Uuid();
-    final uuidString = uuid.v4();
-    var numbers = uuidString.replaceAll(RegExp(r'[^0-9]'), '');
-    // guid could generate less numbers append numbers in these numbers
-    final loopCount = numbers.length - 6;
-    for (var i = 0; i < loopCount; i++) {
-      numbers += "$i";
-    }
-    return int.parse(numbers.substring(0, 6));
+    // this is not secure, but it is only for local testing
+    final random = Random();
+    final code = random.nextInt(900000) + 100000;
+    return code;
   }
 }
