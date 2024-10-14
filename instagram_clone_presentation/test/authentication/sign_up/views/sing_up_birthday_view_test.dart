@@ -81,5 +81,29 @@ void main() {
       //Assert
       expect(find.byKey(const Key("form_field_view_field")), findsOneWidget);
     });
+
+    testWidgets("Should render birthday picker when tapping on the field",
+        (WidgetTester widgetTester) async {
+      //Arrange
+      await arrangeSignUpBirthdayView(widgetTester);
+      //Act
+      await widgetTester.tap(find.byKey(const Key("form_field_view_field")));
+      await widgetTester.pumpAndSettle();
+      //Assert
+      expect(find.byKey(const Key("birthday_picker")), findsOneWidget);
+    });
+
+    // testWidgets("Changing birthday should emit birthday event",
+    //     (WidgetTester widgetTester) async {
+    //   //Arrange
+    //   await arrangeSignUpBirthdayView(widgetTester);
+    //   //Act
+    //   await widgetTester.tap(find.byKey(const Key("form_field_view_field")));
+    //   await widgetTester.pumpAndSettle();
+    //   await widgetTester.createGesture()
+    //   await widgetTester.pumpAndSettle();
+    //   //Assert
+    //   expect(mockSignUpBloc.events, equals([SignUpBirthdayChanged(birthday: BirthdayInput.dirty(value: "1990-01-01"))]));
+    // });
   });
 }

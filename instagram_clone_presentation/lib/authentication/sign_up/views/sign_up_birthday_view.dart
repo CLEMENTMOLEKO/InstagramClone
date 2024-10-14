@@ -67,6 +67,7 @@ class SignUpBirthdayView extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           child: DatePickerWidget(
+            key: const Key("birthday_picker"),
             looping: false, // default is not looping
             firstDate: DateTime(1990, 01, 01),
             lastDate: DateTime.now(),
@@ -105,6 +106,7 @@ class SignUpBirthdayView extends StatelessWidget {
         child: SafeArea(
           top: false,
           child: CupertinoDatePicker(
+            key: const Key("birthday_picker"),
             initialDateTime: date,
             mode: CupertinoDatePickerMode.date,
             use24hFormat: true,
