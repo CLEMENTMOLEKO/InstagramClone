@@ -13,7 +13,8 @@ import '../widget_helpers/get_field_icon.dart';
 
 @RoutePage()
 class SignUpBirthdayView extends StatelessWidget {
-  final textFieldController = TextEditingController();
+  final textFieldController =
+      TextEditingController(text: "Birthday(0 year old)");
   SignUpBirthdayView({super.key});
 
   @override
@@ -60,28 +61,33 @@ class SignUpBirthdayView extends StatelessWidget {
     }
   }
 
-  void _showMaterialDatePicker(BuildContext context) {
+  void _showMaterialDatePicker(BuildContext _context) {
     showDialog(
-      context: context,
+      context: _context,
       builder: (context) => Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
-          child: DatePickerWidget(
-            key: const Key("birthday_picker"),
-            looping: false, // default is not looping
-            firstDate: DateTime(1990, 01, 01),
-            lastDate: DateTime.now(),
-            initialDate: DateTime.now(),
-            dateFormat: "dd-MMM-yyyy",
-            locale: DatePicker.localeFromString(
-                'en'), // TODO: get locale from device.
-            onChange: (DateTime newDate, _) => _onDateChanged(newDate, context),
-            pickerTheme: DateTimePickerTheme(
-              backgroundColor: Theme.of(context).dialogBackgroundColor,
-              itemTextStyle: Theme.of(context).textTheme.bodyMedium!,
-              dividerColor: Theme.of(context).dividerColor,
+        child: Column(
+          children: [
+            const Spacer(),
+            DatePickerWidget(
+              key: const Key("birthday_picker"),
+              looping: false, // default is not looping
+              firstDate: DateTime(1990, 01, 01),
+              lastDate: DateTime.now(),
+              initialDate: DateTime.now(),
+              dateFormat: "dd-MMM-yyyy",
+              locale: DatePicker.localeFromString(
+                  'en'), // TODO: get locale from device.
+              onChange: (DateTime newDate, _) =>
+                  _onDateChanged(newDate, _context),
+              pickerTheme: DateTimePickerTheme(
+                backgroundColor: Theme.of(context).dialogBackgroundColor,
+                itemTextStyle: Theme.of(context).textTheme.bodyMedium!,
+                dividerColor: Theme.of(context).dividerColor,
+              ),
             ),
-          ),
+            const Spacer(),
+          ],
         ),
       ),
     );

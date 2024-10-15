@@ -20,6 +20,10 @@ void main() {
     when(() => mockSignUpBloc.state).thenReturn(const SignUpState());
   });
 
+  setUpAll(() {
+    registerFallbackValue(SignUpBirthdayChanged(birthday: "1990-01-01"));
+  });
+
   Future<void> arrangeSignUpBirthdayView(WidgetTester widgetTester) async {
     await widgetTester.pumpWidget(
       MaterialApp(
@@ -82,28 +86,37 @@ void main() {
       expect(find.byKey(const Key("form_field_view_field")), findsOneWidget);
     });
 
-    testWidgets("Should render birthday picker when tapping on the field",
-        (WidgetTester widgetTester) async {
-      //Arrange
-      await arrangeSignUpBirthdayView(widgetTester);
-      //Act
-      await widgetTester.tap(find.byKey(const Key("form_field_view_field")));
-      await widgetTester.pumpAndSettle();
-      //Assert
-      expect(find.byKey(const Key("birthday_picker")), findsOneWidget);
-    });
+    group('Date Picker', () {
+      testWidgets("Should render birthday picker when tapping on the field",
+          (WidgetTester widgetTester) async {
+        //Arrange
+        await arrangeSignUpBirthdayView(widgetTester);
+        final textField = find.byKey(const Key("form_field_view_field"));
+        //Act
+        await widgetTester.tap(textField);
+        await widgetTester.pumpAndSettle();
+        //Assert
+        expect(find.byKey(const Key("birthday_picker")), findsOneWidget);
+      });
 
-    // testWidgets("Changing birthday should emit birthday event",
-    //     (WidgetTester widgetTester) async {
-    //   //Arrange
-    //   await arrangeSignUpBirthdayView(widgetTester);
-    //   //Act
-    //   await widgetTester.tap(find.byKey(const Key("form_field_view_field")));
-    //   await widgetTester.pumpAndSettle();
-    //   await widgetTester.createGesture()
-    //   await widgetTester.pumpAndSettle();
-    //   //Assert
-    //   expect(mockSignUpBloc.events, equals([SignUpBirthdayChanged(birthday: BirthdayInput.dirty(value: "1990-01-01"))]));
-    // });
+      testWidgets("Changing birthday should emit birthday event",
+          (WidgetTester widgetTester) async {
+        //Arrange
+        await arrangeSignUpBirthdayView(widgetTester);
+        final textField = find.byKey(const Key("form_field_view_field"));
+        //Act
+        await widgetTester.tap(textField);
+        await widgetTester.pumpAndSettle();
+        // Scroll the date picker to change the date
+        final datePicker = find.byKey(const Key("birthday_picker"));
+        await widgetTester.drag(
+            datePicker, const Offset(0, 100)); // Scroll down to increase year
+        await widgetTester.pumpAndSettle();
+        //Assert
+        verify(() =>
+                mockSignUpBloc.add(any(that: isA<SignUpBirthdayChanged>())))
+            .called(greaterThanOrEqualTo(1));
+      });
+    });
   });
 }
