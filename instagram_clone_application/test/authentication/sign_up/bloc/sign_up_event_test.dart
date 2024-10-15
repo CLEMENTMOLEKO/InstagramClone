@@ -5,34 +5,13 @@ import 'package:instagram_clone_shared/instagram_clone_shared.dart';
 void main() {
   const userName = "Clement";
   group("SignUpRequested", () {
-    test(
-        "Should be equal when two SignUpRequested with same values are compared.",
-        () {
+    test("Should be equal when two SignUpRequested are compared.", () {
       //Arrange
-      final signUpRequested = SignUpRequested(
-        userName: userName,
-      );
-      final signUpRequested1 = SignUpRequested(
-        userName: userName,
-      );
+      final signUpRequested = SignUpRequested();
+      final signUpRequested1 = SignUpRequested();
       //Act
       //Assert
       expect(signUpRequested1, signUpRequested);
-    });
-
-    test(
-        "Should not be equal when two SignUpRequested with different values are compared",
-        () {
-      //Arrange
-      final signUpRequested = SignUpRequested(
-        userName: userName,
-      );
-      final signUpRequested1 = SignUpRequested(
-        userName: "${userName}J",
-      );
-      //Act
-      //Assert
-      expect(signUpRequested1, isNot(equals(signUpRequested)));
     });
   });
 

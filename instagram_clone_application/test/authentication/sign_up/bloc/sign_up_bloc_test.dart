@@ -17,9 +17,7 @@ class MockEmailService extends Mock implements EmailService {}
 
 extension on SignUpBloc {
   void addSignUpRequestedWith({String? userName}) {
-    return add(SignUpRequested(
-      userName: userName ?? "Clement",
-    ));
+    return add(SignUpRequested());
   }
 }
 
