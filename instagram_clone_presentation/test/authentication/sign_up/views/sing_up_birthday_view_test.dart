@@ -87,14 +87,18 @@ void main() {
     });
 
     group('Date Picker', () {
-      testWidgets("Should render birthday picker when tapping on the field",
-          (WidgetTester widgetTester) async {
-        //Arrange
+      Future<void> showDatePickerSetup(WidgetTester widgetTester) async {
         await arrangeSignUpBirthdayView(widgetTester);
         final textField = find.byKey(const Key("form_field_view_field"));
         //Act
         await widgetTester.tap(textField);
         await widgetTester.pumpAndSettle();
+      }
+
+      testWidgets("Should render birthday picker when tapping on the field",
+          (WidgetTester widgetTester) async {
+        //Arrange
+        await showDatePickerSetup(widgetTester);
         //Assert
         expect(find.byKey(const Key("birthday_picker")), findsOneWidget);
       });
@@ -102,11 +106,8 @@ void main() {
       testWidgets("Changing birthday should emit birthday event",
           (WidgetTester widgetTester) async {
         //Arrange
-        await arrangeSignUpBirthdayView(widgetTester);
-        final textField = find.byKey(const Key("form_field_view_field"));
+        await showDatePickerSetup(widgetTester);
         //Act
-        await widgetTester.tap(textField);
-        await widgetTester.pumpAndSettle();
         // Scroll the date picker to change the date
         final datePicker = find.byKey(const Key("birthday_picker"));
         await widgetTester.drag(
