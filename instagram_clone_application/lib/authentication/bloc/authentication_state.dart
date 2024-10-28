@@ -30,7 +30,7 @@ final class Authenticated extends AuthenticationState {
   List<Object?> get props => [user];
 }
 
-final class UnAuthenticated extends AuthenticationState {
+final class Unauthenticated extends AuthenticationState {
   @override
   List<Object?> get props => [];
 }

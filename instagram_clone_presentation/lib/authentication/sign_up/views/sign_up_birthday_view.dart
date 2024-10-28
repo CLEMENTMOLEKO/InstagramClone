@@ -47,8 +47,7 @@ class SignUpBirthdayView extends StatelessWidget {
 
   VoidCallback? onPrimaryButtonPressed(BuildContext context) {
     //TODO: handle primary button pressed
-    // return context.read<SignUpBloc>().add(SignUpBirthdayChanged(birthday: ""));
-    return () => 1 + 1;
+    return () => context.read<SignUpBloc>().add(SignUpRequested());
   }
 
   /// [_showDialog] is used to show the date picker in a modal popup. platform specific.
@@ -77,7 +76,7 @@ class SignUpBirthdayView extends StatelessWidget {
               initialDate: DateTime.now(),
               dateFormat: "dd-MMM-yyyy",
               locale: DatePicker.localeFromString(
-                  'en'), // TODO: get locale from device.
+                  Localizations.localeOf(context).languageCode),
               onChange: (DateTime newDate, _) =>
                   _onDateChanged(newDate, _context),
               pickerTheme: DateTimePickerTheme(

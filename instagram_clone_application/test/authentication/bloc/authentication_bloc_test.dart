@@ -78,7 +78,7 @@ void main() {
         );
       },
       build: setupAuthenticationBloc,
-      expect: () => <AuthenticationState>[UnAuthenticated()],
+      expect: () => <AuthenticationState>[Unauthenticated()],
     );
 
     blocTest<AuthenticationBloc, AuthenticationState>(

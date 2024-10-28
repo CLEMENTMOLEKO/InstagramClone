@@ -10,15 +10,19 @@ final class FirebaseAuthenticationService implements AuthenticationService {
   final FirebaseAuth firebaseAuth;
   final GoogleSignIn googleSignIn;
 
-  FirebaseAuthenticationService(
-      {required this.firebaseAuth, required this.googleSignIn});
+  FirebaseAuthenticationService({
+    required this.firebaseAuth,
+    required this.googleSignIn,
+  });
 
   @override
   Stream<User?> get user => firebaseAuth.authStateChanges();
 
   @override
-  Future<Either<AuthFailure, Unit>> loginWithEmailAndPassword(
-      {required EmailAddress emailAddress, required Password password}) async {
+  Future<Either<AuthFailure, Unit>> loginWithEmailAndPassword({
+    required EmailAddress emailAddress,
+    required Password password,
+  }) async {
     try {
       await firebaseAuth.signInWithEmailAndPassword(
         email: emailAddress.value,
@@ -77,9 +81,7 @@ final class FirebaseAuthenticationService implements AuthenticationService {
   }
 
   @override
-  Future<void> signOut() async {
-    await firebaseAuth.signOut();
-  }
+  Future<void> signOut() async => await firebaseAuth.signOut();
 
   AuthFailure _handleErrorCodes({required String code}) {
     switch (code) {

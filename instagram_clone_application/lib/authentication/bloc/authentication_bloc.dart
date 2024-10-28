@@ -29,27 +29,44 @@ class AuthenticationBloc
     });
     on<_AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
     on<SignOutRequested>(_signOutRequested);
+    on<AuthenticationStatusChecked>(_onAuthenticationStatusChecked);
   }
 
   Future<void> _signOutRequested(
-      SignOutRequested event, Emitter<AuthenticationState> emit) async {
+    SignOutRequested event,
+    Emitter<AuthenticationState> emit,
+  ) async {
     await authenticationService.signOut();
-    emit(UnAuthenticated());
+    emit(Unauthenticated());
   }
 
   Future<void> _onAuthenticationStatusChanged(
-      _AuthenticationStatusChanged event,
-      Emitter<AuthenticationState> emit) async {
-    if (event.user == null) return emit(UnAuthenticated());
+    _AuthenticationStatusChanged event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    if (event.user == null) return emit(Unauthenticated());
     if (!await connectionChecker.hasConnection) {
       return emit(
-          AuthenticationFailed(failure: ApplicationFailure.networkFailure));
+        AuthenticationFailed(failure: ApplicationFailure.networkFailure),
+      );
     }
 
     final getUserResult = await userRepository.getUser(userId: event.user!.uid);
     getUserResult.fold(
-        (failure) => emit(AuthenticationFailed(failure: failure)),
-        (userModel) => emit(Authenticated(user: userModel)));
+      (failure) => emit(AuthenticationFailed(failure: failure)),
+      (userModel) => emit(Authenticated(user: userModel)),
+    );
+  }
+
+  Future<void> _onAuthenticationStatusChecked(
+    AuthenticationStatusChecked event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    final user = await authenticationService.user.first;
+    _onAuthenticationStatusChanged(
+      _AuthenticationStatusChanged(user: user),
+      emit,
+    );
   }
 
   @override

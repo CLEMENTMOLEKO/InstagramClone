@@ -46,7 +46,7 @@ void main() {
       //Arrange
       //Act
       //Assert
-      expect(UnAuthenticated(), UnAuthenticated());
+      expect(Unauthenticated(), Unauthenticated());
     },
   );
 
@@ -60,7 +60,7 @@ void main() {
           .getOrElse(() => throw Exception("Error Converting To Domain User"));
       //Act
       //Assert
-      expect(Authenticated(user: userModel), isNot(equals(UnAuthenticated())));
+      expect(Authenticated(user: userModel), isNot(equals(Unauthenticated())));
     },
   );
 }

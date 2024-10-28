@@ -14,3 +14,8 @@ final class SignOutRequested extends AuthenticationEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class AuthenticationStatusChecked extends AuthenticationEvent {
+  @override
+  List<Object?> get props => [];
+}
