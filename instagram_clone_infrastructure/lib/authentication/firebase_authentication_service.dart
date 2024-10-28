@@ -57,12 +57,12 @@ final class FirebaseAuthenticationService implements AuthenticationService {
 
     try {
       final googleAuth = await googleAccount.authentication;
-      final ouAuthCredentials = GoogleAuthProvider.credential(
+      final oAuthCredentials = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
         accessToken: googleAuth.accessToken,
       );
 
-      await firebaseAuth.signInWithCredential(ouAuthCredentials);
+      await firebaseAuth.signInWithCredential(oAuthCredentials);
       return right(unit);
     } on FirebaseAuthException catch (e) {
       return left(_handleErrorCodes(code: e.code));

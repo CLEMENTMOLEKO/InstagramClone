@@ -13,6 +13,7 @@ import '../widget_helpers/get_field_icon.dart';
 
 @RoutePage()
 class SignUpBirthdayView extends StatelessWidget {
+  //TODO: turn view into a stateful widget to dispose the controller or use a cubit.
   final textFieldController =
       TextEditingController(text: "Birthday(0 year old)");
   SignUpBirthdayView({super.key});
