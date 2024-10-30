@@ -52,6 +52,7 @@ dependencies:
   dartz: ^0.10.1
   smooth_sheets: ^0.9.4
   flutter_holo_date_picker: ^2.0.0
+  get_it: ^7.7.0
 
 dev_dependencies:
   flutter_test:

@@ -6,7 +6,7 @@ class AppRouter extends RootStackRouter {
   final _routes = [
     AutoRoute(
       path: "/",
-      page: AppView.page,
+      page: AppRoute.page,
       children: [
         AutoRoute(
           path: HomeRoute.name,

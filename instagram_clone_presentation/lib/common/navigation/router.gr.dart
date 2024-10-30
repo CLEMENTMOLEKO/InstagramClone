@@ -13,7 +13,7 @@ import 'package:flutter/cupertino.dart' as _i12;
 import 'package:flutter/material.dart' as _i13;
 import 'package:instagram_clone_application/instagram_clone_application.dart'
     as _i14;
-import 'package:instagram_clone_presentation/app.dart' as _i1;
+import 'package:instagram_clone_presentation/app_page.dart' as _i1;
 import 'package:instagram_clone_presentation/authentication/authentication_page.dart'
     as _i2;
 import 'package:instagram_clone_presentation/authentication/sign_up/sign_up_page.dart'
@@ -33,20 +33,20 @@ import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_u
 import 'package:instagram_clone_presentation/home/home_page.dart' as _i3;
 
 /// generated route for
-/// [_i1.AppView]
-class AppView extends _i11.PageRouteInfo<void> {
-  const AppView({List<_i11.PageRouteInfo>? children})
+/// [_i1.AppPage]
+class AppRoute extends _i11.PageRouteInfo<void> {
+  const AppRoute({List<_i11.PageRouteInfo>? children})
       : super(
-          AppView.name,
+          AppRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'AppView';
+  static const String name = 'AppRoute';
 
   static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i1.AppView();
+      return const _i1.AppPage();
     },
   );
 }
