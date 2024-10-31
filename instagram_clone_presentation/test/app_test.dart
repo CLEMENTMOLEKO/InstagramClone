@@ -35,8 +35,9 @@ void main() {
     );
   }
 
-  testWidgets('Should render AppView', (tester) async {
+  testWidgets('Should render loading indicator on initial state',
+      (tester) async {
     await pumpAppView(tester);
-    expect(find.byType(AppView), findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 }
