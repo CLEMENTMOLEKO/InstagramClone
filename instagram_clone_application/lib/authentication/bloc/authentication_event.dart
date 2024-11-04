@@ -1,7 +1,9 @@
 part of 'authentication_bloc.dart';
 
 @immutable
-sealed class AuthenticationEvent extends Equatable {}
+sealed class AuthenticationEvent extends Equatable {
+  const AuthenticationEvent();
+}
 
 final class _AuthenticationStatusChanged extends AuthenticationEvent {
   final User? user;
@@ -18,4 +20,9 @@ final class SignOutRequested extends AuthenticationEvent {
 final class AuthenticationStatusChecked extends AuthenticationEvent {
   @override
   List<Object?> get props => [];
+}
+
+final class AuthenticationEvents {
+  static final checkAuth = AuthenticationStatusChecked();
+  static final signOut = SignOutRequested();
 }

@@ -19,7 +19,7 @@ class AppPage extends StatelessWidget {
         authenticationService: getIt<AuthenticationService>(),
         userRepository: getIt<UserRepository>(),
         connectionChecker: getIt<ConnectionChecker>(),
-      ),
+      )..add(AuthenticationEvents.checkAuth),
       child: const AppView(),
     );
   }
