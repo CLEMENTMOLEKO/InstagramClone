@@ -53,6 +53,8 @@ dependencies:
   smooth_sheets: ^0.9.4
   flutter_holo_date_picker: ^2.0.0
   get_it: ^7.7.0
+  firebase_auth: ^5.3.1
+  uuid: ^4.5.1
 
 dev_dependencies:
   flutter_test:
