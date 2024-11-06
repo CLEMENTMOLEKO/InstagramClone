@@ -1,22 +1,37 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 
 import '../../../common/widgets/form_field_view.dart';
 import '../../../common/widgets/interactive_text.dart';
 import '../widget_helpers/get_field_icon.dart';
 
-@RoutePage()
-class SignUpBirthdayView extends StatelessWidget {
-  //TODO: turn view into a stateful widget to dispose the controller or use a cubit.
-  final textFieldController =
-      TextEditingController(text: "Birthday(0 year old)");
-  SignUpBirthdayView({super.key});
+class SignUpBirthdayView extends StatefulWidget {
+  const SignUpBirthdayView({super.key});
+
+  @override
+  State<SignUpBirthdayView> createState() => _SignUpBirthdayViewState();
+}
+
+class _SignUpBirthdayViewState extends State<SignUpBirthdayView> {
+  late TextEditingController textFieldController;
+
+  @override
+  void initState() {
+    super.initState();
+    textFieldController = TextEditingController(text: "Birthday(0 year old)");
+  }
+
+  @override
+  void dispose() {
+    textFieldController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +62,10 @@ class SignUpBirthdayView extends StatelessWidget {
   }
 
   VoidCallback? onPrimaryButtonPressed(BuildContext context) {
-    //TODO: handle primary button pressed
-    return () => context.read<SignUpBloc>().add(SignUpRequested());
+    return () {
+      context.read<SignUpBloc>().add(SignUpRequested());
+      context.go('/auth/signup/save-login-info');
+    };
   }
 
   /// [_showDialog] is used to show the date picker in a modal popup. platform specific.

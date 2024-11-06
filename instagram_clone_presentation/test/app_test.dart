@@ -1,12 +1,11 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/app_page.dart';
 import 'package:instagram_clone_presentation/authentication/authentication_page.dart';
-import 'package:instagram_clone_presentation/common/navigation/router.gr.dart';
 import 'package:instagram_clone_presentation/home/home_page.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -16,9 +15,7 @@ class MockUserRepository extends Mock implements UserRepository {}
 
 class MockConnectionChecker extends Mock implements ConnectionChecker {}
 
-class MockRouter extends Mock implements StackRouter {}
-
-class FakePageRouteInfo extends Fake implements PageRouteInfo {}
+class MockGoRouter extends Mock implements GoRouter {}
 
 class MockAuthenticationBloc
     extends MockBloc<AuthenticationEvent, AuthenticationState>
@@ -26,28 +23,23 @@ class MockAuthenticationBloc
 
 void main() {
   late MockAuthenticationBloc mockAuthenticationBloc;
-  late MockRouter mockRouter;
+  late MockGoRouter mockGoRouter;
 
   setUp(() {
     mockAuthenticationBloc = MockAuthenticationBloc();
-    mockRouter = MockRouter();
+    mockGoRouter = MockGoRouter();
 
     when(() => mockAuthenticationBloc.state).thenReturn(
       AuthenticationInitial(),
     );
-    when(() => mockRouter.replace(any())).thenAnswer((_) async => false);
-  });
-
-  setUpAll(() {
-    registerFallbackValue(FakePageRouteInfo());
+    when(() => mockGoRouter.go(any())).thenReturn(null);
   });
 
   Future<void> pumpAppView(WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: StackRouterScope(
-          controller: mockRouter,
-          stateHash: 0,
+        home: InheritedGoRouter(
+          goRouter: mockGoRouter,
           child: BlocProvider<AuthenticationBloc>.value(
             value: mockAuthenticationBloc..add(AuthenticationEvents.checkAuth),
             child: const AppView(),
@@ -66,8 +58,7 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
-  testWidgets(
-      skip: true, 'Should render AuthenticationPage on unauthenticated state',
+  testWidgets('Should render AuthenticationPage on unauthenticated state',
       (tester) async {
     //Arrange
     when(() => mockAuthenticationBloc.state).thenReturn(
@@ -79,8 +70,7 @@ void main() {
     expect(find.byType(AuthenticationPage), findsOneWidget);
   });
 
-  testWidgets(skip: true, 'Should render HomePage on authenticated state',
-      (tester) async {
+  testWidgets('Should render HomePage on authenticated state', (tester) async {
     when(() => mockAuthenticationBloc.state).thenReturn(
       Authenticated(
         user: UserModel.createUser(

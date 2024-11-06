@@ -1,14 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_infrastructure/instagram_clone_infrastructure.dart';
 
 import 'authentication/authentication_page.dart';
-import 'common/navigation/router.gr.dart';
 import 'home/home_page.dart';
 
-@RoutePage()
 class AppPage extends StatelessWidget {
   const AppPage({super.key});
 
@@ -33,9 +31,9 @@ class AppView extends StatelessWidget {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is Unauthenticated) {
-          context.router.replace(const AuthenticationRoute());
+          context.go('/auth');
         } else if (state is Authenticated) {
-          context.router.replace(const HomeRoute());
+          context.go('/home');
         }
       },
       child: BlocBuilder<AuthenticationBloc, AuthenticationState>(

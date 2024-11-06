@@ -1,12 +1,10 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
-import 'package:instagram_clone_presentation/common/navigation/router.gr.dart';
 import '../widget_helpers/get_field_icon.dart';
 import '../../../common/widgets/form_field_view.dart';
 
-@RoutePage()
 class SignUpPasswordView extends StatelessWidget {
   const SignUpPasswordView({super.key});
 
@@ -23,21 +21,17 @@ class SignUpPasswordView extends StatelessWidget {
             .read<SignUpBloc>()
             .add(SignUpPasswordChanged(password: password));
       },
-      onPrimaryButtonPressed: (state) => _onPrimaryButtonPressed(
-        state,
-        context,
-      ),
+      onPrimaryButtonPressed: (state) =>
+          _onPrimaryButtonPressed(state, context),
       getFieldIcon: (state) => getFieldIcon(state.passwordInput),
     );
   }
 
   VoidCallback? _onPrimaryButtonPressed(
-    SignUpState state,
-    BuildContext context,
-  ) {
+      SignUpState state, BuildContext context) {
     return state.passwordInput.isValid
         ? () {
-            context.router.pushNamed(SignUpUsernameView.name);
+            context.go('/auth/signup/username');
           }
         : null;
   }

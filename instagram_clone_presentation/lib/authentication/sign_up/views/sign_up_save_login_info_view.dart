@@ -1,9 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/common/widgets/form_field_view.dart';
 
-@RoutePage()
 class SignUpSaveLoginInfoView extends StatelessWidget {
   const SignUpSaveLoginInfoView({super.key});
 
@@ -15,17 +14,18 @@ class SignUpSaveLoginInfoView extends StatelessWidget {
       subtitle:
           "We'll save the login info for your new account, so you won't need to enter it next time you log in.",
       primaryButtonText: "Save",
-      onPrimaryButtonPressed: (_) => onPrimaryButtonPressed,
+      onPrimaryButtonPressed: (_) => onPrimaryButtonPressed(context),
       fieldLabel: "",
       showTextField: false,
       secondaryButtonText: "Not now",
-      onSecondaryButtonPressed: () {
-        //TODO: handle not saving login info
-      },
+      onSecondaryButtonPressed: () => context.go('/home'),
     );
   }
 
-  void onPrimaryButtonPressed() {
-    //TODO: handle saving login info
+  VoidCallback? onPrimaryButtonPressed(BuildContext context) {
+    return () {
+      // Handle saving login info
+      context.go('/home');
+    };
   }
 }

@@ -1,17 +1,15 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/authentication/sign_up/widgets/confirmation_code_sheet.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
 
-import '../../../common/navigation/router.gr.dart';
 import '../../../common/widgets/form_field_view.dart';
 
-@RoutePage()
 class SignUpEmailVerificationView extends StatefulWidget {
   const SignUpEmailVerificationView({super.key});
 
@@ -35,7 +33,7 @@ class _SignUpEmailVerificationViewState
     return BlocListener<SignUpBloc, SignUpState>(
       listener: (context, state) {
         if (state.isEmailVerified) {
-          context.router.pushNamed(SignUpPasswordView.name);
+          context.go('/auth/signup/password');
         }
       },
       listenWhen: (previous, current) =>

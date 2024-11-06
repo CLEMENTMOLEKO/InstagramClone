@@ -1,13 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 
-import '../../../common/navigation/router.gr.dart';
+import '../../../common/navigation/router.dart';
 import '../../../common/widgets/form_field_view.dart';
 import '../widget_helpers/get_field_icon.dart';
 
-@RoutePage()
 class SignUpEmailView extends StatelessWidget {
   const SignUpEmailView({super.key});
 
@@ -24,23 +23,22 @@ class SignUpEmailView extends StatelessWidget {
           "Enter the email address at which you can be contacted. No one will see this on your profile.",
       fieldLabel: "Email Address",
       primaryButtonText: "Next",
-      onPrimaryButtonPressed: (state) => _onPrimaryButtonPressed(
-        state,
-        context,
-      ),
+      onPrimaryButtonPressed: (state) =>
+          _onPrimaryButtonPressed(state, context),
       secondaryButtonText: "Sign Up with Mobile Number",
       onSecondaryButtonPressed: () {},
       getFieldIcon: (state) => getFieldIcon(state.emailInput),
     );
   }
-}
 
-VoidCallback? _onPrimaryButtonPressed(SignUpState state, BuildContext context) {
-  return state.emailInput.isValid
-      ? () {
-          context.read<SignUpBloc>().add(
-              SingUpEmailVerificationRequested(email: state.emailInput.value));
-          context.router.pushNamed(SignUpEmailVerificationView.name);
-        }
-      : null;
+  VoidCallback? _onPrimaryButtonPressed(
+      SignUpState state, BuildContext context) {
+    return state.emailInput.isValid
+        ? () {
+            context.read<SignUpBloc>().add(SingUpEmailVerificationRequested(
+                email: state.emailInput.value));
+            context.go(Routes.signUpVerifyEmail);
+          }
+        : null;
+  }
 }

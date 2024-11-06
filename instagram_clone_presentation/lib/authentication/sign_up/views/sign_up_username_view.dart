@@ -1,12 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/common/widgets/form_field_view.dart';
 
-import '../../../common/navigation/router.gr.dart';
-
-@RoutePage()
 class SignUpUsernameView extends StatelessWidget {
   const SignUpUsernameView({super.key});
 
@@ -29,7 +26,7 @@ class SignUpUsernameView extends StatelessWidget {
             : const Icon(Icons.error, color: Colors.red);
       },
       onPrimaryButtonPressed: (_) => () {
-        context.router.pushNamed(SignUpBirthdayView.name);
+        context.go('/auth/signup/birthday');
       },
     );
   }
