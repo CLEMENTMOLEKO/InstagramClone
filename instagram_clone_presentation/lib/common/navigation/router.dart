@@ -11,21 +11,31 @@ import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_u
 import 'package:instagram_clone_presentation/home/home_page.dart';
 
 class Routes {
+  // child routes string constants
+  static const String signUpString = 'signup';
+  static const String signUpVerifyEmailString = 'verify-email';
+  static const String signUpPasswordString = 'password';
+  static const String signUpUsernameString = 'username';
+  static const String signUpBirthdayString = 'birthday';
+  static const String signUpSaveLoginInfoString = 'save-login-info';
+  static const String loginString = 'login';
+
   // Base Routes
   static const String root = '/';
   static const String home = '/home';
   static const String auth = '/auth';
 
   // Auth Routes
-  static const String signUp = '$auth/signup';
-  static const String login = '$auth/login';
+  static const String signUp = '$auth/$signUpString';
+  static const String login = '$auth/$loginString';
 
   // Sign Up Flow Routes
-  static const String signUpVerifyEmail = '$signUp/verify-email';
-  static const String signUpPassword = '$signUp/password';
-  static const String signUpUsername = '$signUp/username';
-  static const String signUpBirthday = '$signUp/birthday';
-  static const String signUpSaveLoginInfo = '$signUp/save-login-info';
+  static const String signUpVerifyEmail = '$signUp/$signUpVerifyEmailString';
+  static const String signUpPassword = '$signUp/$signUpPasswordString';
+  static const String signUpUsername = '$signUp/$signUpUsernameString';
+  static const String signUpBirthday = '$signUp/$signUpBirthdayString';
+  static const String signUpSaveLoginInfo =
+      '$signUp/$signUpSaveLoginInfoString';
 }
 
 final router = GoRouter(
@@ -42,33 +52,33 @@ final router = GoRouter(
           Routes.signUp, // Redirect to sign-up by default
       routes: [
         GoRoute(
-          path: 'signup',
+          path: Routes.signUpString,
           builder: (context, state) => const SignUpPage(),
           routes: [
             GoRoute(
-              path: 'verify-email',
+              path: Routes.signUpVerifyEmailString,
               builder: (context, state) => const SignUpEmailVerificationView(),
             ),
             GoRoute(
-              path: 'password',
+              path: Routes.signUpPasswordString,
               builder: (context, state) => const SignUpPasswordView(),
             ),
             GoRoute(
-              path: 'username',
+              path: Routes.signUpUsernameString,
               builder: (context, state) => const SignUpUsernameView(),
             ),
             GoRoute(
-              path: 'birthday',
+              path: Routes.signUpBirthdayString,
               builder: (context, state) => const SignUpBirthdayView(),
             ),
             GoRoute(
-              path: 'save-login-info',
+              path: Routes.signUpSaveLoginInfoString,
               builder: (context, state) => const SignUpSaveLoginInfoView(),
             ),
           ],
         ),
         GoRoute(
-          path: 'login',
+          path: Routes.loginString,
           builder: (context, state) =>
               const Placeholder(), // TODO: Add LoginPage
         ),

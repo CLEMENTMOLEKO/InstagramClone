@@ -32,11 +32,16 @@ class SignUpEmailView extends StatelessWidget {
   }
 
   VoidCallback? _onPrimaryButtonPressed(
-      SignUpState state, BuildContext context) {
+    SignUpState state,
+    BuildContext context,
+  ) {
     return state.emailInput.isValid
         ? () {
-            context.read<SignUpBloc>().add(SingUpEmailVerificationRequested(
-                email: state.emailInput.value));
+            context.read<SignUpBloc>().add(
+                  SingUpEmailVerificationRequested(
+                    email: state.emailInput.value,
+                  ),
+                );
             context.go(Routes.signUpVerifyEmail);
           }
         : null;
