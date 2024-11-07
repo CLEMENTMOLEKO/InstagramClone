@@ -1,12 +1,13 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/app_page.dart';
-import 'package:instagram_clone_presentation/authentication/authentication_page.dart';
-import 'package:instagram_clone_presentation/home/home_page.dart';
+import 'package:instagram_clone_presentation/common/navigation/router.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockAuthenticationService extends Mock implements AuthenticationService {}
@@ -14,6 +15,8 @@ class MockAuthenticationService extends Mock implements AuthenticationService {}
 class MockUserRepository extends Mock implements UserRepository {}
 
 class MockConnectionChecker extends Mock implements ConnectionChecker {}
+
+class MockUser extends Mock implements User {}
 
 class MockGoRouter extends Mock implements GoRouter {}
 
@@ -29,9 +32,7 @@ void main() {
     mockAuthenticationBloc = MockAuthenticationBloc();
     mockGoRouter = MockGoRouter();
 
-    when(() => mockAuthenticationBloc.state).thenReturn(
-      AuthenticationInitial(),
-    );
+    registerFallbackValue(Routes.auth);
     when(() => mockGoRouter.go(any())).thenReturn(null);
   });
 
@@ -41,52 +42,71 @@ void main() {
         home: InheritedGoRouter(
           goRouter: mockGoRouter,
           child: BlocProvider<AuthenticationBloc>.value(
-            value: mockAuthenticationBloc..add(AuthenticationEvents.checkAuth),
-            child: const AppView(),
+            value: mockAuthenticationBloc,
+            child: const Appview(),
           ),
         ),
       ),
     );
   }
 
-  testWidgets('Should render loading indicator on initial state',
-      (tester) async {
-    //Arrange
-    await pumpAppView(tester);
-    //Act
-    //Assert
-    expect(find.byType(CircularProgressIndicator), findsOneWidget);
-  });
+  group('AppView', () {
+    testWidgets('Should render loading indicator on initial state',
+        (tester) async {
+      when(() => mockAuthenticationBloc.state)
+          .thenReturn(AuthenticationInitial());
+      await pumpAppView(tester);
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    });
 
-  testWidgets('Should render AuthenticationPage on unauthenticated state',
-      (tester) async {
-    //Arrange
-    when(() => mockAuthenticationBloc.state).thenReturn(
-      Unauthenticated(),
-    );
-    await pumpAppView(tester);
-    //Act
-    //Assert
-    expect(find.byType(AuthenticationPage), findsOneWidget);
-  });
+    testWidgets('Should navigate to auth page on unauthenticated state',
+        (tester) async {
+      // Arrange
+      whenListen(
+        mockAuthenticationBloc,
+        Stream.fromIterable([
+          AuthenticationInitial(),
+          Unauthenticated(),
+        ]),
+        initialState: AuthenticationInitial(),
+      );
 
-  testWidgets('Should render HomePage on authenticated state', (tester) async {
-    when(() => mockAuthenticationBloc.state).thenReturn(
-      Authenticated(
-        user: UserModel.createUser(
-          userId: UserId.createUnique(),
-          userName: 'userName',
-          bio: 'bio',
-          avatarUrl: 'avatarUrl',
-          emailAddress: EmailAddress.create(email: 'email@email.com')
-              .getOrElse(() => throw Exception('Error creating email address')),
-          joined: DateTime.now(),
-        ).getOrElse(() => throw Exception('Error creating user')),
-      ),
-    );
-    await pumpAppView(tester);
-    //Act
-    //Assert
-    expect(find.byType(HomePage), findsOneWidget);
+      // Act
+      await pumpAppView(tester);
+      await tester.pump();
+
+      // Assert
+      verify(() => mockGoRouter.go(Routes.auth)).called(1);
+    });
+
+    testWidgets('Should navigate to home page on authenticated state',
+        (tester) async {
+      // Arrange
+      final user = UserModel.createUser(
+        userId: UserId.createUnique(),
+        userName: 'userName',
+        bio: 'bio',
+        avatarUrl: 'avatarUrl',
+        emailAddress: EmailAddress.create(email: 'email@email.com')
+            .getOrElse(() => throw Exception('Error creating email address')),
+        joined: DateTime.now(),
+      ).getOrElse(() => throw Exception('Error creating user'));
+
+      whenListen(
+        mockAuthenticationBloc,
+        Stream.fromIterable([
+          AuthenticationInitial(),
+          Authenticated(user: user),
+        ]),
+        initialState: AuthenticationInitial(),
+      );
+
+      // Act
+      await pumpAppView(tester);
+      await tester.pump();
+
+      // Assert
+      verify(() => mockGoRouter.go(Routes.home)).called(1);
+    });
   });
 }
