@@ -4,8 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_infrastructure/instagram_clone_infrastructure.dart';
 
-import 'authentication/authentication_page.dart';
-import 'home/home_page.dart';
+import 'common/navigation/router.dart';
 
 class AppPage extends StatelessWidget {
   const AppPage({super.key});
@@ -18,41 +17,29 @@ class AppPage extends StatelessWidget {
         userRepository: getIt<UserRepository>(),
         connectionChecker: getIt<ConnectionChecker>(),
       )..add(AuthenticationEvents.checkAuth),
-      child: const AppView(),
+      child: const Appview(),
     );
   }
 }
 
-class AppView extends StatelessWidget {
-  const AppView({super.key});
+class Appview extends StatelessWidget {
+  const Appview({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is Unauthenticated) {
-          context.go('/auth');
+          context.go(Routes.login);
         } else if (state is Authenticated) {
-          context.go('/home');
+          context.go(Routes.home);
         }
       },
-      child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        builder: (context, state) {
-          return switch (state) {
-            AuthenticationInitial() => const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-            Unauthenticated() => const AuthenticationPage(),
-            Authenticated(user: _) => const HomePage(),
-            _ => const Scaffold(
-                body: Center(
-                  child: Text("Error occurred"),
-                ),
-              ),
-          };
-        },
+      child: const Scaffold(
+        backgroundColor: Colors.pink,
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
       ),
     );
   }

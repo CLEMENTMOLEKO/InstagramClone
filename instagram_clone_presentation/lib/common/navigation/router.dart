@@ -46,6 +46,10 @@ final router = GoRouter(
       builder: (context, state) => const AppPage(),
     ),
     GoRoute(
+      path: Routes.home,
+      builder: (context, state) => const HomePage(),
+    ),
+    GoRoute(
       path: Routes.auth,
       builder: (context, state) => const AuthenticationPage(),
       redirect: (context, state) =>
@@ -83,10 +87,6 @@ final router = GoRouter(
               const Placeholder(), // TODO: Add LoginPage
         ),
       ],
-    ),
-    GoRoute(
-      path: Routes.home,
-      builder: (context, state) => const HomePage(),
     ),
   ],
 );
