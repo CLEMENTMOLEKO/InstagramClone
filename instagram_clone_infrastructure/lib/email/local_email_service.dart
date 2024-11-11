@@ -14,22 +14,22 @@ class LocalEmailService implements EmailService {
     required int code,
     required String email,
   }) async {
-    final smtpServer = gmail(
-        'africantradingmarkets@gmail.com', '@123456'); // no longer compatible
+    // final smtpServer = gmail(
+    //     'africantradingmarkets@gmail.com', '@123456'); // no longer compatible
 
-    final message = Message()
-      ..from =
-          const Address('africantradingmarkets@gmail.com', 'Instagram Clone')
-      ..recipients.add(email)
-      ..subject = 'Email Verification Code'
-      ..text = 'Your verification code is: $code';
+    // final message = Message()
+    //   ..from =
+    //       const Address('africantradingmarkets@gmail.com', 'Instagram Clone')
+    //   ..recipients.add(email)
+    //   ..subject = 'Email Verification Code'
+    //   ..text = 'Your verification code is: $code';
 
-    try {
-      final sendReport = await send(message, smtpServer);
-      print('Message sent: ' + sendReport.toString());
-    } on MailerException catch (e) {
-      print('Message not sent. \n' + e.toString());
-    }
+    // try {
+    //   final sendReport = await send(message, smtpServer);
+    //   print('Message sent: ' + sendReport.toString());
+    // } on MailerException catch (e) {
+    //   print('Message not sent. \n' + e.toString());
+    // }
   }
 
   @override
