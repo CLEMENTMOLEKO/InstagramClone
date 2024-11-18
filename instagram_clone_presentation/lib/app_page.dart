@@ -30,7 +30,7 @@ class Appview extends StatelessWidget {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is Unauthenticated) {
-          context.go(Routes.auth);
+          context.go(Routes.signUpEmailPath);
         } else if (state is Authenticated) {
           context.go(Routes.home);
         }

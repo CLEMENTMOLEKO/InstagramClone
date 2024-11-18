@@ -29,21 +29,20 @@ class Routes {
   static const String auth = '/auth';
 
   // Auth Routes
-  static const String signUpPath = '$auth/$signUpString';
   static const String loginPath = '$auth/$loginString';
 
   // Sign Up Flow Routes
-  static const String signUpEmailPath = '$signUpPath/$signUpEmailString';
-  static const String signUpVerifyEmailPath =
-      '$signUpPath/$signUpVerifyEmailString';
-  static const String signUpPasswordPath = '$signUpPath/$signUpPasswordString';
-  static const String signUpUsernamePath = '$signUpPath/$signUpUsernameString';
-  static const String signUpBirthdayPath = '$signUpPath/$signUpBirthdayString';
+  static const String signUpEmailPath = '$auth/$signUpEmailString';
+  static const String signUpVerifyEmailPath = '$auth/$signUpVerifyEmailString';
+  static const String signUpPasswordPath = '$auth/$signUpPasswordString';
+  static const String signUpUsernamePath = '$auth/$signUpUsernameString';
+  static const String signUpBirthdayPath = '$auth/$signUpBirthdayString';
   static const String signUpSaveLoginInfoPath =
-      '$signUpPath/$signUpSaveLoginInfoString';
+      '$auth/$signUpSaveLoginInfoString';
 }
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _authenticationNavigatorKey = GlobalKey<NavigatorState>();
 final _signUpNavigatorKey = GlobalKey<NavigatorState>();
 
 final router = GoRouter(
@@ -58,50 +57,49 @@ final router = GoRouter(
       path: Routes.home,
       builder: (context, state) => const HomePage(),
     ),
-    GoRoute(
-      path: Routes.auth,
-      builder: (context, state) => const AuthenticationPage(),
-      redirect: (context, state) =>
-          Routes.signUpPath, // Redirect to sign-up by default
+    ShellRoute(
+      navigatorKey: _authenticationNavigatorKey,
+      builder: (context, state, child) => AuthenticationPage(child: child),
       routes: [
         ShellRoute(
           navigatorKey: _signUpNavigatorKey,
+          parentNavigatorKey: _authenticationNavigatorKey,
           builder: (context, state, child) => SignUpPage(child: child),
           routes: [
             GoRoute(
-              path: Routes.signUpEmailString,
+              path: Routes.signUpEmailPath,
               parentNavigatorKey: _signUpNavigatorKey,
               builder: (context, state) => const SignUpEmailView(),
             ),
             GoRoute(
-              path: Routes.signUpVerifyEmailString,
+              path: Routes.signUpVerifyEmailPath,
               parentNavigatorKey: _signUpNavigatorKey,
               builder: (context, state) => const SignUpEmailVerificationView(),
             ),
             GoRoute(
-              path: Routes.signUpPasswordString,
+              path: Routes.signUpPasswordPath,
               parentNavigatorKey: _signUpNavigatorKey,
               builder: (context, state) => const SignUpPasswordView(),
             ),
             GoRoute(
-              path: Routes.signUpUsernameString,
+              path: Routes.signUpUsernamePath,
               parentNavigatorKey: _signUpNavigatorKey,
               builder: (context, state) => const SignUpUsernameView(),
             ),
             GoRoute(
-              path: Routes.signUpBirthdayString,
+              path: Routes.signUpBirthdayPath,
               parentNavigatorKey: _signUpNavigatorKey,
               builder: (context, state) => const SignUpBirthdayView(),
             ),
             GoRoute(
-              path: Routes.signUpSaveLoginInfoString,
+              path: Routes.signUpSaveLoginInfoPath,
               parentNavigatorKey: _signUpNavigatorKey,
               builder: (context, state) => const SignUpSaveLoginInfoView(),
             ),
           ],
         ),
         GoRoute(
-          path: Routes.loginString,
+          path: Routes.loginPath,
           builder: (context, state) =>
               const Placeholder(), // TODO: Add LoginPage
         ),

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AuthenticationPage extends StatelessWidget {
-  const AuthenticationPage({super.key});
+  final Widget child;
+  const AuthenticationPage({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Authentication Page'),
-      ),
+    return Scaffold(
+      body: child,
     );
   }
 }
