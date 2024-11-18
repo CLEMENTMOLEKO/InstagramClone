@@ -10,9 +10,12 @@ import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_u
 import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_up_username_view.dart';
 import 'package:instagram_clone_presentation/home/home_page.dart';
 
+import '../../authentication/sign_up/views/sign_up_email_view.dart';
+
 class Routes {
   // child routes string constants
   static const String signUpString = 'signup';
+  static const String signUpEmailString = 'email';
   static const String signUpVerifyEmailString = 'verify-email';
   static const String signUpPasswordString = 'password';
   static const String signUpUsernameString = 'username';
@@ -26,19 +29,25 @@ class Routes {
   static const String auth = '/auth';
 
   // Auth Routes
-  static const String signUp = '$auth/$signUpString';
-  static const String login = '$auth/$loginString';
+  static const String signUpPath = '$auth/$signUpString';
+  static const String loginPath = '$auth/$loginString';
 
   // Sign Up Flow Routes
-  static const String signUpVerifyEmail = '$signUp/$signUpVerifyEmailString';
-  static const String signUpPassword = '$signUp/$signUpPasswordString';
-  static const String signUpUsername = '$signUp/$signUpUsernameString';
-  static const String signUpBirthday = '$signUp/$signUpBirthdayString';
-  static const String signUpSaveLoginInfo =
-      '$signUp/$signUpSaveLoginInfoString';
+  static const String signUpEmailPath = '$signUpPath/$signUpEmailString';
+  static const String signUpVerifyEmailPath =
+      '$signUpPath/$signUpVerifyEmailString';
+  static const String signUpPasswordPath = '$signUpPath/$signUpPasswordString';
+  static const String signUpUsernamePath = '$signUpPath/$signUpUsernameString';
+  static const String signUpBirthdayPath = '$signUpPath/$signUpBirthdayString';
+  static const String signUpSaveLoginInfoPath =
+      '$signUpPath/$signUpSaveLoginInfoString';
 }
 
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _signUpNavigatorKey = GlobalKey<NavigatorState>();
+
 final router = GoRouter(
+  navigatorKey: _rootNavigatorKey,
   initialLocation: Routes.root,
   routes: [
     GoRoute(
@@ -53,30 +62,40 @@ final router = GoRouter(
       path: Routes.auth,
       builder: (context, state) => const AuthenticationPage(),
       redirect: (context, state) =>
-          Routes.signUp, // Redirect to sign-up by default
+          Routes.signUpPath, // Redirect to sign-up by default
       routes: [
-        GoRoute(
-          path: Routes.signUpString,
-          builder: (context, state) => const SignUpPage(),
+        ShellRoute(
+          navigatorKey: _signUpNavigatorKey,
+          builder: (context, state, child) => SignUpPage(child: child),
           routes: [
             GoRoute(
+              path: Routes.signUpEmailString,
+              parentNavigatorKey: _signUpNavigatorKey,
+              builder: (context, state) => const SignUpEmailView(),
+            ),
+            GoRoute(
               path: Routes.signUpVerifyEmailString,
+              parentNavigatorKey: _signUpNavigatorKey,
               builder: (context, state) => const SignUpEmailVerificationView(),
             ),
             GoRoute(
               path: Routes.signUpPasswordString,
+              parentNavigatorKey: _signUpNavigatorKey,
               builder: (context, state) => const SignUpPasswordView(),
             ),
             GoRoute(
               path: Routes.signUpUsernameString,
+              parentNavigatorKey: _signUpNavigatorKey,
               builder: (context, state) => const SignUpUsernameView(),
             ),
             GoRoute(
               path: Routes.signUpBirthdayString,
+              parentNavigatorKey: _signUpNavigatorKey,
               builder: (context, state) => const SignUpBirthdayView(),
             ),
             GoRoute(
               path: Routes.signUpSaveLoginInfoString,
+              parentNavigatorKey: _signUpNavigatorKey,
               builder: (context, state) => const SignUpSaveLoginInfoView(),
             ),
           ],

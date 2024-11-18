@@ -3,16 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_infrastructure/instagram_clone_infrastructure.dart';
-import 'views/sign_up_email_view.dart';
 
 class SignUpPage extends StatelessWidget {
   final AuthenticationService? authenticationService;
   final UserRepository? userRepository;
   final ConnectionChecker? connectionChecker;
   final EmailService? emailService;
+  final Widget child;
 
   const SignUpPage({
     super.key,
+    required this.child,
     this.authenticationService,
     this.userRepository,
     this.connectionChecker,
@@ -41,7 +42,7 @@ class SignUpPage extends StatelessWidget {
             );
           }
         },
-        child: const SignUpEmailView(),
+        child: child,
       ),
     );
   }
