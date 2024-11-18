@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/common/widgets/form_field_view.dart';
 
+import '../../../common/navigation/router.dart';
+
 class SignUpUsernameView extends StatelessWidget {
   const SignUpUsernameView({super.key});
 
@@ -26,7 +28,7 @@ class SignUpUsernameView extends StatelessWidget {
             : const Icon(Icons.error, color: Colors.red);
       },
       onPrimaryButtonPressed: (_) => () {
-        context.go('/auth/signup/birthday');
+        context.go(Routes.signUpBirthdayPath);
       },
     );
   }

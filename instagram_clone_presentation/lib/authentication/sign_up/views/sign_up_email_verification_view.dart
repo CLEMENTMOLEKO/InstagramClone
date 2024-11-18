@@ -8,6 +8,7 @@ import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/authentication/sign_up/widgets/confirmation_code_sheet.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
 
+import '../../../common/navigation/router.dart';
 import '../../../common/widgets/form_field_view.dart';
 
 class SignUpEmailVerificationView extends StatefulWidget {
@@ -33,7 +34,7 @@ class _SignUpEmailVerificationViewState
     return BlocListener<SignUpBloc, SignUpState>(
       listener: (context, state) {
         if (state.isEmailVerified) {
-          context.go('/auth/signup/password');
+          context.go(Routes.signUpPasswordPath);
         }
       },
       listenWhen: (previous, current) =>

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
+import '../../../common/navigation/router.dart';
 import '../widget_helpers/get_field_icon.dart';
 import '../../../common/widgets/form_field_view.dart';
 
@@ -31,7 +32,7 @@ class SignUpPasswordView extends StatelessWidget {
       SignUpState state, BuildContext context) {
     return state.passwordInput.isValid
         ? () {
-            context.go('/auth/signup/username');
+            context.go(Routes.signUpUsernamePath);
           }
         : null;
   }

@@ -2,12 +2,9 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/authentication/sign_up/sign_up_page.dart';
-import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_up_email_view.dart';
-import 'package:instagram_clone_presentation/common/navigation/router.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockAuthenticationService extends Mock implements AuthenticationService {}
@@ -54,6 +51,7 @@ void main() {
               userRepository: mockUserRepository,
               connectionChecker: mockConnectionChecker,
               emailService: mockEmailService,
+              child: const Center(key: Key("test"), child: Text("Test")),
             ),
           ),
         ),
@@ -62,10 +60,10 @@ void main() {
   }
 
   group("SignUpPage", () {
-    testWidgets("Should render SignUpEmailView", (widgetTester) async {
+    testWidgets("Should render passed in child", (widgetTester) async {
       await pumpSignUpPage(widgetTester);
       await widgetTester.pumpAndSettle();
-      expect(find.byType(SignUpEmailView), findsOneWidget);
+      expect(find.text("Test"), findsOneWidget);
     });
   });
 }
