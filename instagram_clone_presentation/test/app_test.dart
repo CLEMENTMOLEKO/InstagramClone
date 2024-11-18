@@ -76,7 +76,7 @@ void main() {
       await tester.pump();
 
       // Assert
-      verify(() => mockGoRouter.go(Routes.auth)).called(1);
+      verify(() => mockGoRouter.go(Routes.signUpEmailPath)).called(1);
     });
 
     testWidgets('Should navigate to home page on authenticated state',
