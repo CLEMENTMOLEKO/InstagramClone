@@ -7,6 +7,7 @@ import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 
+import '../../../common/navigation/router.dart';
 import '../../../common/widgets/form_field_view.dart';
 import '../../../common/widgets/interactive_text.dart';
 import '../widget_helpers/get_field_icon.dart';
@@ -64,7 +65,7 @@ class _SignUpBirthdayViewState extends State<SignUpBirthdayView> {
   VoidCallback? onPrimaryButtonPressed(BuildContext context) {
     return () {
       context.read<SignUpBloc>().add(SignUpRequested());
-      context.go('/auth/signup/save-login-info');
+      context.go(Routes.signUpSaveLoginInfoPath);
     };
   }
 
