@@ -16,6 +16,7 @@ class SignUpPasswordView extends StatelessWidget {
       subtitle:
           "Create a password with at least 6 letters or numbers, It should be something others can't guess",
       fieldLabel: "Password",
+      obscureText: true,
       primaryButtonText: "Next",
       onFieldValueChanged: (password) {
         context

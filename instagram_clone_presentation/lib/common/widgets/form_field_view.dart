@@ -29,6 +29,7 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
   final VoidCallback? onSubtitleButtonPressed;
   final GestureTapCallback? onFieldClick;
   final bool textFieldDisabled;
+  final bool obscureText;
 
   /// use [subTitleTextSpans] to display interactive text, by default interactive text will be used if [subTitleTextSpans] length is greater than 0
   final List<TextSpan> subTitleTextSpans;
@@ -57,6 +58,7 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
     this.subtitle = "",
     this.textFieldDisabled = false,
     this.onFieldClick,
+    this.obscureText = false,
   });
 
   @override
@@ -96,6 +98,7 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                             controller: textFieldController,
                             onTap: textFieldDisabled ? onFieldClick : null,
                             readOnly: textFieldDisabled,
+                            obscureText: obscureText,
                             key: const Key("form_field_view_field"),
                             labelText: fieldLabel,
                             onChanged: onFieldValueChanged,

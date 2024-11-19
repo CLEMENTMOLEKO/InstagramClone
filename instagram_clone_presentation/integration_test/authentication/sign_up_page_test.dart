@@ -1,13 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:dartz/dartz.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/app.dart';
 import 'package:instagram_clone_presentation/app_page.dart';
-import 'package:instagram_clone_presentation/authentication/sign_up/sign_up_page.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
 

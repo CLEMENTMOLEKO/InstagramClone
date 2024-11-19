@@ -8,6 +8,7 @@ class InstaTextField extends StatelessWidget {
   final bool readOnly;
   final VoidCallback? onTap;
   final TextEditingController? controller;
+  final bool obscureText;
 
   const InstaTextField({
     super.key,
@@ -18,6 +19,7 @@ class InstaTextField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.controller,
+    this.obscureText = false,
   });
 
   @override
@@ -26,6 +28,7 @@ class InstaTextField extends StatelessWidget {
       controller: controller,
       onTap: onTap,
       readOnly: readOnly,
+      obscureText: obscureText,
       decoration: InputDecoration(
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
