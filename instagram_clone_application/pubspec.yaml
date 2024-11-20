@@ -19,20 +19,20 @@ dependencies:
     sdk: flutter
 
   #project dependencies
-  formz: ^0.7.0
-  get_it: ^7.7.0
+  formz: ^0.8.0
+  get_it: ^8.0.2
   injectable: ^2.4.4
   instagram_clone_domain:
     path: ../instagram_clone_domain
   instagram_clone_shared:
     path: ../instagram_clone_shared
-  intl: ^0.19.0
+  intl: ^0.20.0
   meta: ^1.12.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
   bloc_test: ^9.1.7
   mocktail: ^1.0.4
   injectable_generator: ^2.6.2

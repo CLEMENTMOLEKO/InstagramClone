@@ -43,7 +43,7 @@ dependencies:
     path: ../instagram_clone_infrastructure
   gap: ^3.0.1
   build_runner: ^2.4.11
-  formz: ^0.7.0
+  formz: ^0.8.0
   injectable: ^2.4.4
   bloc_test: ^9.1.7
   dev: ^1.0.0
@@ -52,7 +52,7 @@ dependencies:
   dartz: ^0.10.1
   smooth_sheets: ^0.9.4
   flutter_holo_date_picker: ^2.0.0
-  get_it: ^7.7.0
+  get_it: ^8.0.2
   firebase_auth: ^5.3.1
   uuid: ^4.5.1
 
@@ -67,8 +67,6 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
   mocktail: ^1.0.4
-  integration_test:
-    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
