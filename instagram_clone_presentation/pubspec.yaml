@@ -56,6 +56,11 @@ dependencies:
   firebase_auth: ^5.3.1
   uuid: ^4.5.1
 
+dependency_overrides:
+  firebase_auth_web: ^5.13.4
+  intl: ^0.20.0
+  web: ^1.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -67,6 +72,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
   mocktail: ^1.0.4
+  integration_test:
+    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
