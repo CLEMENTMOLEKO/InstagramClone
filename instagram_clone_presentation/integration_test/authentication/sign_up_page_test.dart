@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/app.dart';
 import 'package:instagram_clone_presentation/app_page.dart';
+import 'package:instagram_clone_presentation/authentication/sign_up/sign_up_page.dart';
+import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockAuthenticationService extends Mock implements AuthenticationService {}
@@ -50,7 +52,7 @@ void main() {
     testWidgets("Should render AppPage", (widgetTester) async {
       await pumpApp(widgetTester);
       await widgetTester.pumpAndSettle();
-      expect(find.byType(AppPage), findsOneWidget);
+      expect(find.byType(SignUpPage), findsOneWidget);
     });
   });
 }
