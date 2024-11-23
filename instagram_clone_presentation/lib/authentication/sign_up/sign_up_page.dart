@@ -41,6 +41,12 @@ class SignUpPage extends StatelessWidget {
               ),
             );
           }
+          //TODO: Check if this is needed I don't think it is, the stream should take care of this.
+          if (state.formzSubmissionStatus == FormzSubmissionStatus.success) {
+            context.read<AuthenticationBloc>().add(
+                  AuthenticationEvents.checkAuth,
+                );
+          }
         },
         child: child,
       ),

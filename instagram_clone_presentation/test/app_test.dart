@@ -43,7 +43,7 @@ void main() {
           goRouter: mockGoRouter,
           child: BlocProvider<AuthenticationBloc>.value(
             value: mockAuthenticationBloc,
-            child: const Appview(),
+            child: const AppView(),
           ),
         ),
       ),

@@ -7,7 +7,11 @@ import 'package:instagram_clone_infrastructure/instagram_clone_infrastructure.da
 import 'common/navigation/router.dart';
 
 class AppPage extends StatelessWidget {
-  const AppPage({super.key});
+  final Widget child;
+  const AppPage({
+    super.key,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,29 +21,30 @@ class AppPage extends StatelessWidget {
         userRepository: getIt<UserRepository>(),
         connectionChecker: getIt<ConnectionChecker>(),
       )..add(AuthenticationEvents.checkAuth),
-      child: const Appview(),
+      child: BlocListener<AuthenticationBloc, AuthenticationState>(
+        listener: (context, state) {
+          if (state is Unauthenticated) {
+            context.go(Routes.signUpEmailPath);
+          } else if (state is Authenticated) {
+            context.go(Routes.home);
+          }
+          print("state: $state");
+        },
+        child: child,
+      ),
     );
   }
 }
 
-class Appview extends StatelessWidget {
-  const Appview({super.key});
+class AppView extends StatelessWidget {
+  const AppView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthenticationBloc, AuthenticationState>(
-      listener: (context, state) {
-        if (state is Unauthenticated) {
-          context.go(Routes.signUpEmailPath);
-        } else if (state is Authenticated) {
-          context.go(Routes.home);
-        }
-      },
-      child: const Scaffold(
+    return const Scaffold(
         backgroundColor: Colors.pink,
         body: Center(
           child: CircularProgressIndicator(),
-        ),
       ),
     );
   }
