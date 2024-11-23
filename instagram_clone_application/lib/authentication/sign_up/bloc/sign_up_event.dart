@@ -66,3 +66,7 @@ class SignUpBirthdayChanged extends SignUpEvent {
   @override
   List<Object?> get props => [birthday];
 }
+
+class SignUpEvents {
+  static final signUp = SignUpRequested();
+}

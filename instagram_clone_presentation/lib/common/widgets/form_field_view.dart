@@ -30,6 +30,7 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
   final GestureTapCallback? onFieldClick;
   final bool textFieldDisabled;
   final bool obscureText;
+  final bool showProgressIndicator;
 
   /// use [subTitleTextSpans] to display interactive text, by default interactive text will be used if [subTitleTextSpans] length is greater than 0
   final List<TextSpan> subTitleTextSpans;
@@ -59,6 +60,7 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
     this.textFieldDisabled = false,
     this.onFieldClick,
     this.obscureText = false,
+    this.showProgressIndicator = false,
   });
 
   @override
@@ -73,6 +75,7 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (showProgressIndicator) const LinearProgressIndicator(),
                 Text(
                   key: const Key("form_field_view_title"),
                   title,

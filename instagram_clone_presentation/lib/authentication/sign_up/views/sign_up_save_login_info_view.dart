@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/common/widgets/form_field_view.dart';
@@ -8,6 +10,9 @@ class SignUpSaveLoginInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = context.read<SignUpBloc>().state.formzSubmissionStatus ==
+        FormzSubmissionStatus.inProgress;
+
     return FormFieldView<SignUpBloc, SignUpEvent, SignUpState>(
       key: const Key("form_field_view"),
       title: "Save your login info?",
@@ -19,13 +24,13 @@ class SignUpSaveLoginInfoView extends StatelessWidget {
       showTextField: false,
       secondaryButtonText: "Not now",
       onSecondaryButtonPressed: () => context.go('/home'),
-    );
+        showProgressIndicator: isLoading);
   }
 
   VoidCallback? onPrimaryButtonPressed(BuildContext context) {
     return () {
       // Handle saving login info
-      context.go('/home');
+      context.read<SignUpBloc>().add(SignUpEvents.signUp);
     };
   }
 }
