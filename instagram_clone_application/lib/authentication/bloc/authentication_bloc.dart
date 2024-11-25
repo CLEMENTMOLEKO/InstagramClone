@@ -51,26 +51,22 @@ class AuthenticationBloc
       );
     }
 
-    log("event.user!.uid: ${event.user!.uid}");
     final getUserResult = await userRepository.getUser(userId: event.user!.uid);
     getUserResult.fold(
       (failure) => emit(AuthenticationFailed(failure: failure)),
       (userModel) => emit(Authenticated(user: userModel)),
     );
-    log("getUserResult: $getUserResult");
   }
 
   Future<void> _onAuthenticationStatusChecked(
     AuthenticationStatusChecked event,
     Emitter<AuthenticationState> emit,
   ) async {
-    log("onAuthenticationStatusChecked");
     final user = await authenticationService.user.first;
     await _onAuthenticationStatusChanged(
       _AuthenticationStatusChanged(user: user),
       emit,
     );
-    log("onAuthenticationStatusChecked done");
   }
 
   @override

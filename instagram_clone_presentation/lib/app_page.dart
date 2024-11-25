@@ -42,9 +42,9 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-        backgroundColor: Colors.pink,
-        body: Center(
-          child: CircularProgressIndicator(),
+      backgroundColor: Colors.pink,
+      body: Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }
