@@ -55,6 +55,7 @@ dependencies:
   get_it: ^8.0.2
   firebase_auth: ^5.3.1
   uuid: ^4.5.1
+  cached_network_image: ^3.4.1
 
 dependency_overrides:
   firebase_auth_web: ^5.13.4

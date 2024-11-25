@@ -23,6 +23,8 @@ class InstaScaffold extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: appBar != null
           ? CupertinoNavigationBar(
+              backgroundColor: appBar!.backgroundColor,
+              border: appBar!.border ?? Border.all(color: Colors.transparent),
               leading: appBar!.leading,
               middle: appBar!.middle,
               trailing: appBar!.trailing != null
@@ -52,5 +54,13 @@ class InstaAppBar {
   final Widget? leading;
   final Widget? middle;
   final List<Widget>? trailing;
-  const InstaAppBar({this.leading, this.middle, this.trailing});
+  final Color? backgroundColor;
+  final Border? border;
+  const InstaAppBar({
+    this.leading,
+    this.middle,
+    this.trailing,
+    this.backgroundColor = Colors.transparent,
+    this.border,
+  });
 }
