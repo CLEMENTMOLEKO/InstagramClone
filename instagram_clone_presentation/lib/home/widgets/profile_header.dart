@@ -8,6 +8,7 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
           padding: EdgeInsets.only(left: 12),
@@ -49,14 +50,14 @@ class ProfileHeader extends StatelessWidget {
       children: [
         Text(
           count,
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
         ),
         Text(label,
             style: Theme.of(context)
                 .textTheme
-                .bodySmall
+                .bodyMedium
                 ?.copyWith(fontWeight: FontWeight.w600)),
       ],
     );

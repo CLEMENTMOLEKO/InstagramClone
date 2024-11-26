@@ -11,6 +11,8 @@ import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_u
 import 'package:instagram_clone_presentation/home/home_page.dart';
 
 import '../../authentication/sign_up/views/sign_up_email_view.dart';
+import '../../search/search_page.dart';
+import '../widgets/scaffold_with_nested_navigation.dart';
 
 class Routes {
   // child routes string constants
@@ -22,14 +24,35 @@ class Routes {
   static const String signUpBirthdayString = 'birthday';
   static const String signUpSaveLoginInfoString = 'save-login-info';
   static const String loginString = 'login';
+  static const String profileString = 'profile';
+  static const String mediaString = 'media';
+  static const String cameraString = 'camera';
 
   // Base Routes
   static const String root = '/';
   static const String home = '/home';
   static const String auth = '/auth';
+  static const String search = '/search';
+  static const String addMedia = '/add-media';
+  static const String reels = '/reels';
+  static const String profile = '/profile';
 
   // Auth Routes
   static const String loginPath = '$auth/$loginString';
+
+  // Search Routes
+  static const String searchMediaPath = '$search/media';
+
+  // Add Media Routes
+
+  // Reels Routes
+  static const String reelsCameraPath = '$reels/camera';
+
+  // Home Routes
+  static const String accountProfilePath = '$home/profile';
+
+  // Profile Routes
+  static const String profileMediaViewPath = '$profile/media';
 
   // Sign Up Flow Routes
   static const String signUpEmailPath = '$auth/$signUpEmailString';
@@ -45,6 +68,11 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _appNavigatorKey = GlobalKey<NavigatorState>();
 final _authenticationNavigatorKey = GlobalKey<NavigatorState>();
 final _signUpNavigatorKey = GlobalKey<NavigatorState>();
+final _shellNavigatorHomeKey = GlobalKey<NavigatorState>();
+final _shellNavigatorSearchKey = GlobalKey<NavigatorState>();
+final _shellNavigatorReelsKey = GlobalKey<NavigatorState>();
+final _shellNavigatorProfileKey = GlobalKey<NavigatorState>();
+final _shellNavigatorAddMediaKey = GlobalKey<NavigatorState>();
 
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -60,10 +88,134 @@ final router = GoRouter(
           path: Routes.root,
           builder: (context, state) => const AppView(),
         ),
-        GoRoute(
-          parentNavigatorKey: _appNavigatorKey,
-          path: Routes.home,
-          builder: (context, state) => const HomePage(),
+        StatefulShellRoute.indexedStack(
+          builder: (context, state, navigationShell) {
+            // the UI shell
+            return ScaffoldWithNestedNavigation(
+                navigationShell: navigationShell);
+          },
+          branches: [
+            // Home branch
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorHomeKey,
+              routes: [
+                // top route inside branch
+                GoRoute(
+                  path: Routes.home,
+                  pageBuilder: (context, state) => const NoTransitionPage(
+                    child: HomePage(),
+                  ),
+                  routes: [
+                    // child route
+                    GoRoute(
+                      path: Routes.profileString,
+                      builder: (context, state) => const Scaffold(
+                        body: Center(
+                          child: Text("User Profile"),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            // Search branch
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorSearchKey,
+              routes: [
+                // top route inside branch
+                GoRoute(
+                  path: Routes.search,
+                  pageBuilder: (context, state) => const NoTransitionPage(
+                    child: SearchPage(),
+                  ),
+                  routes: [
+                    // child route
+                    GoRoute(
+                      path: Routes.mediaString,
+                      builder: (context, state) => const Scaffold(
+                        body: Center(
+                          child: Text("Media View"),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            // Reels branch
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorAddMediaKey,
+              routes: [
+                // top route inside branch
+                GoRoute(
+                  path: Routes.addMedia,
+                  pageBuilder: (context, state) => const NoTransitionPage(
+                    child: SearchPage(),
+                  ),
+                  routes: [
+                    // child route
+                    // GoRoute(
+                    //   path: Routes.searchMediaPath,
+                    //   builder: (context, state) => const Scaffold(
+                    //     body: Center(
+                    //       child: Text("Media View"),
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ],
+            ),
+            // Reels branch
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorReelsKey,
+              routes: [
+                // top route inside branch
+                GoRoute(
+                  path: Routes.reels,
+                  pageBuilder: (context, state) => const NoTransitionPage(
+                    child: SearchPage(),
+                  ),
+                  routes: [
+                    // child route
+                    GoRoute(
+                      path: Routes.cameraString,
+                      builder: (context, state) => const Scaffold(
+                        body: Center(
+                          child: Text("Reels Camera"),
+                        ),
+                      ),
+                    ), //
+                  ],
+                ),
+              ],
+            ),
+            // Profile branch
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorProfileKey,
+              routes: [
+                // top route inside branch
+                GoRoute(
+                  path: Routes.profile,
+                  pageBuilder: (context, state) => const NoTransitionPage(
+                    child: SearchPage(),
+                  ),
+                  routes: [
+                    // child route
+                    GoRoute(
+                      path: Routes.mediaString,
+                      builder: (context, state) => const Scaffold(
+                        body: Center(
+                          child: Text("Profile Media View"),
+                        ),
+                      ),
+                    ), //
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
         ShellRoute(
           parentNavigatorKey: _appNavigatorKey,
