@@ -3,6 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:instagram_clone_presentation/common/widgets/insta_scaffold.dart';
 import 'package:instagram_clone_presentation/home/widgets/profile_header.dart';
 
+import '../../common/widgets/muted_button.dart';
+
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
 
@@ -22,13 +24,38 @@ class ProfileView extends StatelessWidget {
           ],
         ),
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(
+              const SliverToBoxAdapter(
                 child: ProfileHeader(),
+              ),
+              const SliverGap(8),
+              SliverToBoxAdapter(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: MutedButton(
+                        label: "Edit Profile",
+                        onPressed: () {},
+                      ),
+                    ),
+                    const Gap(4),
+                    Expanded(
+                      child: MutedButton(
+                        label: "Share Profile",
+                        onPressed: () {},
+                      ),
+                    ),
+                    const Gap(4),
+                    MutedButtonIcon(
+                      icon: Icons.add_circle_rounded,
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
