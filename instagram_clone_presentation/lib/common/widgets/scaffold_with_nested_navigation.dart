@@ -30,6 +30,7 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
         destinations: const [
           NavigationDestination(label: 'Home', icon: Icon(Icons.home)),
           NavigationDestination(label: 'Search', icon: Icon(Icons.search)),
+          NavigationDestination(label: 'Add', icon: Icon(Icons.add)),
           NavigationDestination(
               label: 'Reels', icon: Icon(Icons.video_library)),
           NavigationDestination(label: 'Profile', icon: Icon(Icons.person)),

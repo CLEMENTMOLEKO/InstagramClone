@@ -10,7 +10,10 @@ import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_u
 import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_up_username_view.dart';
 import 'package:instagram_clone_presentation/home/home_page.dart';
 
+import '../../add_media/add_media_page.dart';
 import '../../authentication/sign_up/views/sign_up_email_view.dart';
+import '../../profile/profile_page.dart';
+import '../../reels/reels_page.dart';
 import '../../search/search_page.dart';
 import '../widgets/scaffold_with_nested_navigation.dart';
 
@@ -151,7 +154,7 @@ final router = GoRouter(
                 GoRoute(
                   path: Routes.addMedia,
                   pageBuilder: (context, state) => const NoTransitionPage(
-                    child: SearchPage(),
+                    child: AddMediaPage(),
                   ),
                   routes: [
                     // child route
@@ -175,7 +178,7 @@ final router = GoRouter(
                 GoRoute(
                   path: Routes.reels,
                   pageBuilder: (context, state) => const NoTransitionPage(
-                    child: SearchPage(),
+                    child: ReelsPage(),
                   ),
                   routes: [
                     // child route
@@ -199,7 +202,7 @@ final router = GoRouter(
                 GoRoute(
                   path: Routes.profile,
                   pageBuilder: (context, state) => const NoTransitionPage(
-                    child: SearchPage(),
+                    child: ProfilePage(),
                   ),
                   routes: [
                     // child route
