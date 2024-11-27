@@ -24,9 +24,9 @@ class AppPage extends StatelessWidget {
       child: BlocListener<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
           if (state is Unauthenticated) {
-            context.go(Routes.signUpEmailPath);
+            context.go(Routes.signUpEmailRoute);
           } else if (state is Authenticated) {
-            context.go(Routes.home);
+            context.go(Routes.homeRoute);
           }
           print("state: $state");
         },

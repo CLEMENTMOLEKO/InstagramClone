@@ -29,42 +29,45 @@ class Routes {
   static const String loginString = 'login';
   static const String profileString = 'profile';
   static const String mediaString = 'media';
+  static const String notificationsString = 'notifications';
   static const String cameraString = 'camera';
 
   // Base Routes
-  static const String root = '/';
-  static const String home = '/home';
-  static const String auth = '/auth';
-  static const String search = '/search';
-  static const String addMedia = '/add-media';
-  static const String reels = '/reels';
-  static const String profile = '/profile';
+  static const String rootRoute = '/';
+  static const String homeRoute = '/home';
+  static const String authRoute = '/auth';
+  static const String searchRoute = '/search';
+  static const String addMediaRoute = '/add-media';
+  static const String reelsRoute = '/reels';
+  static const String profileRoute = '/profile';
 
   // Auth Routes
-  static const String loginPath = '$auth/$loginString';
+  static const String loginRoute = '$authRoute/$loginString';
 
   // Search Routes
-  static const String searchMediaPath = '$search/media';
+  static const String searchMediaRoute = '$searchRoute/media';
 
   // Add Media Routes
 
   // Reels Routes
-  static const String reelsCameraPath = '$reels/camera';
+  static const String reelsCameraRoute = '$reelsRoute/camera';
 
   // Home Routes
-  static const String accountProfilePath = '$home/profile';
+  static const String accountProfileRoute = '$homeRoute/$profileString';
+  static const String notificationsRoute = '$homeRoute/$notificationsString';
 
   // Profile Routes
-  static const String profileMediaViewPath = '$profile/media';
+  static const String profileMediaViewRoute = '$profileRoute/media';
 
   // Sign Up Flow Routes
-  static const String signUpEmailPath = '$auth/$signUpEmailString';
-  static const String signUpVerifyEmailPath = '$auth/$signUpVerifyEmailString';
-  static const String signUpPasswordPath = '$auth/$signUpPasswordString';
-  static const String signUpUsernamePath = '$auth/$signUpUsernameString';
-  static const String signUpBirthdayPath = '$auth/$signUpBirthdayString';
-  static const String signUpSaveLoginInfoPath =
-      '$auth/$signUpSaveLoginInfoString';
+  static const String signUpEmailRoute = '$authRoute/$signUpEmailString';
+  static const String signUpVerifyEmailRoute =
+      '$authRoute/$signUpVerifyEmailString';
+  static const String signUpPasswordRoute = '$authRoute/$signUpPasswordString';
+  static const String signUpUsernameRoute = '$authRoute/$signUpUsernameString';
+  static const String signUpBirthdayRoute = '$authRoute/$signUpBirthdayString';
+  static const String signUpSaveLoginInfoRoute =
+      '$authRoute/$signUpSaveLoginInfoString';
 }
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -79,7 +82,7 @@ final _shellNavigatorAddMediaKey = GlobalKey<NavigatorState>();
 
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: Routes.root,
+  initialLocation: Routes.rootRoute,
   routes: [
     ShellRoute(
       parentNavigatorKey: _rootNavigatorKey,
@@ -88,7 +91,7 @@ final router = GoRouter(
       routes: [
         GoRoute(
           parentNavigatorKey: _appNavigatorKey,
-          path: Routes.root,
+          path: Routes.rootRoute,
           builder: (context, state) => const AppView(),
         ),
         StatefulShellRoute.indexedStack(
@@ -104,14 +107,22 @@ final router = GoRouter(
               routes: [
                 // top route inside branch
                 GoRoute(
-                  path: Routes.home,
+                  path: Routes.homeRoute,
                   pageBuilder: (context, state) => const NoTransitionPage(
                     child: HomePage(),
                   ),
                   routes: [
-                    // child route
+                    // home child routes
                     GoRoute(
                       path: Routes.profileString,
+                      builder: (context, state) => const Scaffold(
+                        body: Center(
+                          child: Text("User Profile"),
+                        ),
+                      ),
+                    ),
+                    GoRoute(
+                      path: Routes.notificationsString,
                       builder: (context, state) => const Scaffold(
                         body: Center(
                           child: Text("User Profile"),
@@ -128,7 +139,7 @@ final router = GoRouter(
               routes: [
                 // top route inside branch
                 GoRoute(
-                  path: Routes.search,
+                  path: Routes.searchRoute,
                   pageBuilder: (context, state) => const NoTransitionPage(
                     child: SearchPage(),
                   ),
@@ -152,14 +163,14 @@ final router = GoRouter(
               routes: [
                 // top route inside branch
                 GoRoute(
-                  path: Routes.addMedia,
+                  path: Routes.addMediaRoute,
                   pageBuilder: (context, state) => const NoTransitionPage(
                     child: AddMediaPage(),
                   ),
                   routes: [
                     // child route
                     // GoRoute(
-                    //   path: Routes.searchMediaPath,
+                    //   path: Routes.searchMediaRoute,
                     //   builder: (context, state) => const Scaffold(
                     //     body: Center(
                     //       child: Text("Media View"),
@@ -176,7 +187,7 @@ final router = GoRouter(
               routes: [
                 // top route inside branch
                 GoRoute(
-                  path: Routes.reels,
+                  path: Routes.reelsRoute,
                   pageBuilder: (context, state) => const NoTransitionPage(
                     child: ReelsPage(),
                   ),
@@ -200,7 +211,7 @@ final router = GoRouter(
               routes: [
                 // top route inside branch
                 GoRoute(
-                  path: Routes.profile,
+                  path: Routes.profileRoute,
                   pageBuilder: (context, state) => const NoTransitionPage(
                     child: ProfilePage(),
                   ),
@@ -231,40 +242,40 @@ final router = GoRouter(
               builder: (context, state, child) => SignUpPage(child: child),
               routes: [
                 GoRoute(
-                  path: Routes.signUpEmailPath,
+                  path: Routes.signUpEmailRoute,
                   parentNavigatorKey: _signUpNavigatorKey,
                   builder: (context, state) => const SignUpEmailView(),
                 ),
                 GoRoute(
-                  path: Routes.signUpVerifyEmailPath,
+                  path: Routes.signUpVerifyEmailRoute,
                   parentNavigatorKey: _signUpNavigatorKey,
                   builder: (context, state) =>
                       const SignUpEmailVerificationView(),
                 ),
                 GoRoute(
-                  path: Routes.signUpPasswordPath,
+                  path: Routes.signUpPasswordRoute,
                   parentNavigatorKey: _signUpNavigatorKey,
                   builder: (context, state) => const SignUpPasswordView(),
                 ),
                 GoRoute(
-                  path: Routes.signUpUsernamePath,
+                  path: Routes.signUpUsernameRoute,
                   parentNavigatorKey: _signUpNavigatorKey,
                   builder: (context, state) => const SignUpUsernameView(),
                 ),
                 GoRoute(
-                  path: Routes.signUpBirthdayPath,
+                  path: Routes.signUpBirthdayRoute,
                   parentNavigatorKey: _signUpNavigatorKey,
                   builder: (context, state) => const SignUpBirthdayView(),
                 ),
                 GoRoute(
-                  path: Routes.signUpSaveLoginInfoPath,
+                  path: Routes.signUpSaveLoginInfoRoute,
                   parentNavigatorKey: _signUpNavigatorKey,
                   builder: (context, state) => const SignUpSaveLoginInfoView(),
                 ),
               ],
             ),
             GoRoute(
-              path: Routes.loginPath,
+              path: Routes.loginRoute,
               builder: (context, state) =>
                   const Placeholder(), // TODO: Add LoginPage
             ),

@@ -42,7 +42,7 @@ class SignUpEmailView extends StatelessWidget {
                     email: state.emailInput.value,
                   ),
                 );
-            context.go(Routes.signUpVerifyEmailPath);
+            context.go(Routes.signUpVerifyEmailRoute);
           }
         : null;
   }

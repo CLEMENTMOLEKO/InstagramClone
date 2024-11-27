@@ -64,7 +64,7 @@ class _SignUpBirthdayViewState extends State<SignUpBirthdayView> {
 
   VoidCallback? onPrimaryButtonPressed(BuildContext context) {
     return () {
-      context.go(Routes.signUpSaveLoginInfoPath);
+      context.go(Routes.signUpSaveLoginInfoRoute);
     };
   }
 

@@ -28,7 +28,7 @@ class SignUpUsernameView extends StatelessWidget {
             : const Icon(Icons.error, color: Colors.red);
       },
       onPrimaryButtonPressed: (_) => () {
-        context.go(Routes.signUpBirthdayPath);
+        context.go(Routes.signUpBirthdayRoute);
       },
     );
   }

@@ -33,7 +33,7 @@ class SignUpPasswordView extends StatelessWidget {
       SignUpState state, BuildContext context) {
     return state.passwordInput.isValid
         ? () {
-            context.go(Routes.signUpUsernamePath);
+            context.go(Routes.signUpUsernameRoute);
           }
         : null;
   }

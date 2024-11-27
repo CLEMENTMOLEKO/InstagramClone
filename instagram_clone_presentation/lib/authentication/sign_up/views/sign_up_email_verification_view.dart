@@ -34,7 +34,7 @@ class _SignUpEmailVerificationViewState
     return BlocListener<SignUpBloc, SignUpState>(
       listener: (context, state) {
         if (state.isEmailVerified) {
-          context.go(Routes.signUpPasswordPath);
+          context.go(Routes.signUpPasswordRoute);
         }
       },
       listenWhen: (previous, current) =>
