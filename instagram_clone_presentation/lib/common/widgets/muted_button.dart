@@ -19,7 +19,6 @@ class MutedButton extends StatelessWidget {
       style: TextButton.styleFrom(
         backgroundColor:
             Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
-        foregroundColor: Colors.black87,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -53,7 +52,6 @@ class MutedButtonIcon extends StatelessWidget {
       style: IconButton.styleFrom(
         backgroundColor:
             Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
-        foregroundColor: Colors.black87,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
