@@ -21,7 +21,7 @@ class ProfileHeader extends StatelessWidget {
                   CircleAvatar(
                     radius: 40,
                     backgroundImage: CachedNetworkImageProvider(
-                      "http://via.placeholder.com/350x150",
+                      "https://picsum.photos/200/300",
                     ),
                   ),
                   Positioned(
