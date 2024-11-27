@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:instagram_clone_presentation/common/widgets/insta_scaffold.dart';
-import 'package:instagram_clone_presentation/home/widgets/profile_header.dart';
 
+import '../widgets/profile_header.dart';
 import '../widgets/profile_header_buttons.dart';
 
 class ProfileView extends StatelessWidget {
@@ -14,11 +14,13 @@ class ProfileView extends StatelessWidget {
       appBar: InstaAppBar(
         leading: Row(
           children: [
-            Text("Username",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(fontWeight: FontWeight.w600)),
+            Text(
+              "Username",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(fontWeight: FontWeight.w600),
+            ),
             const Gap(8),
             const Icon(Icons.arrow_drop_down_sharp),
           ],

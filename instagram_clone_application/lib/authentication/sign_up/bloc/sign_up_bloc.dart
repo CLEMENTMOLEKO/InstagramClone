@@ -153,29 +153,29 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     final createEmailResult = EmailAddress.create(email: email);
     final createPasswordResult = Password.create(password: password);
 
-    if (createEmailResult.isRight() && createPasswordResult.isRight()) {
-      final emailAddress = createEmailResult.getOrElse(
-        () => throw Exception(
-            "Error occured using email address to register user"),
-      );
-      final password = createPasswordResult.getOrElse(
-        () => throw Exception("Error occured using password to register user"),
-      );
-
-      final registerResults =
-          await authenticationService.registerWithEmailAndPassword(
-        emailAddress: emailAddress,
-        password: password,
-      );
-
-      return registerResults.fold((authFailer) => left(authFailer),
-          (userId) async {
-        await _addUserToFirebaseUserDb(userId, emailAddress);
-        return right(unit);
-      });
+    if (createEmailResult.isLeft() && createPasswordResult.isLeft()) {
+      return left(AuthFailure.invalidCredentials);
     }
 
-    return left(AuthFailure.invalidCredentials);
+    final emailAddress = createEmailResult.getOrElse(
+      () =>
+          throw Exception("Error occured using email address to register user"),
+    );
+    final createdPassword = createPasswordResult.getOrElse(
+      () => throw Exception("Error occured using password to register user"),
+    );
+
+    final registerResults =
+        await authenticationService.registerWithEmailAndPassword(
+      emailAddress: emailAddress,
+      password: createdPassword,
+    );
+
+    return registerResults.fold((authFailer) => left(authFailer),
+        (userId) async {
+      await _addUserToFirebaseUserDb(userId, emailAddress);
+      return right(unit);
+    });
   }
 
   Future<void> _addUserToFirebaseUserDb(
