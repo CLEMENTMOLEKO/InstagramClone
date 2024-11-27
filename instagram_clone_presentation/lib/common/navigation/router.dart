@@ -9,6 +9,7 @@ import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_u
 import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_up_save_login_info_view.dart';
 import 'package:instagram_clone_presentation/authentication/sign_up/views/sign_up_username_view.dart';
 import 'package:instagram_clone_presentation/home/home_page.dart';
+import 'package:instagram_clone_presentation/home/views/notifications_view.dart';
 
 import '../../add_media/add_media_page.dart';
 import '../../authentication/sign_up/views/sign_up_email_view.dart';
@@ -123,11 +124,7 @@ final router = GoRouter(
                     ),
                     GoRoute(
                       path: Routes.notificationsString,
-                      builder: (context, state) => const Scaffold(
-                        body: Center(
-                          child: Text("User Profile"),
-                        ),
-                      ),
+                      builder: (context, state) => const NotificationsView(),
                     ),
                   ],
                 ),

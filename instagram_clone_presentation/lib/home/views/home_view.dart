@@ -10,11 +10,13 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MutedButton(
-        label: "Notifications",
-        onPressed: () {
-          context.go(Routes.notificationsRoute);
-        },
+      body: Center(
+        child: MutedButton(
+          label: "Notifications",
+          onPressed: () {
+            context.go(Routes.notificationsRoute);
+          },
+        ),
       ),
     );
   }
