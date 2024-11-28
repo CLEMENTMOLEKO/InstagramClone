@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:instagram_clone_presentation/common/widgets/muted_button.dart';
+import 'package:instagram_clone_presentation/home/widgets/stories.dart';
 
 import '../../common/navigation/router.dart';
 import '../../common/widgets/insta_scaffold.dart';
@@ -27,12 +27,9 @@ class HomeView extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: MutedButton(
-          label: "Notifications",
-          onPressed: () {
-            context.go(Routes.notificationsRoute);
-          },
+      body: const SafeArea(
+        child: CustomScrollView(
+          slivers: [SliverToBoxAdapter(child: Stories())],
         ),
       ),
     );
