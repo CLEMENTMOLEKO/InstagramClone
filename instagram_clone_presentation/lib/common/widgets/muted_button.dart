@@ -27,8 +27,8 @@ class MutedButton extends StatelessWidget {
         label,
         style: Theme.of(context)
             .textTheme
-            .bodyLarge
-            ?.copyWith(color: Colors.black87, fontWeight: FontWeight.w600),
+            .bodyMedium
+            ?.copyWith(fontWeight: FontWeight.w600),
       ),
     );
   }

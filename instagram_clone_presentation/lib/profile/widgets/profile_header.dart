@@ -80,14 +80,14 @@ class ProfileHeader extends StatelessWidget {
       children: [
         Text(
           count,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
         ),
         Text(label,
             style: Theme.of(context)
                 .textTheme
-                .titleMedium
+                .titleSmall
                 ?.copyWith(fontWeight: FontWeight.w500)),
       ],
     );
