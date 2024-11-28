@@ -28,7 +28,10 @@ class InstaScaffold extends StatelessWidget {
               leading: appBar!.leading,
               middle: appBar!.middle,
               trailing: appBar!.trailing != null
-                  ? Row(children: appBar!.trailing!)
+                  ? Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: appBar!.trailing!,
+                    )
                   : null,
             )
           : null,

@@ -13,6 +13,7 @@ import 'package:instagram_clone_presentation/home/views/notifications_view.dart'
 
 import '../../add_media/add_media_page.dart';
 import '../../authentication/sign_up/views/sign_up_email_view.dart';
+import '../../home/views/share_view.dart';
 import '../../profile/profile_page.dart';
 import '../../reels/reels_page.dart';
 import '../../search/search_page.dart';
@@ -29,6 +30,7 @@ class Routes {
   static const String signUpSaveLoginInfoString = 'save-login-info';
   static const String loginString = 'login';
   static const String profileString = 'profile';
+  static const String shareString = 'share';
   static const String mediaString = 'media';
   static const String notificationsString = 'notifications';
   static const String cameraString = 'camera';
@@ -56,7 +58,7 @@ class Routes {
   // Home Routes
   static const String accountProfileRoute = '$homeRoute/$profileString';
   static const String notificationsRoute = '$homeRoute/$notificationsString';
-
+  static const String shareRoute = '$homeRoute/$shareString';
   // Profile Routes
   static const String profileMediaViewRoute = '$profileRoute/media';
 
@@ -115,12 +117,8 @@ final router = GoRouter(
                   routes: [
                     // home child routes
                     GoRoute(
-                      path: Routes.profileString,
-                      builder: (context, state) => const Scaffold(
-                        body: Center(
-                          child: Text("User Profile"),
-                        ),
-                      ),
+                      path: Routes.shareString,
+                      builder: (context, state) => const ShareView(),
                     ),
                     GoRoute(
                       path: Routes.notificationsString,
