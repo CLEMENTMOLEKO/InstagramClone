@@ -1,12 +1,17 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/app.dart';
-import 'package:instagram_clone_presentation/app_page.dart';
 import 'package:instagram_clone_presentation/authentication/sign_up/sign_up_page.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
+
+class MockAuthenticationBloc
+    extends MockBloc<AuthenticationEvent, AuthenticationState>
+    implements AuthenticationBloc {}
 
 class MockAuthenticationService extends Mock implements AuthenticationService {}
 
@@ -28,6 +33,7 @@ void main() {
   late MockEmailService mockEmailService;
   late MockGoRouter mockGoRouter;
   late MockSignUpBloc mockSignUpBloc;
+  late MockAuthenticationBloc mockAuthenticationBloc;
 
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -38,8 +44,48 @@ void main() {
     mockEmailService = MockEmailService();
     mockGoRouter = MockGoRouter();
     mockSignUpBloc = MockSignUpBloc();
+    mockAuthenticationBloc = MockAuthenticationBloc();
 
-    when(() => mockGoRouter.go(any())).thenReturn(null);
+    final userModel = UserModel.createUser(
+      userId: UserId.create(
+        value: "123e4567-e89b-12d3-a456-426614174000",
+      ).getOrElse(() => throw Exception("User ID is invalid")),
+      userName: "John Doe",
+      bio: "I am a test user",
+      avatarUrl: "https://www.firebase.com/avatar/1234567890",
+      emailAddress: EmailAddress.create(
+        email: "john.doe@example.com",
+      ).getOrElse(() => throw Exception("Email address is invalid")),
+      joined: DateTime.now(),
+    ).getOrElse(() => throw Exception("User model is invalid"));
+
+    final dependencyInjection = GetIt.instance;
+    dependencyInjection.registerFactory<SignUpBloc>(() => mockSignUpBloc);
+    dependencyInjection.registerFactory<AuthenticationService>(
+        () => mockAuthenticationService);
+    dependencyInjection
+        .registerFactory<UserRepository>(() => mockUserRepository);
+    dependencyInjection
+        .registerFactory<ConnectionChecker>(() => mockConnectionChecker);
+    dependencyInjection.registerFactory<EmailService>(() => mockEmailService);
+    dependencyInjection
+        .registerFactory<AuthenticationBloc>(() => mockAuthenticationBloc);
+
+    when(() => mockSignUpBloc.state).thenReturn(const SignUpState());
+    when(() => mockAuthenticationBloc.state).thenReturn(
+      Unauthenticated(),
+    );
+
+    when(
+      () => mockAuthenticationService.registerWithEmailAndPassword(
+        emailAddress: any(named: 'emailAddress'),
+        password: any(named: 'password'),
+      ),
+    ).thenAnswer((_) async => right("1234567890"));
+    when(() => mockConnectionChecker.hasConnection)
+        .thenAnswer((_) async => true);
+    when(() => mockUserRepository.getUser(userId: any(named: 'userId')))
+        .thenAnswer((_) async => right(userModel));
   });
 
   Future<void> pumpApp(WidgetTester tester) async {
@@ -49,7 +95,7 @@ void main() {
   }
 
   group("SignUpPage", () {
-    testWidgets(skip: true, "Should render AppPage", (widgetTester) async {
+    testWidgets("Should render AppPage", (widgetTester) async {
       await pumpApp(widgetTester);
       await widgetTester.pumpAndSettle();
       expect(find.byType(SignUpPage), findsOneWidget);
