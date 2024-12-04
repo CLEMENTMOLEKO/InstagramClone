@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
+import '../../common/widgets/current_user_profile_button.dart';
+
 class Stories extends StatelessWidget {
   const Stories({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      scrollDirection: Axis.horizontal,
-      slivers: [
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            childCount: 10,
-            (context, index) => const StoryItem(),
-          ),
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        childCount: 10,
+        (context, index) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child:
+              index == 0 ? const CurrentUserProfileButton() : const StoryItem(),
         ),
-      ],
+      ),
     );
   }
 }
@@ -24,17 +25,26 @@ class StoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Stack(
+    return Stack(
       alignment: Alignment.center,
       children: [
-        CircleAvatar(
-          radius: 32,
+        const CircleAvatar(
+          radius: 44,
           backgroundColor: Colors.grey,
         ),
-        CircleAvatar(
-          radius: 28,
-          backgroundImage: NetworkImage(
-            "https://picsum.photos/200/300",
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              width: 3,
+            ),
+            shape: BoxShape.circle,
+          ),
+          child: const CircleAvatar(
+            radius: 37,
+            backgroundImage: NetworkImage(
+              "https://picsum.photos/200/300",
+            ),
           ),
         ),
       ],

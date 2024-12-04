@@ -31,7 +31,6 @@ void main() {
   late MockUserRepository mockUserRepository;
   late MockConnectionChecker mockConnectionChecker;
   late MockEmailService mockEmailService;
-  late MockGoRouter mockGoRouter;
   late MockSignUpBloc mockSignUpBloc;
   late MockAuthenticationBloc mockAuthenticationBloc;
 
@@ -42,7 +41,6 @@ void main() {
     mockUserRepository = MockUserRepository();
     mockConnectionChecker = MockConnectionChecker();
     mockEmailService = MockEmailService();
-    mockGoRouter = MockGoRouter();
     mockSignUpBloc = MockSignUpBloc();
     mockAuthenticationBloc = MockAuthenticationBloc();
 

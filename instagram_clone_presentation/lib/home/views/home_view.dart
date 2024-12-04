@@ -28,8 +28,19 @@ class HomeView extends StatelessWidget {
         ],
       ),
       body: const SafeArea(
-        child: CustomScrollView(
-          slivers: [SliverToBoxAdapter(child: Stories())],
+        child: Column(
+          children: [
+            Gap(8),
+            SizedBox(
+              height: 80,
+              child: CustomScrollView(
+                scrollDirection: Axis.horizontal,
+                slivers: [Stories()],
+              ),
+            ),
+            Gap(8),
+            Text("Posts"),
+          ],
         ),
       ),
     );
