@@ -1,14 +1,16 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/app.dart';
-import 'package:instagram_clone_presentation/authentication/sign_up/sign_up_page.dart';
+import 'package:instagram_clone_presentation/instagram_clone_presentation.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
+
+import '../test_utils/setup.dart';
 
 class MockAuthenticationBloc
     extends MockBloc<AuthenticationEvent, AuthenticationState>
@@ -70,17 +72,14 @@ void main() {
       joined: DateTime.now(),
     ).getOrElse(() => throw Exception("User model is invalid"));
 
-    final dependencyInjection = GetIt.instance;
-    dependencyInjection.registerFactory<SignUpBloc>(() => mockSignUpBloc);
-    dependencyInjection.registerFactory<AuthenticationService>(
-        () => mockAuthenticationService);
-    dependencyInjection
-        .registerFactory<UserRepository>(() => mockUserRepository);
-    dependencyInjection
-        .registerFactory<ConnectionChecker>(() => mockConnectionChecker);
-    dependencyInjection.registerFactory<EmailService>(() => mockEmailService);
-    dependencyInjection
-        .registerFactory<AuthenticationBloc>(() => mockAuthenticationBloc);
+    setupDependencyInjection(
+      mockSignUpBloc,
+      mockAuthenticationService,
+      mockUserRepository,
+      mockConnectionChecker,
+      mockEmailService,
+      mockAuthenticationBloc,
+    );
 
     when(() => mockSignUpBloc.state).thenReturn(const SignUpState());
     when(() => mockAuthenticationBloc.state).thenReturn(
@@ -101,6 +100,11 @@ void main() {
         .thenAnswer((_) async => right(userModel));
     when(() => mockFirebaseUser.uid)
         .thenReturn("123e4567-e89b-12d3-a456-426614174000");
+    when(() => mockEmailService.generateVerificationCode()).thenReturn(123456);
+    when(() => mockEmailService.sendVerificationCodeToEmail(
+          email: any(named: "email"),
+          code: any(named: "code"),
+        )).thenAnswer((_) async => right(unit));
   });
 
   Future<void> pumpApp(WidgetTester tester) async {
@@ -114,6 +118,48 @@ void main() {
       await pumpApp(widgetTester);
       await widgetTester.pumpAndSettle();
       expect(find.byType(SignUpPage), findsOneWidget);
+    });
+
+    testWidgets(
+        "Should sign up with email and password successfully when data is valid",
+        (widgetTester) async {
+      // Arrange
+      const formFieldViewFieldKey = Key("form_field_view_field");
+      const formFieldViewPrimaryButtonKey =
+          Key("form_field_view_primary_button");
+      await pumpApp(widgetTester);
+      await widgetTester.pumpAndSettle();
+      final emailField = find.byKey(formFieldViewFieldKey);
+      final emailViewPrimaryButton = find.byKey(formFieldViewPrimaryButtonKey);
+      final verifyEmailField = find.byKey(formFieldViewFieldKey);
+      final verifyEmailViewPrimaryButton =
+          find.byKey(formFieldViewPrimaryButtonKey);
+      final passwordField = find.byKey(formFieldViewFieldKey);
+      final passwordViewPrimaryButton =
+          find.byKey(formFieldViewPrimaryButtonKey);
+
+      // Act
+      // fill in email and submit
+      await widgetTester.enterText(emailField, emailAddress.value);
+      await widgetTester.pumpAndSettle();
+      await widgetTester.tap(emailViewPrimaryButton);
+      await widgetTester.pumpAndSettle();
+
+      expect(find.byType(SignUpEmailVerificationView), findsOneWidget);
+      // fill in verification code and submit
+      await widgetTester.enterText(verifyEmailField, "123456");
+      await widgetTester.pumpAndSettle();
+      await widgetTester.tap(verifyEmailViewPrimaryButton);
+      await widgetTester.pumpAndSettle();
+
+      expect(find.byType(SignUpPasswordView), findsOneWidget);
+      // fill in password and submit
+      await widgetTester.enterText(passwordField, password.value);
+      await widgetTester.pumpAndSettle();
+      await widgetTester.tap(passwordViewPrimaryButton);
+      await widgetTester.pumpAndSettle();
+
+      expect(find.byType(SignUpUsernameView), findsOneWidget);
     });
   });
 }
