@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -23,6 +24,8 @@ class MockEmailService extends Mock implements EmailService {}
 
 class MockGoRouter extends Mock implements GoRouter {}
 
+class MockFirebaseUser extends Mock implements User {}
+
 class MockSignUpBloc extends MockBloc<SignUpEvent, SignUpState>
     implements SignUpBloc {}
 
@@ -33,8 +36,20 @@ void main() {
   late MockEmailService mockEmailService;
   late MockSignUpBloc mockSignUpBloc;
   late MockAuthenticationBloc mockAuthenticationBloc;
+  late MockFirebaseUser mockFirebaseUser;
+  final emailAddress = EmailAddress.create(email: "john.doe@example.com")
+      .getOrElse(() => throw Exception("Email address is invalid"));
+
+  final password = Password.create(password: "P@ssword123").getOrElse(
+    () => throw Exception("Password is invalid"),
+  );
 
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() {
+    registerFallbackValue(emailAddress);
+    registerFallbackValue(password);
+  });
 
   setUp(() {
     mockAuthenticationService = MockAuthenticationService();
@@ -43,7 +58,7 @@ void main() {
     mockEmailService = MockEmailService();
     mockSignUpBloc = MockSignUpBloc();
     mockAuthenticationBloc = MockAuthenticationBloc();
-
+    mockFirebaseUser = MockFirebaseUser();
     final userModel = UserModel.createUser(
       userId: UserId.create(
         value: "123e4567-e89b-12d3-a456-426614174000",
@@ -51,9 +66,7 @@ void main() {
       userName: "John Doe",
       bio: "I am a test user",
       avatarUrl: "https://www.firebase.com/avatar/1234567890",
-      emailAddress: EmailAddress.create(
-        email: "john.doe@example.com",
-      ).getOrElse(() => throw Exception("Email address is invalid")),
+      emailAddress: emailAddress,
       joined: DateTime.now(),
     ).getOrElse(() => throw Exception("User model is invalid"));
 
@@ -76,14 +89,18 @@ void main() {
 
     when(
       () => mockAuthenticationService.registerWithEmailAndPassword(
-        emailAddress: any(named: 'emailAddress'),
-        password: any(named: 'password'),
+        emailAddress: emailAddress,
+        password: password,
       ),
-    ).thenAnswer((_) async => right("1234567890"));
+    ).thenAnswer((_) async => right("123e4567-e89b-12d3-a456-426614174000"));
+    when(() => mockAuthenticationService.user)
+        .thenAnswer((_) => Stream.value(null));
     when(() => mockConnectionChecker.hasConnection)
         .thenAnswer((_) async => true);
     when(() => mockUserRepository.getUser(userId: any(named: 'userId')))
         .thenAnswer((_) async => right(userModel));
+    when(() => mockFirebaseUser.uid)
+        .thenReturn("123e4567-e89b-12d3-a456-426614174000");
   });
 
   Future<void> pumpApp(WidgetTester tester) async {
