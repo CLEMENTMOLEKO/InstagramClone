@@ -137,6 +137,9 @@ void main() {
       final passwordField = find.byKey(formFieldViewFieldKey);
       final passwordViewPrimaryButton =
           find.byKey(formFieldViewPrimaryButtonKey);
+      final usernameField = find.byKey(formFieldViewFieldKey);
+      final usernameViewPrimaryButton =
+          find.byKey(formFieldViewPrimaryButtonKey);
 
       // Act
       // fill in email and submit
@@ -160,6 +163,13 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       expect(find.byType(SignUpUsernameView), findsOneWidget);
+      // fill in username and submit
+      await widgetTester.enterText(usernameField, "john.doe");
+      await widgetTester.pumpAndSettle();
+      await widgetTester.tap(usernameViewPrimaryButton);
+      await widgetTester.pumpAndSettle();
+
+      expect(find.byType(SignUpBirthdayView), findsOneWidget);
     });
   });
 }
