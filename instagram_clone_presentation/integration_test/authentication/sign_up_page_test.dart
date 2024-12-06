@@ -105,6 +105,13 @@ void main() {
           email: any(named: "email"),
           code: any(named: "code"),
         )).thenAnswer((_) async => right(unit));
+    when(() => mockAuthenticationService.userWithUsernameExists(
+          username: any(named: "username"),
+        )).thenAnswer((_) async => right(false));
+  });
+
+  tearDown(() {
+    tearDownDependencyInjection();
   });
 
   Future<void> pumpApp(WidgetTester tester) async {
@@ -140,6 +147,9 @@ void main() {
       final usernameField = find.byKey(formFieldViewFieldKey);
       final usernameViewPrimaryButton =
           find.byKey(formFieldViewPrimaryButtonKey);
+      final birthdayField = find.byKey(formFieldViewFieldKey);
+      final birthdayViewPrimaryButton =
+          find.byKey(formFieldViewPrimaryButtonKey);
 
       // Act
       // fill in email and submit
@@ -170,6 +180,18 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       expect(find.byType(SignUpBirthdayView), findsOneWidget);
+      // fill in birthday and submit
+      await widgetTester.tap(birthdayField);
+      await widgetTester.pumpAndSettle();
+      await widgetTester.drag(
+        find.byKey(const Key("birthday_picker")),
+        const Offset(10, -500),
+      );
+      await widgetTester.enterText(birthdayField, "1990-01-01");
+      await widgetTester.tap(birthdayViewPrimaryButton);
+      await widgetTester.pumpAndSettle();
+
+      expect(find.byType(SignUpSaveLoginInfoView), findsOneWidget);
     });
   });
 }
