@@ -52,7 +52,7 @@ class _SignUpBirthdayViewState extends State<SignUpBirthdayView> {
         ),
       ],
       primaryButtonText: "Next",
-      onPrimaryButtonPressed: (_) => onPrimaryButtonPressed(context),
+      onPrimaryButtonPressed: (state) => onPrimaryButtonPressed(context, state),
       fieldLabel: "Birthday",
       textFieldDisabled: true,
       onFieldClick: () => _showDialog(context),
@@ -62,10 +62,13 @@ class _SignUpBirthdayViewState extends State<SignUpBirthdayView> {
     );
   }
 
-  VoidCallback? onPrimaryButtonPressed(BuildContext context) {
-    return () {
-      context.go(Routes.signUpSaveLoginInfoRoute);
-    };
+  VoidCallback? onPrimaryButtonPressed(
+    BuildContext context,
+    SignUpState state,
+  ) {
+    return state.birthdayInput.isValid
+        ? () => context.go(Routes.signUpSaveLoginInfoRoute)
+        : null;
   }
 
   /// [_showDialog] is used to show the date picker in a modal popup. platform specific.

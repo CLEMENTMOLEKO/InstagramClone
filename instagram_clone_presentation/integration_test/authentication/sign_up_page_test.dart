@@ -39,9 +39,9 @@ void main() {
   late MockSignUpBloc mockSignUpBloc;
   late MockAuthenticationBloc mockAuthenticationBloc;
   late MockFirebaseUser mockFirebaseUser;
+
   final emailAddress = EmailAddress.create(email: "john.doe@example.com")
       .getOrElse(() => throw Exception("Email address is invalid"));
-
   final password = Password.create(password: "P@ssword123").getOrElse(
     () => throw Exception("Password is invalid"),
   );
@@ -182,10 +182,10 @@ void main() {
       expect(find.byType(SignUpBirthdayView), findsOneWidget);
       // fill in birthday and submit
       await widgetTester.tap(birthdayField);
-      await widgetTester.pumpAndSettle();
+      await widgetTester.pumpAndSettle(const Duration(milliseconds: 500));
       await widgetTester.drag(
         find.byKey(const Key("birthday_picker")),
-        const Offset(10, -500),
+        const Offset(0, 500),
       );
       await widgetTester.enterText(birthdayField, "1990-01-01");
       await widgetTester.tap(birthdayViewPrimaryButton);
