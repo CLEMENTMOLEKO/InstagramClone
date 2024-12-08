@@ -136,23 +136,11 @@ void main() {
           Key("form_field_view_primary_button");
       await pumpApp(widgetTester);
       await widgetTester.pumpAndSettle();
-      final emailField = find.byKey(formFieldViewFieldKey);
-      final emailViewPrimaryButton = find.byKey(formFieldViewPrimaryButtonKey);
-      final verifyEmailField = find.byKey(formFieldViewFieldKey);
-      final verifyEmailViewPrimaryButton =
-          find.byKey(formFieldViewPrimaryButtonKey);
-      final passwordField = find.byKey(formFieldViewFieldKey);
-      final passwordViewPrimaryButton =
-          find.byKey(formFieldViewPrimaryButtonKey);
-      final usernameField = find.byKey(formFieldViewFieldKey);
-      final usernameViewPrimaryButton =
-          find.byKey(formFieldViewPrimaryButtonKey);
-      final birthdayField = find.byKey(formFieldViewFieldKey);
-      final birthdayViewPrimaryButton =
-          find.byKey(formFieldViewPrimaryButtonKey);
 
       // Act
       // fill in email and submit
+      final emailField = find.byKey(formFieldViewFieldKey);
+      final emailViewPrimaryButton = find.byKey(formFieldViewPrimaryButtonKey);
       await widgetTester.enterText(emailField, emailAddress.value);
       await widgetTester.pumpAndSettle();
       await widgetTester.tap(emailViewPrimaryButton);
@@ -160,6 +148,9 @@ void main() {
 
       expect(find.byType(SignUpEmailVerificationView), findsOneWidget);
       // fill in verification code and submit
+      final verifyEmailField = find.byKey(formFieldViewFieldKey);
+      final verifyEmailViewPrimaryButton =
+          find.byKey(formFieldViewPrimaryButtonKey);
       await widgetTester.enterText(verifyEmailField, "123456");
       await widgetTester.pumpAndSettle();
       await widgetTester.tap(verifyEmailViewPrimaryButton);
@@ -167,6 +158,9 @@ void main() {
 
       expect(find.byType(SignUpPasswordView), findsOneWidget);
       // fill in password and submit
+      final passwordField = find.byKey(formFieldViewFieldKey);
+      final passwordViewPrimaryButton =
+          find.byKey(formFieldViewPrimaryButtonKey);
       await widgetTester.enterText(passwordField, password.value);
       await widgetTester.pumpAndSettle();
       await widgetTester.tap(passwordViewPrimaryButton);
@@ -174,6 +168,9 @@ void main() {
 
       expect(find.byType(SignUpUsernameView), findsOneWidget);
       // fill in username and submit
+      final usernameField = find.byKey(formFieldViewFieldKey);
+      final usernameViewPrimaryButton =
+          find.byKey(formFieldViewPrimaryButtonKey);
       await widgetTester.enterText(usernameField, "john.doe");
       await widgetTester.pumpAndSettle();
       await widgetTester.tap(usernameViewPrimaryButton);
@@ -181,8 +178,11 @@ void main() {
 
       expect(find.byType(SignUpBirthdayView), findsOneWidget);
       // fill in birthday and submit
+      final birthdayField = find.byKey(formFieldViewFieldKey);
+      final birthdayViewPrimaryButton =
+          find.byKey(formFieldViewPrimaryButtonKey);
       await widgetTester.tap(birthdayField);
-      await widgetTester.pumpAndSettle(const Duration(milliseconds: 500));
+      await widgetTester.pumpAndSettle();
       await widgetTester.drag(
         find.byKey(const Key("birthday_picker")),
         const Offset(0, 500),

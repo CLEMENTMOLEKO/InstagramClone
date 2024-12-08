@@ -46,9 +46,7 @@ class _SignUpBirthdayViewState extends State<SignUpBirthdayView> {
         ),
         ClickableTextSpan(
           text: "Why do I need to provide my birthday",
-          onTap: () => {
-            _showDialog(context),
-          },
+          onTap: () => _showDialog(context),
         ),
       ],
       primaryButtonText: "Next",
