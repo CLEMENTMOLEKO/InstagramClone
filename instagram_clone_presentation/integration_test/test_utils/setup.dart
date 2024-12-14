@@ -5,12 +5,13 @@ import '../authentication/sign_up_page_test.dart';
 
 final dependencyInjection = GetIt.instance;
 void setupDependencyInjection(
-    MockSignUpBloc mockSignUpBloc,
-    MockAuthenticationService mockAuthenticationService,
-    MockUserRepository mockUserRepository,
-    MockConnectionChecker mockConnectionChecker,
-    MockEmailService mockEmailService,
-    MockAuthenticationBloc mockAuthenticationBloc) {
+  MockSignUpBloc mockSignUpBloc,
+  MockAuthenticationService mockAuthenticationService,
+  MockUserRepository mockUserRepository,
+  MockConnectionChecker mockConnectionChecker,
+  MockEmailService mockEmailService,
+  MockAuthenticationBloc mockAuthenticationBloc,
+) {
   dependencyInjection.registerFactory<SignUpBloc>(() => mockSignUpBloc);
   dependencyInjection
       .registerFactory<AuthenticationService>(() => mockAuthenticationService);

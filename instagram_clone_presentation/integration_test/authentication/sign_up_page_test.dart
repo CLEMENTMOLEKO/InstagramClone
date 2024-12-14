@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
@@ -127,6 +127,7 @@ void main() {
       expect(find.byType(SignUpPage), findsOneWidget);
     });
 
+    //TODO: Make tests more readable by extracting steps into functions
     testWidgets(
         "Should sign up with email and password successfully when data is valid",
         (widgetTester) async {
@@ -176,18 +177,42 @@ void main() {
       await widgetTester.tap(usernameViewPrimaryButton);
       await widgetTester.pumpAndSettle();
 
+      // Birthday View
       expect(find.byType(SignUpBirthdayView), findsOneWidget);
-      // fill in birthday and submit
       final birthdayField = find.byKey(formFieldViewFieldKey);
       final birthdayViewPrimaryButton =
           find.byKey(formFieldViewPrimaryButtonKey);
+
+      // Open the date picker
       await widgetTester.tap(birthdayField);
       await widgetTester.pumpAndSettle();
-      await widgetTester.drag(
-        find.byKey(const Key("birthday_picker")),
-        const Offset(0, 500),
+
+      // Find the CupertinoDatePicker
+      final datePicker = find.byKey(const Key("birthday_picker"));
+      expect(datePicker, findsOneWidget);
+
+      // Target the year picker specifically (it's the rightmost column)
+      // The offset needs to be on the right side of the picker where the year column is
+      final Offset pickerCenter = widgetTester.getCenter(datePicker);
+      final yearPickerOffset = Offset(
+        pickerCenter.dx + 100, // Move to the right side where year picker is
+        pickerCenter.dy,
       );
-      await widgetTester.enterText(birthdayField, "1990-01-01");
+
+      // Simulate scrolling the year picker
+      for (int i = 0; i < 5; i++) {
+        await widgetTester.dragFrom(
+          yearPickerOffset,
+          const Offset(0, 300), // Positive offset scrolls to older dates
+          touchSlopY: 0,
+        );
+        await widgetTester.pumpAndSettle();
+      }
+
+      // Tap outside the picker to close it
+      await widgetTester.tapAt(const Offset(0, 0)); // Tap at top-left corner
+      await widgetTester.pumpAndSettle();
+
       await widgetTester.tap(birthdayViewPrimaryButton);
       await widgetTester.pumpAndSettle();
 
