@@ -124,9 +124,7 @@ class _SignUpBirthdayViewState extends State<SignUpBirthdayView> {
         margin: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
-        // Provide a background color for the popup.
         color: CupertinoColors.systemBackground.resolveFrom(context),
-        // Use a SafeArea widget to avoid system overlaps.
         child: SafeArea(
           top: false,
           child: CupertinoDatePicker(
@@ -134,9 +132,7 @@ class _SignUpBirthdayViewState extends State<SignUpBirthdayView> {
             initialDateTime: date,
             mode: CupertinoDatePickerMode.date,
             use24hFormat: true,
-            // This shows day of week alongside day of month
             showDayOfWeek: true,
-            // This is called when the user changes the date.
             onDateTimeChanged: (DateTime newDate) =>
                 _onDateChanged(newDate, _context),
           ),
