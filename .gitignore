@@ -123,3 +123,26 @@
 
 # Node modules
 ./node_modules
+
+# Firebase related
+./**/google-services.json
+./**/GoogleService-Info.plist
+./**/firebase_app_id_file.json
+./**/firebase_options.dart
+
+# Key properties
+./**/key.properties
+./**/upload-keystore.jks
+./**/android/key.properties
+./**/android/app/upload-keystore.jks
+
+# Local Firebase emulator
+./**/firebase-debug.log
+./**/firebase-debug.*.log
+./**/ui-debug.log
+./**/firebase/
+
+# Environment config
+*.env
+*.env.*
+!.env.example

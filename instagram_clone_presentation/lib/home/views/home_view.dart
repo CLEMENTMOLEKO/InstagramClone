@@ -30,27 +30,29 @@ class HomeView extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            const Gap(8),
-            const SizedBox(
-              height: 80,
-              child: CustomScrollView(
-                scrollDirection: Axis.horizontal,
-                slivers: [Stories()],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Gap(8),
+              const SizedBox(
+                height: 80,
+                child: CustomScrollView(
+                  scrollDirection: Axis.horizontal,
+                  slivers: [Stories()],
+                ),
               ),
-            ),
-            const Gap(8),
-            PostCard(
-              post: PostDto(
-                id: "aoeifo23ir2fn3",
-                userId: "aoeifo23ir2fn4",
-                description: "Description",
-                imageUrls: const ["https://picsum.photos/200/300"],
-                date: DateTime.now(),
+              const Gap(8),
+              PostCard(
+                post: PostDto(
+                  id: "aoeifo23ir2fn3",
+                  userId: "aoeifo23ir2fn4",
+                  description: "Description",
+                  imageUrls: const ["https://picsum.photos/200/300"],
+                  date: DateTime.now(),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

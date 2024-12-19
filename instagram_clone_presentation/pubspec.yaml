@@ -55,6 +55,7 @@ dependencies:
   firebase_auth: ^5.3.1
   uuid: ^4.5.1
   cached_network_image: ^3.4.1
+  flutter_dotenv: ^5.1.0
 
 dependency_overrides:
   firebase_auth_web: ^5.13.4
