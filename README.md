@@ -1,1 +1,1 @@
-An overengineered😬, attempt at cloning instagram using DDD,Firebase, Bloc and TDD(test-after😶‍🌫️), work in progress.
+An unnecessarily overengineered😬, attempt at using my own architecture, cloning instagram using DDD,CA,Firebase, Bloc and TDD(test-after😶‍🌫️), work in progress.
