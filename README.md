@@ -13,4 +13,4 @@ An unnecessarily overengineered😬, attempt at using my own architecture, cloni
 ## Pages
 
 - [x] Home
-      ![alt text](current_home.png)
+      ![alt text](current-home.png)
