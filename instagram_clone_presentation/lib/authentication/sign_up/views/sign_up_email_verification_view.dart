@@ -91,8 +91,8 @@ class _SignUpEmailVerificationViewState
         minDragDistance: 300.0,
       ),
       builder: (context) => const DraggableSheet(
-        initialExtent: Extent.proportional(0.5),
-        minExtent: Extent.proportional(0.5),
+        initialPosition: SheetAnchor.proportional(0.5),
+        minPosition: SheetAnchor.proportional(0.5),
         physics: BouncingSheetPhysics(
           parent: SnappingSheetPhysics(),
         ),
