@@ -15,4 +15,16 @@ final class FirebasePostRepository implements PostRepository {
   }) async {
     return left(ApplicationFailure.errorGettingPost);
   }
+
+  @override
+  Future<Either<ApplicationFailure, List<Post>>> getPosts({
+    required int limit,
+    required int offset,
+  }) async {
+    return right([]);
+  }
+
+  @override
+  //TODO: implement postsStream
+  Stream<List<Post>> get postsStream => Stream.value([]);
 }
