@@ -1,14 +1,14 @@
 part of 'post_feed_bloc.dart';
 
 enum PostFeedStatus {
-  initial,
+  stale,
   loading,
   success,
   failure,
 }
 
 @immutable
-final class PostFeedState {
+final class PostFeedState extends Equatable {
   final PostFeedStatus status;
   final List<Post> posts;
   final bool hasReachedMax;
@@ -21,9 +21,24 @@ final class PostFeedState {
 
   factory PostFeedState.initial() {
     return PostFeedState(
-      status: PostFeedStatus.initial,
+      status: PostFeedStatus.stale,
       posts: [],
       hasReachedMax: false,
     );
   }
+
+  PostFeedState copyWith({
+    PostFeedStatus? status,
+    List<Post>? posts,
+    bool? hasReachedMax,
+  }) {
+    return PostFeedState(
+      status: status ?? this.status,
+      posts: posts ?? this.posts,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+    );
+  }
+
+  @override
+  List<Object?> get props => [status, posts, hasReachedMax];
 }
