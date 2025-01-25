@@ -103,7 +103,7 @@ void main() {
         expect(find.byKey(const Key("birthday_picker")), findsOneWidget);
       });
 
-      testWidgets("Changing birthday should emit birthday event",
+      testWidgets("Changing birthday should emit SignUpBirthdayChanged event",
           (WidgetTester widgetTester) async {
         //Arrange
         await showDatePickerSetup(widgetTester);
@@ -113,6 +113,7 @@ void main() {
         await widgetTester.drag(
             datePicker, const Offset(0, 100)); // Scroll down to increase year
         await widgetTester.pumpAndSettle();
+
         //Assert
         verify(() =>
                 mockSignUpBloc.add(any(that: isA<SignUpBirthdayChanged>())))
