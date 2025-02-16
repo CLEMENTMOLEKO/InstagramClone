@@ -8,7 +8,8 @@ enum ApplicationFailure {
   permissionDenied,
   networkFailure,
   unexpected,
-  errorGettingPost
+  errorGettingPost,
+  errorCreatingPost,
 }
 
 enum AuthFailure {

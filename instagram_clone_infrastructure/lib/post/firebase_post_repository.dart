@@ -1,12 +1,26 @@
 import 'package:dartz/dartz.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final class FirebasePostRepository implements PostRepository {
+  final postsCollection = "posts";
+  final FirebaseFirestore db;
+  FirebasePostRepository({FirebaseFirestore? db})
+      : db = db ?? FirebaseFirestore.instance;
+
   @override
   Future<Either<ApplicationFailure, Unit>> createPost({
     required Post post,
   }) async {
-    return right(unit);
+    try {
+      await db
+          .collection(postsCollection)
+          .doc(post.id.value)
+          .set(PostDtoDomainConverter.fromDomainPost(post: post).toJson());
+      return right(unit);
+    } catch (e) {
+      return left(ApplicationFailure.errorCreatingPost);
+    }
   }
 
   @override

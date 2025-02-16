@@ -19,16 +19,15 @@ void main() {
   });
 
   group("PostFeedFetched", () {
+    final post = Post.createPost(
+      id: PostId.createUnique(),
+      userId: UserId.createUnique(),
+      description: "Some dummy post",
+      date: DateTime.now(),
+    ).getOrElse(() => throw Exception("Failed to create post"));
     final postFeedState = PostFeedState(
       status: PostFeedStatus.stale,
-      posts: [
-        Post.createPost(
-          id: PostId.createUnique(),
-          userId: UserId.createUnique(),
-          description: "Some dummy post",
-          date: DateTime.now(),
-        ).getOrElse(() => throw Exception("Failed to create post")),
-      ],
+      posts: [post],
       hasReachedMax: true,
     );
     blocTest<PostFeedBloc, PostFeedState>(
@@ -36,11 +35,51 @@ void main() {
       seed: () => postFeedState,
       build: () => PostFeedBloc(postRepository: mockPostRepository),
       act: (bloc) => bloc.add(PostFeedFetched()),
-      verify: (_) => verifyNever(() => mockPostRepository.getPosts(
+      verify: (_) => verifyNever(
+        () => mockPostRepository.getPosts(
+          limit: any(named: "limit"),
+          offset: any(named: "offset"),
+        ),
+      ),
+      expect: () => <PostFeedState>[], //Nothing should be emitted
+    );
+
+    blocTest<PostFeedBloc, PostFeedState>(
+      "Should loading and return success state when getPosts is successful",
+      setUp: () {
+        when(() => mockPostRepository.getPosts(
+              limit: any(named: "limit"),
+              offset: any(named: "offset"),
+            )).thenAnswer((_) async => right([post]));
+      },
+      build: () => PostFeedBloc(postRepository: mockPostRepository),
+      act: (bloc) => bloc.add(PostFeedFetched()),
+      expect: () => <PostFeedState>[
+        PostFeedState.initial().copyWith(status: PostFeedStatus.loading),
+        PostFeedState.initial().copyWith(
+          status: PostFeedStatus.success,
+          posts: [post],
+          hasReachedMax: false,
+        ),
+      ],
+    );
+
+    blocTest<PostFeedBloc, PostFeedState>(
+      "Should return failure state when getPosts is unsuccessful",
+      setUp: () {
+        when(
+          () => mockPostRepository.getPosts(
             limit: any(named: "limit"),
             offset: any(named: "offset"),
-          )),
-      expect: () => <PostFeedState>[], //Nothing should be emitted
+          ),
+        ).thenAnswer((_) async => left(ApplicationFailure.errorGettingPost));
+      },
+      build: () => PostFeedBloc(postRepository: mockPostRepository),
+      act: (bloc) => bloc.add(PostFeedFetched()),
+      expect: () => <PostFeedState>[
+        PostFeedState.initial().copyWith(status: PostFeedStatus.loading),
+        PostFeedState.initial().copyWith(status: PostFeedStatus.failure),
+      ],
     );
   });
 }
