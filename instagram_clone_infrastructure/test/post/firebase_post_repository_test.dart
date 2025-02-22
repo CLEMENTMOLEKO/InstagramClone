@@ -81,5 +81,15 @@ void main() {
       final result = await repository.getPost(postId: post.id.value);
       expect(result, isA<Right>());
     });
+
+    test("Should return left error when getPost fails", () async {
+      when(() => mockFirebaseFirestore.collection(any()))
+          .thenReturn(mockCollectionReference);
+      when(() => mockCollectionReference.doc(any()))
+          .thenReturn(mockDocumentReference);
+      when(() => mockDocumentReference.get()).thenThrow(Exception());
+      final result = await repository.getPost(postId: post.id.value);
+      expect(result, left(ApplicationFailure.errorGettingPost));
+    });
   });
 }
