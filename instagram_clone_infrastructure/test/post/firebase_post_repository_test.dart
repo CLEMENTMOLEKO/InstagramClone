@@ -2,13 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_infrastructure/instagram_clone_infrastructure.dart';
-import 'package:instagram_clone_domain/instagram_clone_domain.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
 
 class MockDocumentReference<T> extends Mock implements DocumentReference<T> {}
+
+class MockDocumentSnapshot<T> extends Mock implements DocumentSnapshot<T> {}
 
 class MockCollectionReference<T> extends Mock
     implements CollectionReference<T> {}
@@ -18,11 +19,13 @@ void main() {
   late MockFirebaseFirestore mockFirebaseFirestore;
   late MockDocumentReference<Map<String, dynamic>> mockDocumentReference;
   late MockCollectionReference<Map<String, dynamic>> mockCollectionReference;
+  late MockDocumentSnapshot<Map<String, dynamic>> mockDocumentSnapshot;
 
   setUp(() {
     mockFirebaseFirestore = MockFirebaseFirestore();
     mockDocumentReference = MockDocumentReference<Map<String, dynamic>>();
     mockCollectionReference = MockCollectionReference<Map<String, dynamic>>();
+    mockDocumentSnapshot = MockDocumentSnapshot<Map<String, dynamic>>();
     repository = FirebasePostRepository(db: mockFirebaseFirestore);
   });
 
@@ -55,6 +58,28 @@ void main() {
       when(() => mockDocumentReference.set(any())).thenThrow(Exception());
       final result = await repository.createPost(post: post);
       expect(result, left(ApplicationFailure.errorCreatingPost));
+    });
+  });
+
+  group("getPost", () {
+    final post = Post.createPost(
+      id: PostId.createUnique(),
+      userId: UserId.createUnique(),
+      description: "Test post",
+      date: DateTime.now(),
+    ).getOrElse(() => throw Exception("Error creating post"));
+    test("Should return post when getPost is successful", () async {
+      when(() => mockFirebaseFirestore.collection(any()))
+          .thenReturn(mockCollectionReference);
+      when(() => mockCollectionReference.doc(any()))
+          .thenReturn(mockDocumentReference);
+      when(() => mockDocumentReference.get())
+          .thenAnswer((_) async => mockDocumentSnapshot);
+      when(() => mockDocumentSnapshot.data()).thenReturn(
+        PostDtoDomainConverter.fromDomainPost(post: post).toJson(),
+      );
+      final result = await repository.getPost(postId: post.id.value);
+      expect(result, isA<Right>());
     });
   });
 }

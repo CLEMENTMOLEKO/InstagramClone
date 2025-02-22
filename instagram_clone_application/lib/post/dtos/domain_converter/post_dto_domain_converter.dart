@@ -7,6 +7,7 @@ extension PostDtoDomainConverter on PostDto {
 
   Either<ApplicationFailure, Post> _createDomainValues() {
     try {
+      print("PostDto Id: ${this.id}");
       final postId = PostId.create(value: this.id)
           .getOrElse(() => throw Exception("Invalid PostId"));
       final userId = UserId.create(value: this.userId)
@@ -34,6 +35,7 @@ extension PostDtoDomainConverter on PostDto {
           .getOrElse(() => throw Exception("Error Creating Post"));
       return right(domainPost);
     } catch (e) {
+      print("Error in _createDomainValues: $e");
       return left(ApplicationFailure.invalidPostData);
     }
   }

@@ -36,6 +36,7 @@ final class FirebasePostRepository implements PostRepository {
           () => throw Exception("Error converting post dto to domain post"));
       return right(post);
     } catch (e) {
+      print("Error: $e");
       return left(ApplicationFailure.errorGettingPost);
     }
   }
