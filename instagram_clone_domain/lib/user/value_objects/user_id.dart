@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:instagram_clone_domain/common/common.dart';
-import 'package:uuid/v8.dart';
+import 'package:uuid/uuid.dart';
 
 final class UserId extends ValueObject {
   final String value;
@@ -8,7 +8,7 @@ final class UserId extends ValueObject {
   UserId._({required this.value});
 
   factory UserId.createUnique() {
-    return UserId._(value: const UuidV8().toString());
+    return UserId._(value: const Uuid().v8());
   }
 
   static Either<DomainFailure, UserId> create({required String value}) {

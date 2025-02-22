@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:uuid/v8.dart';
+import 'package:uuid/uuid.dart';
 import 'package:uuid/validation.dart';
 
 import '../../common/common.dart';
@@ -10,7 +10,7 @@ final class PostId extends ValueObject {
   PostId._({required this.value});
 
   factory PostId.createUnique() {
-    return PostId._(value: const UuidV8().toString());
+    return PostId._(value: const Uuid().v8());
   }
 
   static Either<DomainFailure, PostId> create({required String value}) {

@@ -27,7 +27,17 @@ final class FirebasePostRepository implements PostRepository {
   Future<Either<ApplicationFailure, Post>> getPost({
     required String postId,
   }) async {
-    return left(ApplicationFailure.errorGettingPost);
+    try {
+      final postDocument =
+          await db.collection(postsCollection).doc(postId).get();
+      final postDto = PostDto.fromJson(postDocument.data()!)
+          .getOrElse(() => throw Exception("Error getting post from json"));
+      final post = postDto.toDomainPost().getOrElse(
+          () => throw Exception("Error converting post dto to domain post"));
+      return right(post);
+    } catch (e) {
+      return left(ApplicationFailure.errorGettingPost);
+    }
   }
 
   @override
@@ -35,10 +45,37 @@ final class FirebasePostRepository implements PostRepository {
     required int limit,
     required int offset,
   }) async {
-    return right([]);
+    final postsDocuments = await db.collection(postsCollection).get();
+    final postsDto = postsDocuments.docs
+        .map((doc) => PostDto.fromJson(doc.data()).getOrElse(
+              () => throw Exception("Error getting post from json"),
+            ))
+        .toList();
+    final posts = postsDto
+        .map((postDto) => postDto.toDomainPost().getOrElse(
+            () => throw Exception("Error converting post dto to domain post")))
+        .toList();
+    return right(posts);
   }
 
   @override
-  //TODO: implement postsStream
-  Stream<List<Post>> get postsStream => Stream.value([]);
+  Stream<List<Post>> get postsStream {
+    final snapShots = db.collection(postsCollection).snapshots();
+    final posts = snapShots.map(
+      (snapshot) => snapshot.docs.map(
+        (doc) {
+          return PostDto.fromJson(doc.data())
+              .getOrElse(
+                () => throw Exception("Error getting post from json"),
+              )
+              .toDomainPost()
+              .getOrElse(
+                () =>
+                    throw Exception("Error converting post dto to domain post"),
+              );
+        },
+      ).toList(),
+    );
+    return posts;
+  }
 }
