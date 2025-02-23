@@ -45,17 +45,21 @@ final class FirebasePostRepository implements PostRepository {
     required int limit,
     required int offset,
   }) async {
-    final postsDocuments = await db.collection(postsCollection).get();
-    final postsDto = postsDocuments.docs
-        .map((doc) => PostDto.fromJson(doc.data()).getOrElse(
-              () => throw Exception("Error getting post from json"),
-            ))
-        .toList();
-    final posts = postsDto
-        .map((postDto) => postDto.toDomainPost().getOrElse(
-            () => throw Exception("Error converting post dto to domain post")))
-        .toList();
-    return right(posts);
+    try {
+      final postsDocuments = await db.collection(postsCollection).get();
+      final postsDto = postsDocuments.docs
+          .map((doc) => PostDto.fromJson(doc.data()).getOrElse(
+                () => throw Exception("Error getting post from json"),
+              ))
+          .toList();
+      final posts = postsDto
+          .map((postDto) => postDto.toDomainPost().getOrElse(() =>
+              throw Exception("Error converting post dto to domain post")))
+          .toList();
+      return right(posts);
+    } catch (e) {
+      return left(ApplicationFailure.errorGettingPosts);
+    }
   }
 
   @override

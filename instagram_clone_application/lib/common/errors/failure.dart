@@ -10,6 +10,7 @@ enum ApplicationFailure {
   unexpected,
   errorGettingPost,
   errorCreatingPost,
+  errorGettingPosts,
 }
 
 enum AuthFailure {
