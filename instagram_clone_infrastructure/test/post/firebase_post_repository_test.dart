@@ -129,4 +129,23 @@ void main() {
       expect(result, left(ApplicationFailure.errorGettingPosts));
     });
   });
+
+  group("postsStream", () {
+    test("Should return stream of posts when postsStream is called", () {
+      when(() => mockFirebaseFirestore.collection(any()))
+          .thenReturn(mockCollectionReference);
+      when(() => mockCollectionReference.snapshots())
+          .thenAnswer((_) => Stream.value(mockQuerySnapshot));
+      when(() => mockQuerySnapshot.docs)
+          .thenReturn([mockQueryDocumentSnapshot]);
+      when(() => mockQueryDocumentSnapshot.data()).thenReturn(
+        PostDtoDomainConverter.fromDomainPost(post: post).toJson(),
+      );
+      final result = repository.postsStream;
+      expect(result, isA<Stream<List<Post>>>());
+      result.listen((posts) {
+        expect(posts, isA<List<Post>>());
+      });
+    });
+  });
 }
