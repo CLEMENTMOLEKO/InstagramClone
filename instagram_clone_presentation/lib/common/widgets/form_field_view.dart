@@ -145,10 +145,15 @@ class FormFieldView<Tbloc extends Bloc<TEvent, TState>, TEvent, TState>
                     ),
                   ),
                 const Spacer(),
-                TextButton(
-                  key: const Key("form_field_view_already_have_account_button"),
-                  onPressed: () {},
-                  child: const Text("I already have an account"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      key: Key("form_field_view_already_have_account_button"),
+                      onPressed: () {},
+                      child: Text("I already have an account"),
+                    ),
+                  ],
                 ),
               ],
             ),
