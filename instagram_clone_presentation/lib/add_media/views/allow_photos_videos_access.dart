@@ -9,10 +9,10 @@ class AllowPhotosVideosAccess extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(12.0),
+        padding: EdgeInsets.all(28.0),
         child: AllowAccess(
           title: "Allow Instagram to access your camera and microphone",
-          imageUrl: "assets/images/allow_photos_videos_access.png",
+          imageUrl: "assets/images/allowaccesstocameramic.png",
           howYoullUseThisText:
               """To take photos, record videos, and preview visual and audio effects""",
           howWeUseThisText: "To show you previews of visual and audio effects",
