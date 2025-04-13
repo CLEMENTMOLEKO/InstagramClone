@@ -14,3 +14,5 @@ An unnecessarily overengineered😬, attempt at using my own architecture, cloni
 
 - [x] Home
       ![alt text](current-home.png)
+- [x] Add media
+      ![alt text](allowaccesscameramic.png)
