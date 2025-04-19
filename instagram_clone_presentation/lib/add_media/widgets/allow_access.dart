@@ -43,7 +43,7 @@ class AllowAccess extends StatelessWidget {
           _RoItem(
             title: "How these settings work",
             subtitle:
-                """You can change your choices at any time in your device settings. If you allow access now, you won't have to allow it again.""",
+                "You can change your choices at any time in your device settings. If you allow access now, you won't have to allow it again.",
             icon: CupertinoIcons.gear_alt_fill,
           ),
           Spacer(),
