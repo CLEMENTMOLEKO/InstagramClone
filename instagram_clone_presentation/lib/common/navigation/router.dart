@@ -159,7 +159,7 @@ final router = GoRouter(
                 // top route inside branch
                 GoRoute(
                   path: Routes.addMediaRoute,
-                  pageBuilder: (context, state) => const NoTransitionPage(
+                  pageBuilder: (context, state) => NoTransitionPage(
                     child: AddMediaPage(),
                   ),
                   routes: [

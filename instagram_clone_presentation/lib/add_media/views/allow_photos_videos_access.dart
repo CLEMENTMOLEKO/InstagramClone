@@ -7,12 +7,17 @@ class AllowPhotosVideosAccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    // TODO: Can we use svg and change color of svg programmatically?
+    final imageUrl =
+        MediaQuery.of(context).platformBrightness == Brightness.dark
+            ? "assets/images/allowaccesstocameramicdark.png"
+            : "assets/images/allowaccesstocameramiclight.png";
+    return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(28.0),
         child: AllowAccess(
           title: "Allow Instagram to access your camera and microphone",
-          imageUrl: "assets/images/allowaccesstocameramic.png",
+          imageUrl: imageUrl,
           howYoullUseThisText:
               """To take photos, record videos, and preview visual and audio effects""",
           howWeUseThisText: "To show you previews of visual and audio effects",
