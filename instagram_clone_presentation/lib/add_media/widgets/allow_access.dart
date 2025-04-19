@@ -70,6 +70,7 @@ class AllowAccess extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextButton(
+                      key: Key('allow_access_button'),
                       onPressed: () => allowAccessService
                           .requestAccessToCameraAndMicInSettings(),
                       style: TextButton.styleFrom(
