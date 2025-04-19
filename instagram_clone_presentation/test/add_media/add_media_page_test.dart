@@ -32,31 +32,40 @@ void main() {
     );
   }
 
-  testWidgets(
-      'should show AllowAccess widget when user does not have access to camera and microphone',
-      (tester) async {
-    //Arrange
-    when(() => mockAllowAccessService.isCameraAndMicrophoneAccessGranted())
-        .thenAnswer((_) async => true);
-    await pumpAddMediaPage(tester);
-    await tester.pumpAndSettle();
+  group('AllowPhotosVideosAccess', () {
+    Future<void> arrangeForAllowPhotosVideosAccess({
+      required WidgetTester tester,
+      bool isCameraAndMicrophoneAccessGranted = true,
+    }) async {
+      when(() => mockAllowAccessService.isCameraAndMicrophoneAccessGranted())
+          .thenAnswer((_) async => isCameraAndMicrophoneAccessGranted);
+      await pumpAddMediaPage(tester);
+      await tester.pumpAndSettle();
+    }
 
-    //Act
-    //Assert
-    expect(find.byType(AllowPhotosVideosAccess), findsNothing);
-  });
+    testWidgets(
+        'should show AllowAccess widget when user does not have access to camera and microphone',
+        (tester) async {
+      //Arrange
+      await arrangeForAllowPhotosVideosAccess(tester: tester);
 
-  testWidgets(
-      'should show AllowPhotosVideosAccess widget when user has given access to camera and microphone',
-      (tester) async {
-    //Arrange
-    when(() => mockAllowAccessService.isCameraAndMicrophoneAccessGranted())
-        .thenAnswer((_) async => false);
-    await pumpAddMediaPage(tester);
-    await tester.pumpAndSettle();
+      //Act
+      //Assert
+      expect(find.byType(AllowPhotosVideosAccess), findsNothing);
+    });
 
-    //Act
-    //Assert
-    expect(find.byType(AllowPhotosVideosAccess), findsOneWidget);
+    testWidgets(
+        'should show AllowPhotosVideosAccess widget when user has given access to camera and microphone',
+        (tester) async {
+      //Arrange
+      await arrangeForAllowPhotosVideosAccess(
+        tester: tester,
+        isCameraAndMicrophoneAccessGranted: false,
+      );
+
+      //Act
+      //Assert
+      expect(find.byType(AllowPhotosVideosAccess), findsOneWidget);
+    });
   });
 }
