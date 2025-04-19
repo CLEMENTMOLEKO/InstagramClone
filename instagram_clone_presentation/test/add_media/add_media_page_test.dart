@@ -38,10 +38,10 @@ void main() {
     //Arrange
     when(() => mockAllowAccessService.isCameraAndMicrophoneAccessGranted())
         .thenAnswer((_) async => true);
-
-    //Act
     await pumpAddMediaPage(tester);
     await tester.pumpAndSettle();
+
+    //Act
     //Assert
     expect(find.byType(AllowPhotosVideosAccess), findsNothing);
   });
@@ -52,11 +52,10 @@ void main() {
     //Arrange
     when(() => mockAllowAccessService.isCameraAndMicrophoneAccessGranted())
         .thenAnswer((_) async => false);
-
-    //Act
     await pumpAddMediaPage(tester);
     await tester.pumpAndSettle();
 
+    //Act
     //Assert
     expect(find.byType(AllowPhotosVideosAccess), findsOneWidget);
   });
