@@ -7,7 +7,7 @@ class AllowPhotosVideosAccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Can we use svg and change color of svg programmatically?
+    // TODO: Can we use svg and change color of svg
     final imageUrl =
         MediaQuery.of(context).platformBrightness == Brightness.dark
             ? "assets/images/allowaccesstocameramicdark.png"

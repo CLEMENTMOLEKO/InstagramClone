@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_it/get_it.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_presentation/add_media/add_media_page.dart';
 import 'package:instagram_clone_presentation/add_media/views/allow_photos_videos_access.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockAllowAccessService extends Mock implements AllowAccessService {}
+import 'utils/dependency_injection.dart';
 
-final dependencyInjection = GetIt.instance;
-void setupDependencyInjection(
-  MockAllowAccessService mockAllowAccessService,
-) {
-  dependencyInjection
-      .registerFactory<AllowAccessService>(() => mockAllowAccessService);
-}
+class MockAllowAccessService extends Mock implements AllowAccessService {}
 
 void main() {
   late MockAllowAccessService mockAllowAccessService;
