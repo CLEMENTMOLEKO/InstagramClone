@@ -1,19 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone_application/instagram_clone_application.dart';
+import 'package:instagram_clone_infrastructure/dependency_injection.dart';
 
 class AllowAccess extends StatelessWidget {
+  final AllowAccessService allowAccessService;
   final String imageUrl;
   final String title;
   final String howYoullUseThisText;
   final String howWeUseThisText;
 
-  const AllowAccess({
+  AllowAccess({
     super.key,
     required this.title,
     required this.imageUrl,
     required this.howYoullUseThisText,
     required this.howWeUseThisText,
-  });
+    AllowAccessService? allowAccessService,
+  }) : allowAccessService = allowAccessService ?? getIt<AllowAccessService>();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +58,10 @@ class AllowAccess extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      allowAccessService
+                          .requestAccessToCameraAndMicInSettings();
+                    },
                     style: TextButton.styleFrom(
                       backgroundColor: CupertinoColors.systemBlue,
                       foregroundColor: Colors.white,

@@ -24,6 +24,8 @@ import 'package:instagram_clone_infrastructure/email/local_email_service.dart'
     as _i842;
 import 'package:instagram_clone_infrastructure/network/connection_checker.dart'
     as _i397;
+import 'package:instagram_clone_infrastructure/system/allow_access_service_impl.dart'
+    as _i663;
 import 'package:instagram_clone_infrastructure/user/firebase_user_repository.dart'
     as _i754;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
@@ -59,6 +61,8 @@ extension GetItInjectableX on _i174.GetIt {
         internetConnectionChecker: gh<_i973.InternetConnectionChecker>()));
     gh.factory<_i876.UserRepository>(() => _i754.FirebaseUserRepository(
         firebaseFirestore: gh<_i974.FirebaseFirestore>()));
+    gh.lazySingleton<_i876.AllowAccessService>(
+        () => _i663.AllowAccessServiceImpl());
     return this;
   }
 }
