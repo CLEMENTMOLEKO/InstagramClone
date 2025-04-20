@@ -21,9 +21,10 @@ class AllowAccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(28.0),
           child: Column(children: [
             Column(
               spacing: 16,
@@ -59,35 +60,35 @@ class AllowAccess extends StatelessWidget {
             ),
           ]),
         ),
-        bottomNavigationBar: Column(
-          spacing: 8,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Divider(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 38.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextButton(
-                      key: Key('allow_access_button'),
-                      onPressed: () => allowAccessService
-                          .requestAccessToCameraAndMicInSettings(),
-                      style: TextButton.styleFrom(
-                        backgroundColor: CupertinoColors.systemBlue,
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: Text("Allow access"),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shadowColor: Theme.of(context).colorScheme.onSurface,
+        elevation: 1,
+        height: 150,
+        color: Theme.of(context).scaffoldBackgroundColor,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 10, left: 16, right: 16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: TextButton(
+                  key: Key('allow_access_button'),
+                  onPressed: () => allowAccessService
+                      .requestAccessToCameraAndMicInSettings(),
+                  style: TextButton.styleFrom(
+                    backgroundColor: CupertinoColors.systemBlue,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                ],
+                  child: Text("Allow access"),
+                ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
