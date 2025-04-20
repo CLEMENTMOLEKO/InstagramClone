@@ -12,17 +12,12 @@ class AllowPhotosVideosAccess extends StatelessWidget {
         MediaQuery.of(context).platformBrightness == Brightness.dark
             ? "assets/images/allowaccesstocameramicdark.png"
             : "assets/images/allowaccesstocameramiclight.png";
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(28.0),
-        child: AllowAccess(
-          title: "Allow Instagram to access your camera and microphone",
-          imageUrl: imageUrl,
-          howYoullUseThisText:
-              """To take photos, record videos, and preview visual and audio effects""",
-          howWeUseThisText: "To show you previews of visual and audio effects",
-        ),
-      ),
+    return AllowAccess(
+      title: "Allow Instagram to access your camera and microphone",
+      imageUrl: imageUrl,
+      howYoullUseThisText:
+          """To take photos, record videos, and preview visual and audio effects""",
+      howWeUseThisText: "To show you previews of visual and audio effects",
     );
   }
 }
