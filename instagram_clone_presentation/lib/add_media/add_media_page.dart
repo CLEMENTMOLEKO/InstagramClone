@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_infrastructure/dependency_injection.dart';
 
@@ -35,8 +36,33 @@ class _AddMediaPageState extends State<AddMediaPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const CupertinoPageScaffold(
-      child: Center(child: Text("Add Media")),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        leading: CupertinoButton(
+          onPressed: () {},
+          child: Icon(
+            CupertinoIcons.xmark,
+            color: Theme.of(context).colorScheme.onSurface,
+            size: 24,
+          ),
+        ),
+        middle: Text(
+          "New post",
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        trailing: TextButton(
+          onPressed: () {},
+          child: Text(
+            "Next",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+      ),
+      child: const Column(
+        children: [
+          Text("Add Media"),
+        ],
+      ),
     );
   }
 }

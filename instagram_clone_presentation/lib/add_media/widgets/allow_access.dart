@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_application/instagram_clone_application.dart';
 import 'package:instagram_clone_infrastructure/dependency_injection.dart';
+import 'package:instagram_clone_presentation/common/themes/theme_extensions.dart';
 
 class AllowAccess extends StatelessWidget {
   final AllowAccessService allowAccessService;
@@ -22,6 +23,9 @@ class AllowAccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context)
+          .extension<InstagramCloneThemeExtension>()
+          ?.secondaryScaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(28.0),
@@ -65,7 +69,9 @@ class AllowAccess extends StatelessWidget {
         shadowColor: Theme.of(context).colorScheme.onSurface,
         elevation: 1,
         height: 150,
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: Theme.of(context)
+            .extension<InstagramCloneThemeExtension>()
+            ?.secondaryScaffoldBackgroundColor,
         child: Padding(
           padding: EdgeInsets.only(bottom: 10, left: 16, right: 16),
           child: Row(
