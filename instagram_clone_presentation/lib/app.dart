@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram_clone_presentation/app_themes.dart';
+import 'package:instagram_clone_presentation/common/themes/app_themes.dart';
 import 'package:instagram_clone_presentation/common/navigation/router.dart';
 
 class App extends StatelessWidget {
