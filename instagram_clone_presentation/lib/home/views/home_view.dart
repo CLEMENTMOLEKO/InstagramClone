@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -16,7 +17,58 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return InstaScaffold(
       appBar: InstaAppBar(
-        leading: const LogoFont(),
+        leading: GestureDetector(
+          onTapDown: (TapDownDetails details) async {
+            final overlay =
+                Overlay.of(context).context.findRenderObject() as RenderBox;
+
+            showMenu<String>(
+              context: context,
+              position: RelativeRect.fromLTRB(
+                details.globalPosition.dx,
+                details.globalPosition.dy,
+                overlay.size.width - details.globalPosition.dx,
+                overlay.size.height - details.globalPosition.dy,
+              ),
+              items: [
+                PopupMenuItem(
+                  value: 'following',
+                  child: Row(
+                    spacing: 4,
+                    children: [
+                      Icon(Icons.person_outline_rounded),
+                      Text('Following'),
+                    ],
+                  ),
+                  onTap: () => print('navigate to following'),
+                ),
+                PopupMenuItem(
+                  value: 'favourite',
+                  child: Row(
+                    spacing: 4,
+                    children: [
+                      Icon(Icons.favorite_border_rounded),
+                      Text('Favourite'),
+                    ],
+                  ),
+                  onTap: () => print('navigate to favourite'),
+                ),
+              ],
+              shadowColor: Colors.transparent,
+              color: CupertinoColors.systemBackground,
+              surfaceTintColor: Colors.transparent,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+                side: BorderSide(
+                  color: CupertinoColors.separator.resolveFrom(context),
+                  width: 0,
+                ),
+              ),
+            );
+          },
+          child: LogoFont(),
+        ),
         trailing: [
           IconButton(
             onPressed: () => context.go(Routes.notificationsRoute),
